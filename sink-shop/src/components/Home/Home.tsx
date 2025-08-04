@@ -1,0 +1,46 @@
+import { useTranslation } from 'react-i18next'
+import SinkCard from '../SinkCard/SinkCard'
+
+function Home() {
+  const { t } = useTranslation()
+
+  // Get all sink data from translations
+  const sinksData = t('sinks', { returnObjects: true }) as Record<string, any>
+  
+  // Get array of sink IDs dynamically
+  const sinkIds = Object.keys(sinksData)
+
+  const handleSinkClick = (sinkId: string) => {
+    console.log('Clicked sink:', sinkId)
+    // Later this will navigate to the sink detail page
+  }
+
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        {t('home.title')}
+      </h1>
+      <p className="text-gray-600 text-lg mb-8">
+        {t('home.subtitle')}
+      </p>
+
+      {/* Sink Cards Grid - Dynamic */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sinkIds.map((sinkId) => (
+          <SinkCard 
+            key={sinkId}
+            sinkId={sinkId} 
+            onClick={handleSinkClick} 
+          />
+        ))}
+      </div>
+
+      {/* Show count of sinks */}
+      <div className="mt-8 text-center text-gray-500 text-sm">
+        Showing {sinkIds.length} products
+      </div>
+    </div>
+  )
+}
+
+export default Home
