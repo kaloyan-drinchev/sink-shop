@@ -1,0 +1,255 @@
+/* Mobile-first Toast styles */
+.toast-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.toast-overlay.show {
+  opacity: 1;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.toast.show {
+  transform: translateY(0);
+}
+
+.toast-confirmation {
+  border-left: 4px solid #dc3545;
+}
+
+.toast-content {
+  padding: 1.5rem;
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.toast-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-icon-warning {
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+
+.checkmark {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.warning-icon {
+  font-size: 1.2rem;
+}
+
+.toast-header h3 {
+  flex: 1;
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.toast-close:hover {
+  background: #f8f9fa;
+  color: #666;
+}
+
+.toast-body {
+  margin-bottom: 1.5rem;
+}
+
+.toast-product {
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.toast-message {
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.toast-actions {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.toast-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-btn-primary {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  order: 1;
+}
+
+.toast-btn-primary:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-1px);
+}
+
+.toast-btn-secondary {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 2px solid #e9ecef;
+  order: 2;
+}
+
+.toast-btn-secondary:hover {
+  background: #e9ecef;
+  color: #495057;
+  border-color: #dee2e6;
+}
+
+.toast-btn-danger {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  order: 1;
+}
+
+.toast-btn-danger:hover {
+  background: linear-gradient(135deg, #c82333, #bd2130);
+  transform: translateY(-1px);
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .toast {
+    top: 2rem;
+    bottom: auto;
+    right: 2rem;
+    left: auto;
+    width: 400px;
+    transform: translateX(100%);
+  }
+
+  .toast.show {
+    transform: translateX(0);
+  }
+
+  .toast-actions {
+    flex-direction: row;
+  }
+
+  .toast-btn {
+    flex: 1;
+    order: 0;
+  }
+
+  .toast-btn-primary,
+  .toast-btn-danger {
+    order: 2;
+  }
+
+  .toast-btn-secondary {
+    order: 1;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .toast-content {
+    padding: 2rem;
+  }
+
+  .toast-header h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+  .toast {
+    bottom: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    border-radius: 12px;
+  }
+
+  .toast-content {
+    padding: 1.25rem;
+  }
+
+  .toast-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .checkmark {
+    font-size: 1.3rem;
+  }
+
+  .toast-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .toast-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+} 

@@ -1,13 +1,18 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useCart } from '../../contexts/CartContext'
 import burgerMenuIcon from '../../assets/burger-menu-svgrepo-com.svg'
 import paperBagIcon from '../../assets/icons8-paper-bag-50.png'
 import './NavBar.css'
 
 function NavBar() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { getCartCount } = useCart()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
+  const cartCount = getCartCount()
   
   const handleCloseMenu = () => {
     setIsMobileMenuOpen(false)
@@ -68,8 +73,16 @@ function NavBar() {
             </button>
 
             {/* Cart - Right */}
-            <button className="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
-              <img src={paperBagIcon} alt="Cart" className="w-5 h-5 sm:w-6 sm:h-6" />
+            <button 
+              onClick={() => navigate('/cart')}
+              className="relative flex items-center text-gray-700 hover:text-gray-800 transition-all duration-200 ease-in-out p-2 rounded-md hover:bg-gray-50 hover:scale-105 hover:shadow-sm"
+            >
+              <img src={paperBagIcon} alt={t('navigation.cart')} className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px] px-1 transition-transform duration-200 hover:scale-110">
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -144,6 +157,21 @@ function NavBar() {
               >
                 {t('categories.pedestal')}
               </Link>
+              
+              <div className="border-t border-gray-200 mt-4 pt-4">
+                <Link 
+                  to="/cart" 
+                  className="flex items-center justify-between px-6 py-4 text-gray-700 hover:text-blue-600 hover:bg-gray-50 font-medium transition-all duration-200 transform hover:translate-x-1 animate-slideInFromRight opacity-0 animation-fill-forwards animation-delay-600"
+                  onClick={handleCloseMenu}
+                >
+                  <span>{t('navigation.cart')}</span>
+                  {cartCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px] px-1">
+                      {cartCount > 99 ? '99+' : cartCount}
+                    </span>
+                  )}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

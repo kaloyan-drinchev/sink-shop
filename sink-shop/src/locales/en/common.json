@@ -22,6 +22,32 @@
     "specifications": "Specifications",
     "salesCount": "sold"
   },
+  "toast": {
+    "addedToCart": "Added to Cart!",
+    "hasBeenAdded": "has been added to your cart.",
+    "continueShopping": "Continue Shopping",
+    "viewCart": "View Cart"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "items": "items",
+    "item": "item",
+    "quantity": "Quantity",
+    "remove": "Remove",
+    "clearCart": "Clear Cart",
+    "total": "Total",
+    "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
+    "confirmClearTitle": "Clear Cart",
+    "confirmClearMessage": "Are you sure you want to remove all items from your cart?",
+    "confirmClearButton": "Yes, Clear All",
+    "keepItems": "Keep Items",
+    "confirmRemoveTitle": "Remove Item",
+    "confirmRemoveMessage": "Are you sure you want to remove \"{itemName}\" from your cart?",
+    "confirmRemoveButton": "Yes, Remove",
+    "keepItem": "Keep Item"
+  },
   "filters": {
     "category": "Category",
     "priceRange": "Price Range",

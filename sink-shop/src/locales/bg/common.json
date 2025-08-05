@@ -22,6 +22,32 @@
     "specifications": "Спецификации",
     "salesCount": "продадени"
   },
+  "toast": {
+    "addedToCart": "Добавено в Количката!",
+    "hasBeenAdded": "беше добавен в количката ви.",
+    "continueShopping": "Продължи Пазаруването",
+    "viewCart": "Виж Количката"
+  },
+  "cart": {
+    "title": "Вашата Количка",
+    "empty": "Количката ви е празна",
+    "items": "артикула",
+    "item": "артикул",
+    "quantity": "Количество",
+    "remove": "Премахни",
+    "clearCart": "Изчисти Количката",
+    "total": "Общо",
+    "continueShopping": "Продължи Пазаруването",
+    "proceedToCheckout": "Към Плащане",
+    "confirmClearTitle": "Изчисти Количката",
+    "confirmClearMessage": "Сигурни ли сте, че искате да премахнете всички артикули от количката си?",
+    "confirmClearButton": "Да, Изчисти Всички",
+    "keepItems": "Запази Артикулите",
+    "confirmRemoveTitle": "Премахни Артикул",
+    "confirmRemoveMessage": "Сигурни ли сте, че искате да премахнете \"{itemName}\" от количката си?",
+    "confirmRemoveButton": "Да, Премахни",
+    "keepItem": "Запази Артикула"
+  },
   "filters": {
     "category": "Категория",
     "priceRange": "Ценови Диапазон",

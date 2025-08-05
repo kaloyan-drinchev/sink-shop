@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import SinkCard from '../SinkCard/SinkCard'
 
 function Home() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   // Get all sink data from translations
   const sinksData = t('sinks', { returnObjects: true }) as Record<string, any>
@@ -11,8 +13,9 @@ function Home() {
   const sinkIds = Object.keys(sinksData)
 
   const handleSinkClick = (sinkId: string) => {
-    console.log('Clicked sink:', sinkId)
-    // Later this will navigate to the sink detail page
+    // Extract the number from sinkId (e.g., "sink1" -> "1")
+    const id = sinkId.replace('sink', '')
+    navigate(`/sink/${id}`)
   }
 
   return (
