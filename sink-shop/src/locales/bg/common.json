@@ -60,6 +60,9 @@
     "naturalStone": "Естествен Камък",
     "pedestal": "Мрамор"
   },
+  "banner": {
+    "text": "Качествени Мивки"
+  },
   "sinks": {
     "sink1": {
       "id": "1",

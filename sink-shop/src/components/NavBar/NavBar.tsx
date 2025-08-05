@@ -161,12 +161,15 @@ function NavBar() {
               <div className="border-t border-gray-200 mt-4 pt-4">
                 <Link 
                   to="/cart" 
-                  className="flex items-center justify-between px-6 py-4 text-gray-700 hover:text-blue-600 hover:bg-gray-50 font-medium transition-all duration-200 transform hover:translate-x-1 animate-slideInFromRight opacity-0 animation-fill-forwards animation-delay-600"
+                  className="flex items-center justify-between px-6 py-4 text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium transition-all duration-200 transform hover:translate-x-1 animate-slideInFromRight opacity-0 animation-fill-forwards animation-delay-600 rounded-lg mx-3 hover:shadow-sm"
                   onClick={handleCloseMenu}
                 >
-                  <span>{t('navigation.cart')}</span>
+                  <div className="flex items-center gap-3">
+                    <img src={paperBagIcon} alt={t('navigation.cart')} className="w-5 h-5" />
+                    <span>{t('navigation.cart')}</span>
+                  </div>
                   {cartCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px] px-1">
+                    <span className="bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center min-w-[24px] px-1 shadow-sm">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}

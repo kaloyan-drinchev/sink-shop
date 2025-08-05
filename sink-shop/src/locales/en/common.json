@@ -60,6 +60,9 @@
     "naturalStone": "Natural Stone",
     "mramor": "Mramor"
   },
+  "banner": {
+    "text": "Quality Sinks"
+  },
   "sinks": {
           "sink1": {
         "id": "1",
