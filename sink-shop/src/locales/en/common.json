@@ -18,6 +18,7 @@
   "product": {
     "price": "Price",
     "addToCart": "Add to Cart",
+    "viewDetails": "Details",
     "description": "Description",
     "specifications": "Specifications",
     "salesCount": "sold"
@@ -53,15 +54,35 @@
     "priceRange": "Price Range",
     "material": "Material",
     "size": "Size",
-    "brand": "Brand"
+    "brand": "Brand",
+    "sortBy": "Sort by",
+    "featured": "Featured",
+    "bestSelling": "Best selling",
+    "priceLowHigh": "Price, low to high",
+    "priceHighLow": "Price, high to low",
+    "newest": "Newest",
+    "clearFilter": "Clear Filter"
   },
   "categories": {
     "wooden": "Wooden",
     "naturalStone": "Natural Stone",
     "mramor": "Mramor"
   },
+  "categoryDescriptions": {
+    "wooden": "Browse our collection of wooden sinks",
+    "naturalStone": "Browse our collection of natural stone sinks", 
+    "mramor": "Browse our collection of mramor sinks"
+  },
   "banner": {
     "text": "Quality Sinks"
+  },
+  "search": {
+    "found": "Found",
+    "results": "result",
+    "resultsPlural": "results",
+    "for": "for",
+    "noResults": "No results found for",
+    "clearSearch": "Clear Search"
   },
   "sinks": {
           "sink1": {

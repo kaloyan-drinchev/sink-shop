@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Toast from '../Toast/Toast';
 import './Cart.css';
 
 const Cart: React.FC = () => {
   const { items, removeFromCart, updateQuantity, getCartTotal } = useCart();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  
+  // Toast state for confirmation
+  const [showConfirmToast, setShowConfirmToast] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState<string | null>(null);
   
   // Determine currency based on language
   const isEnglish = i18n.language === 'en';
@@ -31,11 +36,36 @@ const Cart: React.FC = () => {
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) {
-      // Directly remove item when quantity goes to 0
-      removeFromCart(id);
+      // Show confirmation toast instead of directly removing
+      setItemToRemove(id);
+      setShowConfirmToast(true);
     } else {
       updateQuantity(id, newQuantity);
     }
+  };
+
+  const handleConfirmRemove = () => {
+    if (itemToRemove) {
+      removeFromCart(itemToRemove);
+      setItemToRemove(null);
+    }
+    setShowConfirmToast(false);
+  };
+
+  const handleCancelRemove = () => {
+    setItemToRemove(null);
+    setShowConfirmToast(false);
+  };
+
+  // Get the item name for the confirmation message
+  const getItemToRemoveName = () => {
+    if (!itemToRemove) return '';
+    const item = items.find(item => item.id === itemToRemove);
+    if (!item) return '';
+    
+    // Get current language title dynamically
+    const currentSinkData = t(`sinks.sink${item.id}`, { returnObjects: true }) as any;
+    return currentSinkData?.title || item.title;
   };
 
   const handleCheckout = () => {
@@ -107,6 +137,19 @@ const Cart: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Toast */}
+      <Toast
+        show={showConfirmToast}
+        onClose={handleCancelRemove}
+        type="confirmation"
+        title={t('cart.confirmRemoveTitle')}
+        message={t('cart.confirmRemoveMessage', { itemName: getItemToRemoveName() })}
+        onConfirm={handleConfirmRemove}
+        confirmText={t('cart.confirmRemoveButton')}
+        cancelText={t('cart.keepItem')}
+        t={t}
+      />
     </div>
   );
 };

@@ -1,0 +1,156 @@
+/* Base overlay styles */
+.slide-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+}
+
+/* Backdrop styles */
+.slide-menu-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+}
+
+.slide-menu-backdrop-blur {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Panel base styles */
+.slide-menu-panel {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  animation-fill-mode: both;
+}
+
+/* Header styles */
+.slide-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.slide-menu-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.slide-menu-close-button {
+  padding: 0.5rem;
+  color: #6b7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: color 200ms ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-menu-close-button:hover {
+  color: #374151;
+}
+
+.slide-menu-close-button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Content styles */
+.slide-menu-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+/* Animation keyframes */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slideInFromRight {
+  animation-name: slideInFromRight;
+  animation-duration: 300ms;
+  animation-timing-function: ease-out;
+}
+
+.slideInFromLeft {
+  animation-name: slideInFromLeft;
+  animation-duration: 300ms;
+  animation-timing-function: ease-out;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .slide-menu-panel {
+    width: 100%;
+    max-width: 85vw;
+  }
+  
+  .slide-menu-header {
+    padding: 1rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .slide-menu-panel,
+  .slide-menu-backdrop {
+    animation: none;
+    transition: none;
+  }
+  
+  .slideInFromRight,
+  .slideInFromLeft {
+    animation: none;
+  }
+}
+
+/* Focus management */
+.slide-menu-panel:focus {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .slide-menu-header {
+    border-bottom: 2px solid #000;
+  }
+  
+  .slide-menu-close-button {
+    border: 1px solid #000;
+  }
+}

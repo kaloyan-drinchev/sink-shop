@@ -18,6 +18,7 @@
   "product": {
     "price": "Цена",
     "addToCart": "Добави в Количката",
+    "viewDetails": "Детайли",
     "description": "Описание",
     "specifications": "Спецификации",
     "salesCount": "продадени"
@@ -53,15 +54,35 @@
     "priceRange": "Ценови Диапазон",
     "material": "Материал",
     "size": "Размер",
-    "brand": "Марка"
+    "brand": "Марка",
+    "sortBy": "Сортирай по",
+    "featured": "Препоръчани",
+    "bestSelling": "Най-продавани",
+    "priceLowHigh": "Цена, ниска към висока",
+    "priceHighLow": "Цена, висока към ниска",
+    "newest": "Най-нови",
+    "clearFilter": "Изчисти Филтъра"
   },
   "categories": {
     "wooden": "Дървени",
-    "naturalStone": "Естествен Камък",
-    "pedestal": "Мрамор"
+    "naturalStone": "Естествен Камък", 
+    "mramor": "Мрамор"
+  },
+  "categoryDescriptions": {
+    "wooden": "Разгледайте нашата колекция от дървени мивки",
+    "naturalStone": "Разгледайте нашата колекция от мивки от естествен камък",
+    "mramor": "Разгледайте нашата колекция от мраморни мивки"
   },
   "banner": {
     "text": "Качествени Мивки"
+  },
+  "search": {
+    "found": "Намерени",
+    "results": "резултат",
+    "resultsPlural": "резултата",
+    "for": "за",
+    "noResults": "Няма намерени резултати за",
+    "clearSearch": "Изчисти Търсенето"
   },
   "sinks": {
     "sink1": {
@@ -93,7 +114,7 @@
       "title": "Класически Мраморен Умивалник",
       "description": "Традиционен бял керамичен мраморен умивалник с винтидж стил. Идеален за класически и преходни дизайни на бани.",
       "tag": "Класически",
-      "category": "pedestal",
+      "category": "mramor",
       "salesCount": 203,
               "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2023-12-20",
@@ -129,7 +150,7 @@
       "title": "Модерна Колонна Мраморна Мивка",
       "description": "Съвременна квадратна мраморна мивка с чисти линии. Перфектна за модерни минималистични дизайни на бани с ефективност на пространството.",
       "tag": "Модерна",
-      "category": "pedestal",
+      "category": "mramor",
       "salesCount": 178,
               "image": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2024-01-10",
