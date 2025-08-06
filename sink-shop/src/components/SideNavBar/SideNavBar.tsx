@@ -52,7 +52,7 @@ function SideNavBar() {
             onClick={() => setIsFilterExpanded(!isFilterExpanded)}
             className="w-full flex items-center justify-between text-left text-sm font-medium text-gray-700 mb-3"
           >
-            <span>{t('filters.sortBy')}: {getCurrentFilterLabel()}</span>
+            <span>{t('filters.sortBy')}</span>
             <svg 
               className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isFilterExpanded ? 'rotate-180' : ''}`} 
               fill="none" 

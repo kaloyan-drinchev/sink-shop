@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useCart } from '../../contexts/CartContext'
 import { useFilter } from '../NavBar/NavBar'
 import type { NavBarConfig } from './AbstractNavBar'
@@ -15,11 +15,16 @@ import filterIcon from '../../assets/icons8-filter-50.png'
 export const useSinkShopNavBarConfig = (): NavBarConfig => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const location = useLocation()
   const { getCartCount } = useCart()
   const { currentFilter, setCurrentFilter } = useFilter()
   
   const cartCount = getCartCount()
   const sinksData = t('sinks', { returnObjects: true }) as Record<string, any>
+  const isHomePage = location.pathname === '/'
+  const isCartPage = location.pathname === '/cart'
+  const shouldHideSideBar = isHomePage || isCartPage
+  const isCategoryPage = location.pathname.startsWith('/category/') || location.pathname === '/products'
   
   // Navigation links for desktop
   const navigationLinks = useMemo(() => [
@@ -160,7 +165,7 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
     actionButtons,
     
     search: {
-      enabled: true,
+      enabled: !isHomePage,
       placeholder: `${t('navigation.search')}...`,
       icon: searchIcon,
       searchFunction: handleSearch,
@@ -169,7 +174,7 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
     },
     
     filter: {
-      enabled: true,
+      enabled: !isHomePage,
       icon: filterIcon,
       groups: filterGroups,
       selectedFilter: currentFilter,
@@ -184,7 +189,7 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
     
     responsive: {
       hideLinksOnMobile: true,
-      mobileBreakpoint: 'md'
+      mobileBreakpoint: 'sm'
     }
   }), [
     navigationLinks,
@@ -194,6 +199,10 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
     handleSearch,
     filterGroups,
     currentFilter,
-    setCurrentFilter
+    setCurrentFilter,
+    isHomePage,
+    isCartPage,
+    shouldHideSideBar,
+    isCategoryPage
   ])
 }

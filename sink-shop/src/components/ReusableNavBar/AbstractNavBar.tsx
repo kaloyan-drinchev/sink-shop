@@ -98,7 +98,7 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
   const responsive = {
     hideLinksOnMobile: true,
     hideLinksOnTablet: false,
-    mobileBreakpoint: 'md',
+    mobileBreakpoint: 'sm',
     tabletBreakpoint: 'lg',
     ...config.responsive
   }
@@ -121,14 +121,10 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
   
   // Get responsive classes for links
   const getLinkVisibilityClass = () => {
-    const classes = []
     if (responsive.hideLinksOnMobile) {
-      classes.push(`hidden ${responsive.mobileBreakpoint}:flex`)
+      return `hidden md:flex`
     }
-    if (responsive.hideLinksOnTablet) {
-      classes.push(`${responsive.tabletBreakpoint}:hidden`)
-    }
-    return classes.join(' ')
+    return 'flex'
   }
   
   // Get mobile button visibility class
@@ -160,50 +156,36 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
           )}
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links - Centered */}
         <div className={`${getLinkVisibilityClass()} items-center gap-6 ${config.linksClassName || ''}`}>
-          {config.links.map((link, index) => {
-            const showOnDesktop = link.showOnDesktop !== false
-            const showOnMobile = link.showOnMobile !== false
-            
-            if (!showOnDesktop && !showOnMobile) return null
-            
-            let visibilityClass = ''
-            if (showOnDesktop && !showOnMobile) {
-              visibilityClass = getDesktopButtonClass(true)
-            } else if (!showOnDesktop && showOnMobile) {
-              visibilityClass = getMobileButtonClass(true)
-            }
-            
-            return (
-              <Link
-                key={`${link.to}-${index}`}
-                to={link.to}
-                className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors ${visibilityClass} ${link.className || ''}`}
-              >
-                {link.label}
-              </Link>
-            )
-          })}
+          {config.links.map((link, index) => (
+            <Link
+              key={`${link.to}-${index}`}
+              to={link.to}
+              className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors ${link.className || ''}`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons - Right aligned */}
         <div className={`flex items-center gap-3 ${config.buttonsClassName || ''}`}>
-          {/* Search Button */}
+          {/* Search Button - Show when sidebar is hidden */}
           {config.search?.enabled && (
             <button 
               onClick={() => setIsSearchMenuOpen(!isSearchMenuOpen)}
-              className={getMobileButtonClass()}
+              className="lg:hidden"
             >
               <img src={config.search.icon} alt="Search" className="w-6 h-6" />
             </button>
           )}
           
-          {/* Filter Button */}
+          {/* Filter Button - Show when sidebar is hidden */}
           {config.filter?.enabled && (
             <button 
               onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
-              className={`${getMobileButtonClass()} relative`}
+              className="lg:hidden relative"
             >
               <img src={config.filter.icon} alt="Filter" className="w-6 h-6" />
               {config.filter.selectedFilter && (
@@ -214,48 +196,34 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
             </button>
           )}
           
-          {/* Menu Button */}
+          {/* Menu Button - Mobile only */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={getMobileButtonClass()}
+            className="md:hidden"
           >
             <img src={config.menu.icon} alt="Menu" className="w-6 h-6" />
           </button>
 
-          {/* Action Buttons */}
-          {config.actionButtons.map((button, index) => {
-            const showOnDesktop = button.showOnDesktop !== false
-            const showOnMobile = button.showOnMobile !== false
-            
-            if (!showOnDesktop && !showOnMobile) return null
-            
-            let visibilityClass = ''
-            if (showOnDesktop && !showOnMobile) {
-              visibilityClass = getDesktopButtonClass(true)
-            } else if (!showOnDesktop && showOnMobile) {
-              visibilityClass = getMobileButtonClass(false) // Show on mobile for action buttons
-            }
-            
-            return (
-              <button
-                key={`${button.id}-${index}`}
-                onClick={button.onClick}
-                className={`relative flex items-center text-gray-700 hover:text-gray-800 transition-all duration-200 ease-in-out p-2 rounded-md hover:bg-gray-50 hover:scale-105 hover:shadow-sm ${visibilityClass} ${button.className || ''}`}
-                aria-label={button.label}
-              >
-                <img 
-                  src={button.icon} 
-                  alt={button.label} 
-                  className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200" 
-                />
-                {button.badge && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px] px-1 transition-transform duration-200 hover:scale-110">
-                    {typeof button.badge === 'number' && button.badge > 99 ? '99+' : button.badge}
-                  </span>
-                )}
-              </button>
-            )
-          })}
+          {/* Action Buttons - Desktop: Cart only, Mobile: Menu only */}
+          {config.actionButtons.map((button, index) => (
+            <button
+              key={`${button.id}-${index}`}
+              onClick={button.onClick}
+              className="relative hidden md:flex items-center text-gray-700 hover:text-gray-800 transition-all duration-200 ease-in-out p-2 rounded-md hover:bg-gray-50 hover:scale-105 hover:shadow-sm"
+              aria-label={button.label}
+            >
+              <img 
+                src={button.icon} 
+                alt={button.label} 
+                className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200" 
+              />
+              {button.badge && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px] px-1 transition-transform duration-200 hover:scale-110">
+                  {typeof button.badge === 'number' && button.badge > 99 ? '99+' : button.badge}
+                </span>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
