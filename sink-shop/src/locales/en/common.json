@@ -21,7 +21,10 @@
     "viewDetails": "Details",
     "description": "Description",
     "specifications": "Specifications",
-    "salesCount": "sold"
+    "salesCount": "sold",
+    "category": "Category",
+    "dateAdded": "Date Added",
+    "productId": "Product ID"
   },
   "toast": {
     "addedToCart": "Added to Cart!",
@@ -64,14 +67,12 @@
     "clearFilter": "Clear Filter"
   },
   "categories": {
-    "wooden": "Wooden",
-    "naturalStone": "Natural Stone",
-    "mramor": "Mramor"
+    "fossil": "Fossil",
+    "riverStone": "River Stone"
   },
   "categoryDescriptions": {
-    "wooden": "Browse our collection of wooden sinks",
-    "naturalStone": "Browse our collection of natural stone sinks", 
-    "mramor": "Browse our collection of mramor sinks"
+    "fossil": "Browse our collection of fossil sinks",
+    "riverStone": "Browse our collection of river stone sinks"
   },
   "banner": {
     "text": "Quality Sinks"

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import { apiService, type ApiProduct } from '../../services/apiService'
 
+// Legacy interface for backward compatibility
 export interface SinkData {
   id: string
   title: string
@@ -14,24 +16,24 @@ export interface SinkData {
 }
 
 interface SinkCardProps {
-  sinkId: string
+  product: ApiProduct
   onClick?: (sinkId: string) => void
 }
 
-function SinkCard({ sinkId, onClick }: SinkCardProps) {
+function SinkCard({ product, onClick }: SinkCardProps) {
   const { t, i18n } = useTranslation()
   
-  // Get sink data from translations
-  const sinkData = t(`sinks.${sinkId}`, { returnObjects: true }) as SinkData
+  // Get localized product data
+  const localizedProduct = apiService.getLocalizedProduct(product, i18n.language)
   
   // Determine currency based on language
   const isEnglish = i18n.language === 'en'
-  const price = isEnglish ? sinkData.priceEur : sinkData.priceBgn
+  const price = isEnglish ? product.priceEur : product.priceBgn
   const currency = isEnglish ? '€' : 'лв'
   
   const handleClick = () => {
     if (onClick) {
-      onClick(sinkData.id)
+      onClick(product.id)
     }
   }
 
@@ -43,8 +45,8 @@ function SinkCard({ sinkId, onClick }: SinkCardProps) {
       {/* Image */}
       <div className="w-full h-48 bg-gray-200 rounded-t-lg overflow-hidden">
         <img 
-          src={sinkData.image} 
-          alt={sinkData.title}
+          src={product.image} 
+          alt={localizedProduct.title}
           className="w-full h-full object-cover"
           onError={(e) => {
             // Fallback for missing images
@@ -58,30 +60,30 @@ function SinkCard({ sinkId, onClick }: SinkCardProps) {
         {/* Tag and Category */}
         <div className="flex justify-between items-center mb-2">
           <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-            {sinkData.tag}
+            {product.tag}
           </span>
           <span className="text-gray-500 text-xs">
-            {t(`categories.${sinkData.category}`)}
+            {t(`categories.${product.category}`)}
           </span>
         </div>
 
         {/* Title */}
         <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
-          {sinkData.title}
+          {localizedProduct.title}
         </h3>
 
         {/* Description */}
         <p className="text-gray-600 text-sm mb-3 line-clamp-3">
-          {sinkData.description}
+          {localizedProduct.description}
         </p>
 
         {/* Stats */}
         <div className="flex justify-between items-center mb-3">
           <span className="text-gray-500 text-xs">
-            {sinkData.salesCount} sold
+            {product.salesCount} sold
           </span>
           <span className="text-gray-500 text-xs">
-            {new Date(sinkData.date).toLocaleDateString()}
+            {new Date(product.date).toLocaleDateString()}
           </span>
         </div>
 

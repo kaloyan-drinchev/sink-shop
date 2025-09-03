@@ -3,6 +3,10 @@ import { Home, NavBar, SingleSinkView, SideNavBar, TopBar, Cart } from './compon
 import { CartProvider } from './contexts/CartContext'
 import { FilterProvider } from './components/NavBar/NavBar'
 import { SearchProvider } from './contexts/SearchContext'
+import AdminLogin from './components/Admin/AdminLogin/AdminLogin'
+import AdminDashboard from './components/Admin/AdminDashboard/AdminDashboard'
+import AddProduct from './components/Admin/AddProduct/AddProduct'
+import EditProduct from './components/Admin/EditProduct/EditProduct'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
@@ -40,11 +44,16 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Home />} />
         <Route path="/sink/:id" element={<SingleSinkView />} />
-        <Route path="/category/wooden" element={<Home />} />
-        <Route path="/category/natural-stone" element={<Home />} />
-        <Route path="/category/mramor" element={<Home />} />
+        <Route path="/category/fossil" element={<Home />} />
+        <Route path="/category/river-stone" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<div className="p-6 text-center"><h2 className="text-2xl font-bold">Checkout - Coming Soon!</h2></div>} />
+        
+        {/* Hidden Admin Routes */}
+        <Route path="/admin-portal" element={<AdminLogin />} />
+        <Route path="/admin-portal/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-portal/add-product" element={<AddProduct />} />
+        <Route path="/admin-portal/edit-product/:id" element={<EditProduct />} />
       </Routes>
     </Layout>
   )

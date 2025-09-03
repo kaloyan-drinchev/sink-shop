@@ -37,16 +37,12 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
       label: t('navigation.allProducts')
     },
     {
-      to: '/category/wooden',
-      label: t('categories.wooden')
+      to: '/category/fossil',
+      label: t('categories.fossil')
     },
     {
-      to: '/category/natural-stone',
-      label: t('categories.naturalStone')
-    },
-    {
-      to: '/category/mramor',
-      label: t('categories.mramor')
+      to: '/category/river-stone',
+      label: t('categories.riverStone')
     }
   ], [t])
   
@@ -63,19 +59,14 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
       delay: 200
     },
     {
-      to: '/category/wooden',
-      label: t('categories.wooden'),
+      to: '/category/fossil',
+      label: t('categories.fossil'),
       delay: 300
     },
     {
-      to: '/category/natural-stone',
-      label: t('categories.naturalStone'),
+      to: '/category/river-stone',
+      label: t('categories.riverStone'),
       delay: 400
-    },
-    {
-      to: '/category/mramor',
-      label: t('categories.mramor'),
-      delay: 500
     },
     {
       to: '/cart',

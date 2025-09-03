@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { SinkData } from '../SinkCard/SinkCard'
 import Toast from '../Toast/Toast'
 import { useCart } from '../../contexts/CartContext'
+import { apiService, type ApiProduct } from '../../services/apiService'
 
 function SingleSinkView() {
   const { id } = useParams<{ id: string }>()
@@ -12,11 +13,43 @@ function SingleSinkView() {
   const { addToCart } = useCart()
   const [showToast, setShowToast] = useState(false)
 
-  // Get sink data from translations
-  const sinkData = t(`sinks.sink${id}`, { returnObjects: true }) as SinkData
-  
-  // Check if sink exists
-  if (!sinkData || !sinkData.id) {
+  // State for product data
+  const [product, setProduct] = useState<ApiProduct | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch product from API
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return
+      
+      try {
+        setLoading(true)
+        const data = await apiService.getProduct(id)
+        setProduct(data)
+      } catch (err) {
+        setError('Product not found')
+        console.error('Error fetching product:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProduct()
+  }, [id])
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="p-6 text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading product...</p>
+      </div>
+    )
+  }
+
+  // Error state or product not found
+  if (error || !product) {
     return (
       <div className="p-6 text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h2>
@@ -31,14 +64,29 @@ function SingleSinkView() {
     )
   }
 
+  // Get localized product data
+  const localizedProduct = apiService.getLocalizedProduct(product, i18n.language)
+  
   // Determine currency based on language
   const isEnglish = i18n.language === 'en'
-  const price = isEnglish ? sinkData.priceEur : sinkData.priceBgn
+  const price = isEnglish ? product.priceEur : product.priceBgn
   const currency = isEnglish ? '€' : 'лв'
 
   const handleAddToCart = () => {
-    // Add the sink to cart using CartContext
-    addToCart(sinkData)
+    // Convert API product to legacy SinkData format for cart
+    const legacySinkData: SinkData = {
+      id: product.id,
+      title: localizedProduct.title,
+      description: localizedProduct.description,
+      tag: product.tag,
+      category: product.category,
+      salesCount: product.salesCount,
+      image: product.image,
+      date: product.date,
+      priceEur: product.priceEur,
+      priceBgn: product.priceBgn
+    }
+    addToCart(legacySinkData)
     setShowToast(true)
   }
 
@@ -58,14 +106,14 @@ function SingleSinkView() {
         </button>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="w-full">
-          <div className="bg-gray-200 rounded-lg overflow-hidden aspect-square">
+          <div className="bg-gray-100 rounded-lg shadow-sm overflow-hidden">
             <img 
-              src={sinkData.image} 
-              alt={sinkData.title}
-              className="w-full h-full object-cover"
+              src={product.image.startsWith('/assets/') ? product.image : `http://localhost:3001${product.image}`}
+              alt={localizedProduct.title}
+              className="w-full h-[500px] md:h-[600px] lg:h-[730px] object-cover"
               onError={(e) => {
                 e.currentTarget.src = '/images/placeholder-sink.jpg'
               }}
@@ -78,16 +126,16 @@ function SingleSinkView() {
           {/* Tags and Category */}
           <div className="flex gap-3 mb-4">
             <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded">
-              {sinkData.tag}
+              {product.tag}
             </span>
             <span className="bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded">
-              {t(`categories.${sinkData.category}`)}
+              {t(`categories.${product.category}`)}
             </span>
           </div>
 
           {/* Title */}
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            {sinkData.title}
+            {localizedProduct.title}
           </h1>
 
           {/* Price */}
@@ -101,7 +149,7 @@ function SingleSinkView() {
               {t('product.description')}
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              {sinkData.description}
+              {localizedProduct.description}
             </p>
           </div>
 
@@ -111,21 +159,9 @@ function SingleSinkView() {
               {t('product.specifications')}
             </h3>
             <div className="space-y-2">
-              <div className="flex justify-between py-2 border-b border-gray-200">
-                <span className="text-gray-600">Category:</span>
-                <span className="font-medium">{t(`categories.${sinkData.category}`)}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-200">
-                <span className="text-gray-600">Sales Count:</span>
-                <span className="font-medium">{sinkData.salesCount} {t('product.salesCount')}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-200">
-                <span className="text-gray-600">Date Added:</span>
-                <span className="font-medium">{new Date(sinkData.date).toLocaleDateString()}</span>
-              </div>
               <div className="flex justify-between py-2">
-                <span className="text-gray-600">Product ID:</span>
-                <span className="font-medium">#{sinkData.id}</span>
+                <span className="text-gray-600">{t('product.category')}</span>
+                <span className="font-medium">{t(`categories.${product.category}`)}</span>
               </div>
             </div>
           </div>
@@ -146,7 +182,7 @@ function SingleSinkView() {
       <Toast
         show={showToast}
         onClose={handleCloseToast}
-        productTitle={sinkData.title}
+        productTitle={localizedProduct.title}
         type="success"
         t={t}
       />

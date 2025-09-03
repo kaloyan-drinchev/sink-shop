@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import SinkCard from '../SinkCard/SinkCard'
 import Banner from '../Banner/Banner'
 import { useFilter } from '../NavBar/NavBar'
 import { useSearch } from '../../contexts/SearchContext'
+import { apiService, type ApiProduct } from '../../services/apiService'
 
 function Home() {
   const { t, i18n } = useTranslation()
@@ -13,8 +14,28 @@ function Home() {
   const { currentFilter } = useFilter()
   const { searchQuery, setSearchQuery } = useSearch()
 
-  // Get all sink data from translations
-  const sinksData = t('sinks', { returnObjects: true }) as Record<string, any>
+  // State for products and loading
+  const [products, setProducts] = useState<ApiProduct[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true)
+        const data = await apiService.getProducts()
+        setProducts(data)
+      } catch (err) {
+        setError('Failed to load products')
+        console.error('Error fetching products:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProducts()
+  }, [])
   
   // Extract category from route (e.g., /category/wooden -> wooden)
   const pathSegments = location.pathname.split('/')
@@ -22,9 +43,8 @@ function Home() {
   
   // Map route categories to data categories
   const categoryMap: Record<string, string> = {
-    'wooden': 'wooden',
-    'natural-stone': 'naturalStone',
-    'mramor': 'mramor'
+    'fossil': 'fossil',
+    'river-stone': 'riverStone'
   }
   
   const currentCategory = routeCategory ? categoryMap[routeCategory] : null
@@ -37,94 +57,97 @@ function Home() {
     }
     
     switch (currentCategory) {
-      case 'wooden':
-        return "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Wooden kitchen with natural elements
-      case 'naturalStone':
-        return "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Marble and stone bathroom
-      case 'mramor':
-        return "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Elegant mramor sink in luxury bathroom
+      case 'fossil':
+        return "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Fossil sink collection
+      case 'riverStone':
+        return "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // River stone bathroom
       default:
         return "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
     }
   }
   
-  // Filter and sort sink IDs based on search, category, and filters
-  const filteredAndSortedSinkIds = useMemo(() => {
-    let sinkIds = Object.keys(sinksData)
+  // Filter and sort products based on search, category, and filters
+  const filteredAndSortedProducts = useMemo(() => {
+    if (!products.length) return []
+
+    let filteredProducts = [...products]
     
-    // Filter by category if on category page
+    // Category filtering (for category pages like /category/fossil)
     if (currentCategory) {
-      sinkIds = sinkIds.filter(sinkId => sinksData[sinkId].category === currentCategory)
+      filteredProducts = filteredProducts.filter(product => product.category === currentCategory)
     }
     
-    // Filter by search query
+    // Search filtering
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
-      sinkIds = sinkIds.filter(sinkId => {
-        const sink = sinksData[sinkId]
+      const searchLower = searchQuery.toLowerCase()
+      filteredProducts = filteredProducts.filter(product => {
+        const localizedProduct = apiService.getLocalizedProduct(product, i18n.language)
         return (
-          sink.title?.toLowerCase().includes(query) ||
-          sink.description?.toLowerCase().includes(query) ||
-          sink.tag?.toLowerCase().includes(query) ||
-          t(`categories.${sink.category}`)?.toLowerCase().includes(query)
+          localizedProduct.title.toLowerCase().includes(searchLower) ||
+          localizedProduct.description.toLowerCase().includes(searchLower) ||
+          product.tag.toLowerCase().includes(searchLower) ||
+          t(`categories.${product.category}`).toLowerCase().includes(searchLower)
         )
       })
     }
     
-    // Apply sorting based on current filter
-    if (currentFilter) {
-      const isEnglish = i18n.language === 'en'
-      
-      sinkIds = [...sinkIds].sort((a, b) => {
-        const sinkA = sinksData[a]
-        const sinkB = sinksData[b]
-        
-        switch (currentFilter) {
-          case 'price-low-high':
-            const priceA = isEnglish ? sinkA.priceEur : sinkA.priceBgn
-            const priceB = isEnglish ? sinkB.priceEur : sinkB.priceBgn
-            return priceA - priceB
-            
-          case 'price-high-low':
-            const priceA2 = isEnglish ? sinkA.priceEur : sinkA.priceBgn
-            const priceB2 = isEnglish ? sinkB.priceEur : sinkB.priceBgn
-            return priceB2 - priceA2
-            
-          case 'newest':
-            return new Date(sinkB.date).getTime() - new Date(sinkA.date).getTime()
-            
-          case 'best-selling':
-            // Sort by sales count if available, otherwise by rating
-            const salesA = sinkA.salesCount || 0
-            const salesB = sinkB.salesCount || 0
-            if (salesA !== salesB) {
-              return salesB - salesA
-            }
-            // Fallback to rating if sales are equal
-            return (sinkB.rating || 0) - (sinkA.rating || 0)
-            
-          case '':
-          case 'featured':
-          default:
-            // Featured items - sort by featured flag, then by rating
-            const featuredA = sinkA.featured || false
-            const featuredB = sinkB.featured || false
-            if (featuredA !== featuredB) {
-              return featuredB ? 1 : -1
-            }
-            // Fallback to rating for featured items
-            return (sinkB.rating || 0) - (sinkA.rating || 0)
-        }
+    // Apply filter/sorting
+    if (currentFilter === 'newest') {
+      filteredProducts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    } else if (currentFilter === 'oldest') {
+      filteredProducts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    } else if (currentFilter === 'price-low-high') {
+      filteredProducts.sort((a, b) => {
+        const priceA = i18n.language === 'en' ? a.priceEur : a.priceBgn
+        const priceB = i18n.language === 'en' ? b.priceEur : b.priceBgn
+        return priceA - priceB
       })
+    } else if (currentFilter === 'price-high-low') {
+      filteredProducts.sort((a, b) => {
+        const priceA = i18n.language === 'en' ? a.priceEur : a.priceBgn
+        const priceB = i18n.language === 'en' ? b.priceEur : b.priceBgn
+        return priceB - priceA
+      })
+    } else if (currentFilter === 'most-sold') {
+      filteredProducts.sort((a, b) => b.salesCount - a.salesCount)
+    } else if (currentFilter === 'least-sold') {
+      filteredProducts.sort((a, b) => a.salesCount - b.salesCount)
     }
     
-    return sinkIds
-  }, [sinksData, currentCategory, searchQuery, currentFilter, i18n.language, t])
+    return filteredProducts
+  }, [products, currentCategory, searchQuery, currentFilter, i18n.language, t])
 
-  const handleSinkClick = (sinkId: string) => {
-    // Extract the number from sinkId (e.g., "sink1" -> "1")
-    const id = sinkId.replace('sink', '')
-    navigate(`/sink/${id}`)
+  const handleSinkClick = (productId: string) => {
+    navigate(`/sink/${productId}`)
+  }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="w-full p-6">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading products...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="w-full p-6">
+        <div className="text-center text-red-600">
+          <p>Error: {error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -154,15 +177,15 @@ function Home() {
           </>
         )}
 
-        {/* Sink Cards Grid - Dynamic */}
-                {filteredAndSortedSinkIds.length > 0 ? (
+        {/* Product Cards Grid - Dynamic */}
+        {filteredAndSortedProducts.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredAndSortedSinkIds.map((sinkId) => (
+              {filteredAndSortedProducts.map((product) => (
                 <SinkCard 
-                  key={sinkId}
-                  sinkId={sinkId} 
-                  onClick={handleSinkClick} 
+                  key={product.id}
+                  product={product} 
+                  onClick={handleSinkClick}
                 />
               ))}
             </div>
@@ -170,11 +193,11 @@ function Home() {
             {/* Show count of sinks */}
             <div className="mt-8 text-center text-gray-500 text-sm">
               {searchQuery.trim() ? (
-                `${t('search.found')} ${filteredAndSortedSinkIds.length} ${filteredAndSortedSinkIds.length === 1 ? t('search.results') : t('search.resultsPlural')} ${t('search.for')} "${searchQuery}"`
+                `Found ${filteredAndSortedProducts.length} products for "${searchQuery}"`
               ) : currentCategory ? (
-                `Showing ${filteredAndSortedSinkIds.length} ${t(`categories.${currentCategory}`).toLowerCase()} products`
+                `Showing ${filteredAndSortedProducts.length} ${t(`categories.${currentCategory}`).toLowerCase()} products`
               ) : (
-                `Showing ${filteredAndSortedSinkIds.length} products`
+                `Showing ${filteredAndSortedProducts.length} products`
               )}
             </div>
           </>
