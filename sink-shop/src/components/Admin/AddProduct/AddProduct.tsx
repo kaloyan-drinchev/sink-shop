@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 
 interface ProductForm {
   modelEn: string;
@@ -201,12 +202,21 @@ function AddProduct() {
               <h1 className="text-3xl font-bold text-gray-900">Add Product</h1>
               <p className="text-sm text-gray-500">Create a new sink product</p>
             </div>
-            <button
-              onClick={() => navigate('/admin-portal/dashboard')}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              Back to Dashboard
-            </button>
+            <div className="flex items-center space-x-4">
+              <LanguageSwitcher />
+              <button
+                onClick={() => navigate('/')}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                {t('admin.viewWebsite')}
+              </button>
+              <button
+                onClick={() => navigate('/admin-portal/dashboard')}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                Back to Dashboard
+              </button>
+            </div>
           </div>
         </div>
       </header>

@@ -110,14 +110,16 @@ function SingleSinkView() {
         {/* Product Image */}
         <div className="w-full">
           <div className="bg-gray-100 rounded-lg shadow-sm overflow-hidden">
-            <img 
-              src={product.image.startsWith('/assets/') ? product.image : `http://localhost:3001${product.image}`}
-              alt={localizedProduct.title}
-              className="w-full h-[500px] md:h-[600px] lg:h-[730px] object-cover"
-              onError={(e) => {
-                e.currentTarget.src = '/images/placeholder-sink.jpg'
-              }}
-            />
+            {product.image && (
+              <img
+                src={product.image.startsWith('/assets/') ? product.image : `http://localhost:3001${product.image}`}
+                alt={localizedProduct.title}
+                className="w-full h-[500px] md:h-[600px] lg:h-[730px] object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            )}
           </div>
         </div>
 
@@ -173,11 +175,11 @@ function SingleSinkView() {
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="text-gray-600">{t('product.dimensions')}</span>
-                <span className="font-medium">{product.dimensions}</span>
+                <span className="font-medium">{apiService.formatDimensions(product.dimensions, t)}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="text-gray-600">{t('product.weight')}</span>
-                <span className="font-medium">{product.weight}</span>
+                <span className="font-medium">{apiService.formatWeight(product.weight, i18n.language)}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="text-gray-600">{t('product.mounting')}</span>

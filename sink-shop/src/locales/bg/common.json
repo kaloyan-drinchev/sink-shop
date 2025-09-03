@@ -29,6 +29,9 @@
     "material": "Материал",
     "color": "Цвят",
     "dimensions": "Размери",
+    "length": "Дължина",
+    "width": "Широчина",
+    "height": "Височина",
     "weight": "Тегло",
     "mounting": "Тип Монтаж",
     "manufacture": "Изработка"
@@ -119,6 +122,31 @@
     "Fossil": "Фосил",
     "Flush": "Вграден",
     "Donut": "Поничка"
+  },
+  "admin": {
+    "dashboard": "Административно Табло",
+    "manageProducts": "Управление на продуктите",
+    "viewWebsite": "Виж Сайта",
+    "addProduct": "Добави Продукт",
+    "logout": "Изход",
+    "products": "Продукти",
+    "searchProducts": "Търси продукти...",
+    "noProducts": "Няма намерени продукти",
+    "addFirstProduct": "Добави Първия Продукт",
+    "noSearchResults": "Няма продукти, отговарящи на търсенето ви",
+    "clearSearch": "Изчисти Търсенето",
+    "product": "Продукт",
+    "model": "Модел",
+    "material": "Материал",
+    "dimensions": "Размери",
+    "price": "Цена",
+    "sales": "Продажби",
+    "actions": "Действия",
+    "sold": "продадени",
+    "edit": "Редактирай",
+    "delete": "Изтрий",
+    "confirmDelete": "Сигурни ли сте, че искате да изтриете този продукт?",
+    "deleteError": "Неуспешно изтриване на продукта"
   },
   "sinks": {
     "sink1": {

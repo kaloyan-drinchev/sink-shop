@@ -44,15 +44,16 @@ function SinkCard({ product, onClick }: SinkCardProps) {
     >
       {/* Image */}
       <div className="w-full h-48 bg-gray-200 rounded-t-lg overflow-hidden">
-        <img 
-          src={product.image} 
-          alt={localizedProduct.title}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback for missing images
-            e.currentTarget.src = '/images/placeholder-sink.jpg'
-          }}
-        />
+        {product.image && (
+          <img 
+            src={product.image} 
+            alt={localizedProduct.title}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+        )}
       </div>
 
       {/* Content */}

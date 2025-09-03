@@ -68,6 +68,37 @@ class ApiService {
       manufacture: product.manufacture[lang] || product.manufacture.en
     };
   }
+
+  // Helper to format dimensions - show only height for now
+  formatDimensions(dimensions: string, t: (key: string) => string): string {
+    if (!dimensions || !t) return dimensions;
+
+    // Extract height from different dimension formats
+    let heightMatch;
+    
+    if (dimensions.includes('H:')) {
+      // Match any format that has "H: value"
+      heightMatch = dimensions.match(/H:\s*([^,\s]+)/);
+      if (heightMatch) {
+        return `${t('product.height')}: ${heightMatch[1].trim()}`;
+      }
+    }
+
+    // Return original if no height found
+    return dimensions;
+  }
+
+  // Helper to format weight with proper language unit
+  formatWeight(weight: string, language: string): string {
+    if (!weight) return weight;
+
+    // Remove existing "kg" or "кг"
+    const cleanWeight = weight.replace(/\s*(kg|кг)\s*$/i, '').trim();
+    
+    // Add appropriate unit based on language
+    const unit = language === 'bg' ? 'кг' : 'kg';
+    return `${cleanWeight} ${unit}`;
+  }
 }
 
 export const apiService = new ApiService();

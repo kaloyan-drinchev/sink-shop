@@ -1,0 +1,20 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#4A5568"/>
+  
+  <!-- River stone texture -->
+  <ellipse cx="300" cy="200" rx="240" ry="120" fill="#718096" opacity="0.8"/>
+  <ellipse cx="300" cy="200" rx="210" ry="100" fill="#A0AEC0" opacity="0.6"/>
+  <ellipse cx="300" cy="200" rx="180" ry="80" fill="#CBD5E0" opacity="0.4"/>
+  
+  <!-- Irregular shape pattern -->
+  <path d="M150 200 Q200 120 280 150 Q380 100 450 180 Q420 280 350 250 Q250 290 150 200" fill="#E2E8F0"/>
+  <path d="M170 200 Q210 140 270 160 Q360 120 420 190 Q400 270 340 240 Q260 280 170 200" fill="#F7FAFC"/>
+  
+  <!-- Drain -->
+  <circle cx="300" cy="200" r="8" fill="#4A5568"/>
+  <circle cx="300" cy="200" r="5" fill="#2D3748"/>
+  
+  <!-- Text -->
+  <text x="300" y="350" text-anchor="middle" fill="#F7FAFC" font-family="Arial, sans-serif" font-size="16" font-weight="bold">River Stone Sink - Type 1.2</text>
+</svg>

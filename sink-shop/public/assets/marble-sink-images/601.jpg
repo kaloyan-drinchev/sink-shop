@@ -1,0 +1,24 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#1A1A1A"/>
+  
+  <!-- Tower marble base -->
+  <rect x="275" y="100" width="50" height="250" rx="25" fill="#2D3748" opacity="0.9"/>
+  <rect x="280" y="110" width="40" height="230" rx="20" fill="#4A5568" opacity="0.7"/>
+  
+  <!-- Marble veining on tower -->
+  <path d="M275 150 Q300 140 325 150" stroke="#718096" stroke-width="2" fill="none" opacity="0.8"/>
+  <path d="M275 200 Q300 190 325 200" stroke="#A0AEC0" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M275 250 Q300 240 325 250" stroke="#718096" stroke-width="1" fill="none" opacity="0.5"/>
+  
+  <!-- Top sink bowl -->
+  <circle cx="300" cy="120" r="40" fill="#E2E8F0"/>
+  <circle cx="300" cy="115" r="30" fill="#F7FAFC"/>
+  
+  <!-- Drain -->
+  <circle cx="300" cy="120" r="8" fill="#2D3748"/>
+  <circle cx="300" cy="120" r="5" fill="#1A1A1A"/>
+  
+  <!-- Text -->
+  <text x="300" y="380" text-anchor="middle" fill="#F7FAFC" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Marble Tower Sink - Type 6</text>
+</svg>

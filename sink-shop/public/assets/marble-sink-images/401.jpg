@@ -1,0 +1,23 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#F7F3E9"/>
+  
+  <!-- Cream marble base -->
+  <rect x="150" y="150" width="300" height="100" fill="#F5F1E8" opacity="0.9"/>
+  <rect x="170" y="165" width="260" height="70" fill="#FAF7F0" opacity="0.7"/>
+  
+  <!-- Marble veining -->
+  <path d="M150 180 Q250 170 350 180 Q400 185 450 180" stroke="#E2D6C7" stroke-width="2" fill="none" opacity="0.8"/>
+  <path d="M150 220 Q250 210 350 220 Q400 225 450 220" stroke="#D4C4B0" stroke-width="1" fill="none" opacity="0.6"/>
+  
+  <!-- Rectangular sink bowl -->
+  <rect x="200" y="165" width="200" height="70" rx="8" fill="#FFFFFF"/>
+  <rect x="210" y="175" width="180" height="50" rx="5" fill="#FEFEFE"/>
+  
+  <!-- Drain -->
+  <circle cx="300" cy="200" r="8" fill="#D4C4B0"/>
+  <circle cx="300" cy="200" r="5" fill="#C9B896"/>
+  
+  <!-- Text -->
+  <text x="300" y="350" text-anchor="middle" fill="#8B7355" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Cream Marble Rectangle - Type 4.1</text>
+</svg>

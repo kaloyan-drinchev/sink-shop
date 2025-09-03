@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { apiService, type ApiProduct } from '../../../services/apiService';
+import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 
 function AdminDashboard() {
   const [products, setProducts] = useState<ApiProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<ApiProduct[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   // Check admin authentication
   useEffect(() => {
@@ -37,6 +42,7 @@ function AdminDashboard() {
       setLoading(true);
       const data = await apiService.getProducts();
       setProducts(data);
+      setFilteredProducts(data);
     } catch (err) {
       setError('Failed to load products');
       console.error('Error fetching products:', err);
@@ -45,6 +51,27 @@ function AdminDashboard() {
     }
   };
 
+  // Filter products based on search query
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredProducts(products);
+    } else {
+      const lang = i18n.language as 'en' | 'bg';
+      const filtered = products.filter(product =>
+        product.title[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.title.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.model[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.model.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.material[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.material.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.color[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.color.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.tag.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products, i18n.language]);
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUser');
@@ -52,7 +79,7 @@ function AdminDashboard() {
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (!window.confirm('Are you sure you want to delete this product?')) {
+    if (!window.confirm(t('admin.confirmDelete'))) {
       return;
     }
 
@@ -66,13 +93,27 @@ function AdminDashboard() {
       });
 
       if (response.ok) {
-        setProducts(products.filter(p => p.id !== productId));
+        const updatedProducts = products.filter(p => p.id !== productId);
+        setProducts(updatedProducts);
+        const lang = i18n.language as 'en' | 'bg';
+        setFilteredProducts(updatedProducts.filter(p => 
+          !searchQuery.trim() || 
+          p.title[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.title.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.model[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.model.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.material[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.material.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.color[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.color.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.tag.toLowerCase().includes(searchQuery.toLowerCase())
+        ));
       } else {
-        alert('Failed to delete product');
+        alert(t('admin.deleteError'));
       }
     } catch (error) {
       console.error('Delete error:', error);
-      alert('Failed to delete product');
+      alert(t('admin.deleteError'));
     }
   };
 
@@ -91,21 +132,28 @@ function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-sm text-gray-500">Manage your sink products</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t('admin.dashboard')}</h1>
+              <p className="text-sm text-gray-500">{t('admin.manageProducts')}</p>
             </div>
             <div className="flex items-center space-x-4">
+              <LanguageSwitcher />
+              <button
+                onClick={() => navigate('/')}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                {t('admin.viewWebsite')}
+              </button>
               <button
                 onClick={() => navigate('/admin-portal/add-product')}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
-                Add Product
+                {t('admin.addProduct')}
               </button>
               <button
                 onClick={handleLogout}
                 className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
-                Logout
+                {t('admin.logout')}
               </button>
             </div>
           </div>
@@ -122,18 +170,44 @@ function AdminDashboard() {
           ) : (
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-                  Products ({products.length})
-                </h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    {t('admin.products')} ({filteredProducts.length}/{products.length})
+                  </h3>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder={t('admin.searchProducts')}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
                 
                 {products.length === 0 ? (
                   <div className="text-center py-12">
-                    <p className="text-gray-500">No products found</p>
+                    <p className="text-gray-500">{t('admin.noProducts')}</p>
                     <button
                       onClick={() => navigate('/admin-portal/add-product')}
                       className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
                     >
-                      Add First Product
+                      {t('admin.addFirstProduct')}
+                    </button>
+                  </div>
+                ) : filteredProducts.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-gray-500">{t('admin.noSearchResults')}</p>
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="mt-4 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                    >
+                      {t('admin.clearSearch')}
                     </button>
                   </div>
                 ) : (
@@ -142,67 +216,93 @@ function AdminDashboard() {
                       <thead className="bg-gray-50">
                         <tr>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Product
+                            {t('admin.product')}
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Category
+                            {t('admin.model')}
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Price
+                            {t('admin.material')}
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Sales
+                            {t('admin.dimensions')}
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions
+                            {t('admin.price')}
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {t('admin.sales')}
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {t('admin.actions')}
                           </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {products.map((product) => (
-                          <tr key={product.id}>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <img
-                                  className="h-10 w-10 rounded-lg object-cover"
-                                  src={product.image}
-                                  alt={product.title.en}
-                                />
-                                <div className="ml-4">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {product.title.en}
-                                  </div>
-                                  <div className="text-sm text-gray-500">
-                                    {product.tag}
+                        {filteredProducts.map((product) => {
+                          const lang = i18n.language as 'en' | 'bg';
+                          
+                          return (
+                            <tr key={product.id}>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  {product.image && (
+                                    <img
+                                      className="h-12 w-12 rounded-lg object-cover"
+                                      src={product.image.startsWith('/assets/') ? product.image : `http://localhost:3001${product.image}`}
+                                      alt={product.title[lang]}
+                                      onError={(e) => {
+                                        e.currentTarget.style.display = 'none';
+                                      }}
+                                    />
+                                  )}
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      {product.title[lang]}
+                                    </div>
+                                    <div className="text-sm text-gray-500">
+                                      {product.color[lang]}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {product.category}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              €{product.priceEur} / {product.priceBgn} лв
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {product.salesCount} sold
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                              <button
-                                onClick={() => navigate(`/admin-portal/edit-product/${product.id}`)}
-                                className="text-blue-600 hover:text-blue-900"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => handleDeleteProduct(product.id)}
-                                className="text-red-600 hover:text-red-900"
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                {product.model[lang]}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                                  {product.material[lang]}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {apiService.formatDimensions(product.dimensions, t)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <div>€{product.priceEur}</div>
+                                <div className="text-xs text-gray-500">{product.priceBgn} лв</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {product.salesCount} {t('admin.sold')}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div className="flex space-x-2">
+                                  <button
+                                    onClick={() => navigate(`/admin-portal/edit-product/${product.id}`)}
+                                    className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded text-xs font-medium"
+                                  >
+                                    {t('admin.edit')}
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteProduct(product.id)}
+                                    className="bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded text-xs font-medium"
+                                  >
+                                    {t('admin.delete')}
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>

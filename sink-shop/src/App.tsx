@@ -12,12 +12,13 @@ function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const isHomePage = location.pathname === '/'
   const isCartPage = location.pathname === '/cart'
-  const shouldHideSideBar = isHomePage || isCartPage
+  const isAdminRoute = location.pathname.startsWith('/admin-portal')
+  const shouldHideSideBar = isHomePage || isCartPage || isAdminRoute
 
   return (
     <div className="min-h-screen">
-      <TopBar />
-      <NavBar />
+      {!isAdminRoute && <TopBar />}
+      {!isAdminRoute && <NavBar />}
       {shouldHideSideBar ? (
         <main className="w-full min-h-screen">
           {children}
