@@ -18,6 +18,10 @@ function Home() {
   const [products, setProducts] = useState<ApiProduct[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   // Fetch products from API
   useEffect(() => {
@@ -55,7 +59,7 @@ function Home() {
   // Category-specific images
   const getCategoryImage = () => {
     if (!currentCategory) {
-      return "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Modern kitchen interior
+      return "/images/art-indo-sinks-hero.jpg" // Art Indo sinks collage
     }
     
     switch (currentCategory) {
@@ -122,6 +126,24 @@ function Home() {
     
     return filteredProducts
   }, [products, currentCategory, searchQuery, currentFilter, i18n.language, t])
+  
+  // Reset to page 1 when filters/search changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery, currentFilter, currentCategory])
+  
+  // Paginated products
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return filteredAndSortedProducts.slice(startIndex, endIndex)
+  }, [filteredAndSortedProducts, currentPage, itemsPerPage])
+  
+  // Calculate pagination info
+  const totalProducts = filteredAndSortedProducts.length
+  const totalPages = Math.ceil(totalProducts / itemsPerPage)
+  const startItem = (currentPage - 1) * itemsPerPage + 1
+  const endItem = Math.min(currentPage * itemsPerPage, totalProducts)
 
   const handleSinkClick = (productId: string) => {
     navigate(`/sink/${productId}`)
@@ -184,10 +206,10 @@ function Home() {
         )}
 
         {/* Product Cards Grid - Dynamic */}
-        {filteredAndSortedProducts.length > 0 ? (
+        {totalProducts > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredAndSortedProducts.map((product) => (
+              {paginatedProducts.map((product) => (
                 <SinkCard 
                   key={product.id}
                   product={product} 
@@ -196,16 +218,82 @@ function Home() {
               ))}
             </div>
 
-            {/* Show count of sinks */}
+            {/* Show count and pagination info */}
             <div className="mt-8 text-center text-gray-500 text-sm">
               {searchQuery.trim() ? (
-                `Found ${filteredAndSortedProducts.length} products for "${searchQuery}"`
+                `Found ${totalProducts} products for "${searchQuery}"`
               ) : currentCategory ? (
-                `Showing ${filteredAndSortedProducts.length} ${t(`categories.${currentCategory}`).toLowerCase()} products`
+                `Showing ${totalProducts} ${t(`categories.${currentCategory}`).toLowerCase()} products`
               ) : (
-                `Showing ${filteredAndSortedProducts.length} products`
+                `Showing ${totalProducts} products`
+              )}
+              {totalProducts > itemsPerPage && (
+                <div className="mt-2">
+                  Showing {startItem}-{endItem} of {totalProducts}
+                </div>
               )}
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center items-center space-x-2">
+                {/* Previous Button */}
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    currentPage === 1
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                  }`}
+                >
+                  Previous
+                </button>
+
+                {/* Page Numbers */}
+                <div className="flex space-x-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, index) => {
+                    let pageNumber;
+                    if (totalPages <= 5) {
+                      pageNumber = index + 1;
+                    } else if (currentPage <= 3) {
+                      pageNumber = index + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNumber = totalPages - 4 + index;
+                    } else {
+                      pageNumber = currentPage - 2 + index;
+                    }
+
+                    return (
+                      <button
+                        key={pageNumber}
+                        onClick={() => setCurrentPage(pageNumber)}
+                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                          currentPage === pageNumber
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                        }`}
+                      >
+                        {pageNumber}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Next Button */}
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    currentPage === totalPages
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                  }`}
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </>
         ) : (
                     <div className="text-center py-12">
