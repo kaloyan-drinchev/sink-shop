@@ -1,210 +1,695 @@
 import { Product, User, CartItem, Order } from '../types/index.js';
 import { v4 as uuidv4 } from 'uuid';
 
-// Mock Products Data - Using local images with consistent pricing
+// Mock Products Data - New structure with all materials
 export const mockProducts: Product[] = [
-  // Fossil Sinks
+  // River Stone Sinks
   {
     id: '1',
+    model: {
+      en: 'Type 1.1',
+      bg: 'Вид 1.1'
+    },
     title: {
-      en: 'Classic Fossil Stone Sink',
-      bg: 'Класическа фосилна каменна мивка'
+      en: 'River Stone Irregular Sink',
+      bg: 'Речна каменна неправилна мивка'
     },
     description: {
-      en: 'Premium fossil stone sink with natural textures and ancient marine patterns. Perfect for modern bathrooms.',
-      bg: 'Премиум фосилна каменна мивка с естествени текстури и древни морски мотиви. Перфектна за модерни бани.'
+      en: 'Irregular Shape',
+      bg: 'Неправилна форма'
     },
-    tag: 'Premium',
-    category: 'fossil',
-    salesCount: 45,
-    image: '/assets/fosil-sink-images/d1.jpg',
+    material: {
+      en: 'River Stone',
+      bg: 'Речен камък'
+    },
+    color: {
+      en: 'Dark Grey/Grey',
+      bg: 'Тъмно сиво/Сиво'
+    },
+    dimensions: 'L: 40-60, W: 31-50, H: 15',
+    weight: '18-30 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Natural',
+    category: 'riverStone',
+    salesCount: 28,
+    image: '/assets/river-stone-sink-images/101.jpg',
     date: '2024-01-15',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-01-15'),
     updatedAt: new Date('2024-01-15')
   },
+  // Type 1.2 - River Stone
   {
     id: '2',
+    model: {
+      en: 'Type 1.2',
+      bg: 'Вид 1.2'
+    },
     title: {
-      en: 'Elegant Fossil Basin',
-      bg: 'Елегантна фосилна мивка'
+      en: 'River Stone Irregular Sink',
+      bg: 'Речна каменна неправилна мивка'
     },
     description: {
-      en: 'Sophisticated fossil stone basin featuring intricate natural patterns and smooth finish.',
-      bg: 'Изискана фосилна каменна мивка с интригуващи естествени модели и гладка повърхност.'
+      en: 'Irregular Shape',
+      bg: 'Неправилна форма'
     },
-    tag: 'Elegant',
-    category: 'fossil',
-    salesCount: 32,
-    image: '/assets/fosil-sink-images/d2.jpg',
+    material: {
+      en: 'River Stone',
+      bg: 'Речен камък'
+    },
+    color: {
+      en: 'Dark Grey/Grey',
+      bg: 'Тъмно сиво/Сиво'
+    },
+    dimensions: 'L: 37-57, W: 31-47, H: 15',
+    weight: '18-30 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Natural',
+    category: 'riverStone',
+    salesCount: 31,
+    image: '/assets/river-stone-sink-images/102.jpg',
     date: '2024-01-18',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-01-18'),
     updatedAt: new Date('2024-01-18')
   },
+  // Type 1.3 - River Stone
   {
     id: '3',
+    model: {
+      en: 'Type 1.3',
+      bg: 'Вид 1.3'
+    },
     title: {
-      en: 'Luxury Fossil Stone Vessel',
-      bg: 'Луксозна фосилна каменна мивка'
+      en: 'Polished River Stone Sink',
+      bg: 'Полирана речна каменна мивка'
     },
     description: {
-      en: 'Exclusive fossil stone vessel sink with unique geological formations and premium craftsmanship.',
-      bg: 'Ексклузивна фосилна каменна мивка с уникални геологически образувания и премиум изработка.'
+      en: 'Polished, Irregular Shape',
+      bg: 'Полиран, Неправилна форма'
     },
-    tag: 'Luxury',
-    category: 'fossil',
-    salesCount: 28,
-    image: '/assets/fosil-sink-images/d3.jpg',
+    material: {
+      en: 'River Stone',
+      bg: 'Речен камък'
+    },
+    color: {
+      en: 'Dark Grey/Grey',
+      bg: 'Тъмно сиво/Сиво'
+    },
+    dimensions: 'L: 40-60, W: 31-50, H: 15',
+    weight: '18-30 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Polished',
+    category: 'riverStone',
+    salesCount: 27,
+    image: '/assets/river-stone-sink-images/103.jpg',
     date: '2024-01-22',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-01-22'),
     updatedAt: new Date('2024-01-22')
   },
+  // Type 2.1 - Marble
   {
     id: '4',
+    model: {
+      en: 'Type 2.1',
+      bg: 'Вид 2.1'
+    },
     title: {
-      en: 'Artisan Fossil Collection',
-      bg: 'Артистична фосилна колекция'
+      en: 'Marble Oval Sink',
+      bg: 'Мраморна овална мивка'
     },
     description: {
-      en: 'Handcrafted fossil sink showcasing millions of years of natural history in every detail.',
-      bg: 'Ръчно изработена фосилна мивка, показваща милиони години естествена история във всеки детайл.'
+      en: 'Oval, Rough',
+      bg: 'Овална, необработена'
     },
-    tag: 'Artisan',
-    category: 'fossil',
-    salesCount: 41,
-    image: '/assets/fosil-sink-images/d4.jpg',
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Black, Grey',
+      bg: 'Черен, Сив'
+    },
+    dimensions: '50 x 36, H: 15',
+    weight: '25 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Rough',
+    category: 'marble',
+    salesCount: 35,
+    image: '/assets/marble-sink-images/201.jpg',
     date: '2024-01-25',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-01-25'),
     updatedAt: new Date('2024-01-25')
   },
+  // Type 3.1 - Marble
   {
     id: '5',
+    model: {
+      en: 'Type 3.1',
+      bg: 'Вид 3.1'
+    },
     title: {
-      en: 'Premium Fossil Washbasin',
-      bg: 'Премиум фосилна мивка за измиване'
+      en: 'Marble Square Sink',
+      bg: 'Мраморна квадратна мивка'
     },
     description: {
-      en: 'Distinguished fossil stone washbasin with exceptional durability and timeless beauty.',
-      bg: 'Отличаваща се фосилна каменна мивка с изключителна издръжливост и вечна красота.'
+      en: 'Squared',
+      bg: 'Квадратна'
     },
-    tag: 'Premium',
-    category: 'fossil',
-    salesCount: 37,
-    image: '/assets/fosil-sink-images/d5.jpg',
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Cream-Light Beige',
+      bg: 'Крем-Светло бежово'
+    },
+    dimensions: '50 x 50, H: 17',
+    weight: '27 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Square',
+    category: 'marble',
+    salesCount: 42,
+    image: '/assets/marble-sink-images/301.jpg',
     date: '2024-01-28',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-01-28'),
     updatedAt: new Date('2024-01-28')
   },
-  
-  // River Stone Sinks
+  // Type 4.1 - Marble  
   {
     id: '6',
+    model: {
+      en: 'Type 4.1',
+      bg: 'Вид 4.1'
+    },
     title: {
-      en: 'Natural River Stone Basin',
-      bg: 'Естествена речна каменна мивка'
+      en: 'Marble Rectangular Sink',
+      bg: 'Мраморна правоъгълна мивка'
     },
     description: {
-      en: 'Authentic river stone sink with smooth water-polished surface and organic shape.',
-      bg: 'Автентична речна каменна мивка с гладка, полирана от водата повърхност и органична форма.'
+      en: 'Rectangular',
+      bg: 'Правоъгълна'
     },
-    tag: 'Natural',
-    category: 'riverStone',
-    salesCount: 63,
-    image: '/assets/river-stone-sink-images/100.jpg',
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Cream-Light Beige',
+      bg: 'Крем-Светло бежово'
+    },
+    dimensions: '50 x 40, H: 17',
+    weight: '33 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Rectangular',
+    category: 'marble',
+    salesCount: 29,
+    image: '/assets/marble-sink-images/401.jpg',
     date: '2024-02-01',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-02-01'),
     updatedAt: new Date('2024-02-01')
   },
+  // Type 4.2 - Marble
   {
     id: '7',
+    model: {
+      en: 'Type 4.2',
+      bg: 'Вид 4.2'
+    },
     title: {
-      en: 'Polished River Stone Vessel',
-      bg: 'Полирана речна каменна мивка'
+      en: 'Marble Rectangular Sink Dark',
+      bg: 'Мраморна правоъгълна мивка тъмна'
     },
     description: {
-      en: 'Beautifully polished river stone vessel with natural color variations and smooth texture.',
-      bg: 'Красиво полирана речна каменна мивка с естествени цветни вариации и гладка текстура.'
+      en: 'Rectangular',
+      bg: 'Правоъгълна'
     },
-    tag: 'Polished',
-    category: 'riverStone',
-    salesCount: 51,
-    image: '/assets/river-stone-sink-images/101.jpg',
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Black, Grey',
+      bg: 'Черен, Сив'
+    },
+    dimensions: '50 x 40, H: 12',
+    weight: '33 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Rectangular',
+    category: 'marble',
+    salesCount: 38,
+    image: '/assets/marble-sink-images/402.jpg',
     date: '2024-02-05',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-02-05'),
     updatedAt: new Date('2024-02-05')
   },
+  // Type 5.1 - Marble
   {
     id: '8',
+    model: {
+      en: 'Type 5.1',
+      bg: 'Вид 5.1'
+    },
     title: {
-      en: 'Rustic River Stone Sink',
-      bg: 'Рустик речна каменна мивка'
+      en: 'Marble Oval Sink Light',
+      bg: 'Мраморна овална мивка светла'
     },
     description: {
-      en: 'Rustic river stone sink maintaining natural edges and authentic riverbed character.',
-      bg: 'Рустична речна каменна мивка, запазваща естествените краища и автентичния характер на речното корито.'
+      en: 'Oval, Rough',
+      bg: 'Овална, необработена'
     },
-    tag: 'Rustic',
-    category: 'riverStone',
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Cream-Light Beige',
+      bg: 'Крем-Светло бежово'
+    },
+    dimensions: '50 x 40, H: 15',
+    weight: '32 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Oval',
+    category: 'marble',
     salesCount: 44,
-    image: '/assets/river-stone-sink-images/102.jpg',
+    image: '/assets/marble-sink-images/501.jpg',
     date: '2024-02-08',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-02-08'),
     updatedAt: new Date('2024-02-08')
   },
+  // Type 6 - Marble Tower
   {
     id: '9',
+    model: {
+      en: 'Type 6',
+      bg: 'Вид 6'
+    },
     title: {
-      en: 'Smooth River Stone Bowl',
-      bg: 'Гладка речна каменна купа'
+      en: 'Marble Tower Sink',
+      bg: 'Мраморна кула мивка'
     },
     description: {
-      en: 'Exceptionally smooth river stone bowl sink with perfect balance of form and function.',
-      bg: 'Изключително гладка речна каменна купа с перфектен баланс между форма и функция.'
+      en: 'Tower sink, polished top',
+      bg: 'Кула, полиран горен сегмент'
     },
-    tag: 'Smooth',
-    category: 'riverStone',
-    salesCount: 56,
-    image: '/assets/river-stone-sink-images/103.jpg',
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Black/Grey',
+      bg: 'Черно/Сиво'
+    },
+    dimensions: 'Ø: 40, H: 90',
+    weight: '68 kg',
+    mounting: {
+      en: 'Floor mount',
+      bg: 'Подов монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Tower',
+    category: 'marble',
+    salesCount: 15,
+    image: '/assets/marble-sink-images/601.jpg',
     date: '2024-02-12',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-02-12'),
     updatedAt: new Date('2024-02-12')
   },
+  // Type 7.1 - Onyx
   {
     id: '10',
+    model: {
+      en: 'Type 7.1',
+      bg: 'Вид 7.1'
+    },
     title: {
-      en: 'Designer River Stone Washbasin',
-      bg: 'Дизайнерска речна каменна мивка'
+      en: 'Onyx Bowl Sink',
+      bg: 'Ониксова купа мивка'
     },
     description: {
-      en: 'Contemporary designer river stone washbasin combining natural beauty with modern aesthetics.',
-      bg: 'Съвременна дизайнерска речна каменна мивка, съчетаваща естествена красота с модерна естетика.'
+      en: 'Thickbowl, Natural',
+      bg: 'Купа'
     },
-    tag: 'Designer',
-    category: 'riverStone',
-    salesCount: 39,
-    image: '/assets/river-stone-sink-images/104.jpg',
+    material: {
+      en: 'Onyx',
+      bg: 'Оникс'
+    },
+    color: {
+      en: 'Ochre',
+      bg: 'Охра'
+    },
+    dimensions: 'Ø: 40, H: 15',
+    weight: '17 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Bowl',
+    category: 'onyx',
+    salesCount: 21,
+    image: '/assets/onyx-sink-images/701.jpg',
     date: '2024-02-15',
     priceEur: 750,
     priceBgn: 1465,
     createdAt: new Date('2024-02-15'),
     updatedAt: new Date('2024-02-15')
+  },
+  // Type 7.2 - Onyx
+  {
+    id: '11',
+    model: {
+      en: 'Type 7.2',
+      bg: 'Вид 7.2'
+    },
+    title: {
+      en: 'Onyx Oval Sink',
+      bg: 'Ониксова овална мивка'
+    },
+    description: {
+      en: 'Oval, Rough',
+      bg: 'Овална, необработена'
+    },
+    material: {
+      en: 'Onyx',
+      bg: 'Оникс'
+    },
+    color: {
+      en: 'Ochre',
+      bg: 'Охра'
+    },
+    dimensions: '40 x 25, H: 12',
+    weight: '12 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Oval',
+    category: 'onyx',
+    salesCount: 18,
+    image: '/assets/onyx-sink-images/702.jpg',
+    date: '2024-02-18',
+    priceEur: 750,
+    priceBgn: 1465,
+    createdAt: new Date('2024-02-18'),
+    updatedAt: new Date('2024-02-18')
+  },
+  // Type 8 - Fossil
+  {
+    id: '12',
+    model: {
+      en: 'Type 8',
+      bg: 'Вид 8'
+    },
+    title: {
+      en: 'Fossil Petrified Wood Sink',
+      bg: 'Фосилна вкаменена дърва мивка'
+    },
+    description: {
+      en: 'Petrified Wood',
+      bg: 'Вкаменено дърво'
+    },
+    material: {
+      en: 'Fossil',
+      bg: 'Фосил'
+    },
+    color: {
+      en: 'Black/Grey',
+      bg: 'Черно/Сиво'
+    },
+    dimensions: '42-64 x 33-47, H: 15',
+    weight: '22 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Fossil',
+    category: 'fossil',
+    salesCount: 33,
+    image: '/assets/fosil-sink-images/d1.jpg',
+    date: '2024-02-22',
+    priceEur: 750,
+    priceBgn: 1465,
+    createdAt: new Date('2024-02-22'),
+    updatedAt: new Date('2024-02-22')
+  },
+  // Type 9.1 - Marble
+  {
+    id: '13',
+    model: {
+      en: 'Type 9.1',
+      bg: 'Вид 9.1'
+    },
+    title: {
+      en: 'Marble Flush Mount Sink',
+      bg: 'Мраморна вградена мивка'
+    },
+    description: {
+      en: 'Rectangular',
+      bg: 'Правоъгълна'
+    },
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Grey',
+      bg: 'Сив'
+    },
+    dimensions: '50 x 40, H: 16',
+    weight: '27 kg',
+    mounting: {
+      en: 'Flush mount',
+      bg: 'Вграден монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Flush',
+    category: 'marble',
+    salesCount: 26,
+    image: '/assets/marble-sink-images/901.jpg',
+    date: '2024-02-25',
+    priceEur: 750,
+    priceBgn: 1465,
+    createdAt: new Date('2024-02-25'),
+    updatedAt: new Date('2024-02-25')
+  },
+  // Type 10.1 - Marble
+  {
+    id: '14',
+    model: {
+      en: 'Type 10.1',
+      bg: 'Вид 10.1'
+    },
+    title: {
+      en: 'Marble Donut Sink',
+      bg: 'Мраморна поничка мивка'
+    },
+    description: {
+      en: 'Polished, Donut',
+      bg: 'Полирана, Поничка'
+    },
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Black',
+      bg: 'Черен'
+    },
+    dimensions: 'Ø: 44, H: 15',
+    weight: '20 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Donut',
+    category: 'marble',
+    salesCount: 19,
+    image: '/assets/marble-sink-images/1001.jpg',
+    date: '2024-02-28',
+    priceEur: 750,
+    priceBgn: 1465,
+    createdAt: new Date('2024-02-28'),
+    updatedAt: new Date('2024-02-28')
+  },
+  // Type 11.1 - Marble
+  {
+    id: '15',
+    model: {
+      en: 'Type 11.1',
+      bg: 'Вид 11.1'
+    },
+    title: {
+      en: 'Marble Bowl Black',
+      bg: 'Мраморна купа черна'
+    },
+    description: {
+      en: 'Bowl, Polished',
+      bg: 'Купа Полирана'
+    },
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Black',
+      bg: 'Черен'
+    },
+    dimensions: 'Ø: 40, H: 15',
+    weight: '17 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Bowl',
+    category: 'marble',
+    salesCount: 24,
+    image: '/assets/marble-sink-images/1101.jpg',
+    date: '2024-03-02',
+    priceEur: 750,
+    priceBgn: 1465,
+    createdAt: new Date('2024-03-02'),
+    updatedAt: new Date('2024-03-02')
+  },
+  // Type 11.2 - Marble
+  {
+    id: '16',
+    model: {
+      en: 'Type 11.2',
+      bg: 'Вид 11.2'
+    },
+    title: {
+      en: 'Marble Bowl Cream',
+      bg: 'Мраморна купа крем'
+    },
+    description: {
+      en: 'Bowl, Polished',
+      bg: 'Купа Полирана'
+    },
+    material: {
+      en: 'Marble',
+      bg: 'Мрамор'
+    },
+    color: {
+      en: 'Cream',
+      bg: 'Крем'
+    },
+    dimensions: 'Ø: 40, H: 15',
+    weight: '17 kg',
+    mounting: {
+      en: 'Top mount',
+      bg: 'Горен монтаж'
+    },
+    manufacture: {
+      en: 'hand-made',
+      bg: 'ръчен труд'
+    },
+    tag: 'Bowl',
+    category: 'marble',
+    salesCount: 22,
+    image: '/assets/marble-sink-images/1102.jpg',
+    date: '2024-03-05',
+    priceEur: 750,
+    priceBgn: 1465,
+    createdAt: new Date('2024-03-05'),
+    updatedAt: new Date('2024-03-05')
   }
 ];
 

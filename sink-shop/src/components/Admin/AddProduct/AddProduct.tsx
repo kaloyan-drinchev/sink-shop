@@ -2,12 +2,22 @@ import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface ProductForm {
+  modelEn: string;
+  modelBg: string;
   titleEn: string;
   titleBg: string;
   descriptionEn: string;
   descriptionBg: string;
+  materialEn: string;
+  materialBg: string;
+  colorEn: string;
+  colorBg: string;
+  dimensions: string;
+  weight: string;
+  mountingEn: string;
+  mountingBg: string;
   tag: string;
-  category: 'fossil' | 'riverStone';
+  category: 'fossil' | 'riverStone' | 'marble' | 'onyx';
   priceEur: number;
   priceBgn: number;
   image: File | null;
@@ -15,14 +25,24 @@ interface ProductForm {
 
 function AddProduct() {
   const [form, setForm] = useState<ProductForm>({
+    modelEn: '',
+    modelBg: '',
     titleEn: '',
     titleBg: '',
     descriptionEn: '',
     descriptionBg: '',
+    materialEn: '',
+    materialBg: '',
+    colorEn: '',
+    colorBg: '',
+    dimensions: '',
+    weight: '',
+    mountingEn: 'Top mount',
+    mountingBg: 'Горен монтаж',
     tag: '',
     category: 'fossil',
-    priceEur: 0,
-    priceBgn: 0,
+    priceEur: 750,
+    priceBgn: 1465,
     image: null
   });
 
@@ -103,8 +123,16 @@ function AddProduct() {
 
     try {
       // Validation
-      if (!form.titleEn || !form.titleBg || !form.descriptionEn || !form.descriptionBg) {
-        throw new Error('All title and description fields are required');
+      if (!form.modelEn || !form.modelBg || !form.titleEn || !form.titleBg || !form.descriptionEn || !form.descriptionBg) {
+        throw new Error('All model, title and description fields are required');
+      }
+
+      if (!form.materialEn || !form.materialBg || !form.colorEn || !form.colorBg) {
+        throw new Error('All material and color fields are required');
+      }
+
+      if (!form.dimensions || !form.weight) {
+        throw new Error('Dimensions and weight are required');
       }
 
       if (!form.image) {
@@ -118,10 +146,20 @@ function AddProduct() {
       // Create FormData for file upload
       const formData = new FormData();
       formData.append('image', form.image);
+      formData.append('modelEn', form.modelEn);
+      formData.append('modelBg', form.modelBg);
       formData.append('titleEn', form.titleEn);
       formData.append('titleBg', form.titleBg);
       formData.append('descriptionEn', form.descriptionEn);
       formData.append('descriptionBg', form.descriptionBg);
+      formData.append('materialEn', form.materialEn);
+      formData.append('materialBg', form.materialBg);
+      formData.append('colorEn', form.colorEn);
+      formData.append('colorBg', form.colorBg);
+      formData.append('dimensions', form.dimensions);
+      formData.append('weight', form.weight);
+      formData.append('mountingEn', form.mountingEn);
+      formData.append('mountingBg', form.mountingBg);
       formData.append('tag', form.tag);
       formData.append('category', form.category);
       formData.append('priceEur', form.priceEur.toString());
@@ -180,7 +218,7 @@ function AddProduct() {
             <form onSubmit={handleSubmit} className="space-y-6 p-6">
               
               {/* Image Upload */}
-              <div>
+              <div className="mx-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Product Image *
                 </label>
@@ -255,87 +293,294 @@ function AddProduct() {
                 </div>
               </div>
 
+              {/* Model Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
+                <div>
+                  <label htmlFor="modelEn" className="block text-sm font-medium text-gray-700">
+                    Model (English) *
+                  </label>
+                  <input
+                    type="text"
+                    name="modelEn"
+                    id="modelEn"
+                    required
+                    minLength={2}
+                    maxLength={20}
+                    pattern="^Type\s+\d+(\.\d+)?$"
+                    value={form.modelEn}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Type 1.1"
+                    title="Format: Type X.X (e.g., Type 1.1, Type 10.2)"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="modelBg" className="block text-sm font-medium text-gray-700">
+                    Model (Bulgarian) *
+                  </label>
+                  <input
+                    type="text"
+                    name="modelBg"
+                    id="modelBg"
+                    required
+                    minLength={2}
+                    maxLength={20}
+                    pattern="^Вид\s+\d+(\.\d+)?$"
+                    value={form.modelBg}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Вид 1.1"
+                    title="Формат: Вид X.X (напр., Вид 1.1, Вид 10.2)"
+                  />
+                </div>
+              </div>
+
               {/* Title Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
                 <div>
                   <label htmlFor="titleEn" className="block text-sm font-medium text-gray-700">
-                    Title (English) *
+                    Title (English) * <span className="text-xs text-gray-500">(5-100 chars)</span>
                   </label>
                   <input
                     type="text"
                     name="titleEn"
                     id="titleEn"
                     required
+                    minLength={5}
+                    maxLength={100}
                     value={form.titleEn}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Premium Oak Kitchen Sink"
                   />
                 </div>
                 <div>
                   <label htmlFor="titleBg" className="block text-sm font-medium text-gray-700">
-                    Title (Bulgarian) *
+                    Title (Bulgarian) * <span className="text-xs text-gray-500">(5-100 chars)</span>
                   </label>
                   <input
                     type="text"
                     name="titleBg"
                     id="titleBg"
                     required
+                    minLength={5}
+                    maxLength={100}
                     value={form.titleBg}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Премиум дъбова кухненска мивка"
                   />
                 </div>
               </div>
 
               {/* Description Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
                 <div>
                   <label htmlFor="descriptionEn" className="block text-sm font-medium text-gray-700">
-                    Description (English) *
+                    Description (English) * <span className="text-xs text-gray-500">(10-500 chars)</span>
                   </label>
                   <textarea
                     name="descriptionEn"
                     id="descriptionEn"
                     rows={4}
                     required
+                    minLength={10}
+                    maxLength={500}
                     value={form.descriptionEn}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Handcrafted solid oak kitchen sink..."
                   />
                 </div>
                 <div>
                   <label htmlFor="descriptionBg" className="block text-sm font-medium text-gray-700">
-                    Description (Bulgarian) *
+                    Description (Bulgarian) * <span className="text-xs text-gray-500">(10-500 chars)</span>
                   </label>
                   <textarea
                     name="descriptionBg"
                     id="descriptionBg"
                     rows={4}
                     required
+                    minLength={10}
+                    maxLength={500}
                     value={form.descriptionBg}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Ръчно изработена дъбова кухненска мивка..."
                   />
                 </div>
               </div>
 
+              {/* Material Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
+                <div>
+                  <label htmlFor="materialEn" className="block text-sm font-medium text-gray-700">
+                    Material (English) * <span className="text-xs text-gray-500">(2-50 chars)</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="materialEn"
+                    id="materialEn"
+                    required
+                    minLength={2}
+                    maxLength={50}
+                    value={form.materialEn}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="River Stone"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="materialBg" className="block text-sm font-medium text-gray-700">
+                    Material (Bulgarian) * <span className="text-xs text-gray-500">(2-50 chars)</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="materialBg"
+                    id="materialBg"
+                    required
+                    minLength={2}
+                    maxLength={50}
+                    value={form.materialBg}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Речен камък"
+                  />
+                </div>
+              </div>
+
+              {/* Color Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
+                <div>
+                  <label htmlFor="colorEn" className="block text-sm font-medium text-gray-700">
+                    Color (English) * <span className="text-xs text-gray-500">(2-50 chars)</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="colorEn"
+                    id="colorEn"
+                    required
+                    minLength={2}
+                    maxLength={50}
+                    value={form.colorEn}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Dark Grey/Grey"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="colorBg" className="block text-sm font-medium text-gray-700">
+                    Color (Bulgarian) * <span className="text-xs text-gray-500">(2-50 chars)</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="colorBg"
+                    id="colorBg"
+                    required
+                    minLength={2}
+                    maxLength={50}
+                    value={form.colorBg}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Тъмно сиво/Сиво"
+                  />
+                </div>
+              </div>
+
+              {/* Dimensions and Weight */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
+                <div>
+                  <label htmlFor="dimensions" className="block text-sm font-medium text-gray-700">
+                    Dimensions *
+                  </label>
+                  <input
+                    type="text"
+                    name="dimensions"
+                    id="dimensions"
+                    required
+                    minLength={5}
+                    maxLength={100}
+                    pattern="^(L:\s*\d+(-\d+)?,\s*W:\s*\d+(-\d+)?,\s*H:\s*\d+|Ø:\s*\d+,\s*H:\s*\d+).*$"
+                    value={form.dimensions}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="L: 40-60, W: 31-50, H: 15"
+                    title="Format: L: X-Y, W: X-Y, H: Z or Ø: X, H: Y"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="weight" className="block text-sm font-medium text-gray-700">
+                    Weight *
+                  </label>
+                  <input
+                    type="text"
+                    name="weight"
+                    id="weight"
+                    required
+                    minLength={3}
+                    maxLength={20}
+                    pattern="^(\d+(-\d+)?\s*kg|\d+\s*kg)$"
+                    value={form.weight}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="18-30 kg"
+                    title="Format: X kg or X-Y kg"
+                  />
+                </div>
+              </div>
+
+              {/* Mounting Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
+                <div>
+                  <label htmlFor="mountingEn" className="block text-sm font-medium text-gray-700">
+                    Mounting Type (English) *
+                  </label>
+                  <select
+                    name="mountingEn"
+                    id="mountingEn"
+                    required
+                    value={form.mountingEn}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="Top mount">Top mount</option>
+                    <option value="Floor mount">Floor mount</option>
+                    <option value="Flush mount">Flush mount</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="mountingBg" className="block text-sm font-medium text-gray-700">
+                    Mounting Type (Bulgarian) *
+                  </label>
+                  <select
+                    name="mountingBg"
+                    id="mountingBg"
+                    required
+                    value={form.mountingBg}
+                    onChange={handleInputChange}
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="Горен монтаж">Горен монтаж</option>
+                    <option value="Подов монтаж">Подов монтаж</option>
+                    <option value="Вграден монтаж">Вграден монтаж</option>
+                  </select>
+                </div>
+              </div>
+
               {/* Tag and Category */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
                 <div>
                   <label htmlFor="tag" className="block text-sm font-medium text-gray-700">
-                    Tag
+                    Tag <span className="text-xs text-gray-500">(optional, max 30 chars)</span>
                   </label>
                   <input
                     type="text"
                     name="tag"
                     id="tag"
+                    maxLength={30}
                     value={form.tag}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Premium, Luxury, Natural..."
                   />
                 </div>
@@ -349,16 +594,18 @@ function AddProduct() {
                     required
                     value={form.category}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="fossil">Fossil</option>
                     <option value="riverStone">River Stone</option>
+                    <option value="marble">Marble</option>
+                    <option value="onyx">Onyx</option>
                   </select>
                 </div>
               </div>
 
               {/* Price Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
                 <div>
                   <label htmlFor="priceEur" className="block text-sm font-medium text-gray-700">
                     Price (EUR) *
@@ -371,13 +618,14 @@ function AddProduct() {
                       type="number"
                       name="priceEur"
                       id="priceEur"
-                      min="0"
+                      min="1"
+                      max="10000"
                       step="0.01"
                       required
                       value={form.priceEur}
                       onChange={handleInputChange}
-                      className="pl-7 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="0.00"
+                      className="pl-7 pr-3 py-2 mx-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="750.00"
                     />
                   </div>
                 </div>
@@ -393,13 +641,14 @@ function AddProduct() {
                       type="number"
                       name="priceBgn"
                       id="priceBgn"
-                      min="0"
+                      min="2"
+                      max="20000"
                       step="0.01"
                       required
                       value={form.priceBgn}
                       onChange={handleInputChange}
-                      className="pl-8 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="0.00"
+                      className="pl-8 pr-3 py-2 mx-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="1465.00"
                     />
                   </div>
                 </div>
@@ -407,13 +656,13 @@ function AddProduct() {
 
               {/* Error Message */}
               {error && (
-                <div className="text-red-600 text-sm bg-red-50 p-3 rounded">
+                <div className="text-red-600 text-sm bg-red-50 p-3 rounded mx-2">
                   {error}
                 </div>
               )}
 
               {/* Submit Button */}
-              <div className="flex justify-end space-x-3 pt-6 border-t">
+              <div className="flex justify-end space-x-3 pt-6 border-t mx-2">
                 <button
                   type="button"
                   onClick={() => navigate('/admin-portal/dashboard')}

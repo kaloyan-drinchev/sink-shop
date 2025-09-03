@@ -46,6 +46,8 @@ function AppContent() {
         <Route path="/sink/:id" element={<SingleSinkView />} />
         <Route path="/category/fossil" element={<Home />} />
         <Route path="/category/river-stone" element={<Home />} />
+        <Route path="/category/marble" element={<Home />} />
+        <Route path="/category/onyx" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<div className="p-6 text-center"><h2 className="text-2xl font-bold">Checkout - Coming Soon!</h2></div>} />
         

@@ -5,10 +5,17 @@ export interface ProductTranslation {
 
 export interface Product {
   id: string;
+  model: ProductTranslation; // Type 1.1, Type 2.1, etc.
   title: ProductTranslation;
   description: ProductTranslation;
+  material: ProductTranslation; // River Stone, Marble, Onyx, Fossil
+  color: ProductTranslation; // Dark Grey/Grey, Black, Cream, etc.
+  dimensions: string; // L: 40-60, W: 31-50, H: 15 or Ø: 40, H: 90
+  weight: string; // 18-30 kg or 25 kg
+  mounting: ProductTranslation; // Top mount, Floor mount, Flush mount
+  manufacture: ProductTranslation; // hand-made / ръчен труд
   tag: string;
-  category: string;
+  category: string; // riverStone, marble, onyx, fossil
   salesCount: number;
   image: string;
   date: string;

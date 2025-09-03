@@ -43,6 +43,14 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
     {
       to: '/category/river-stone',
       label: t('categories.riverStone')
+    },
+    {
+      to: '/category/marble',
+      label: t('categories.marble')
+    },
+    {
+      to: '/category/onyx',
+      label: t('categories.onyx')
     }
   ], [t])
   
@@ -69,11 +77,21 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
       delay: 400
     },
     {
+      to: '/category/marble',
+      label: t('categories.marble'),
+      delay: 500
+    },
+    {
+      to: '/category/onyx',
+      label: t('categories.onyx'),
+      delay: 600
+    },
+    {
       to: '/cart',
       label: t('navigation.cart'),
       icon: paperBagIcon,
       badge: cartCount > 0 ? cartCount : undefined,
-      delay: 600
+      delay: 700
     }
   ], [t, cartCount])
   

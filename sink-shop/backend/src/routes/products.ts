@@ -44,7 +44,11 @@ productsRouter.get('/:id', async (req, res, next) => {
 // POST /api/products - Create new product (admin only)
 productsRouter.post('/', authMiddleware, adminMiddleware, upload.single('image'), async (req: AuthRequest, res, next) => {
   try {
-    const { titleEn, titleBg, descriptionEn, descriptionBg, tag, category, priceEur, priceBgn } = req.body;
+    const { 
+      modelEn, modelBg, titleEn, titleBg, descriptionEn, descriptionBg,
+      materialEn, materialBg, colorEn, colorBg, dimensions, weight,
+      mountingEn, mountingBg, tag, category, priceEur, priceBgn 
+    } = req.body;
     
     if (!req.file) {
       return next(createError('Product image is required', 400));
@@ -54,6 +58,10 @@ productsRouter.post('/', authMiddleware, adminMiddleware, upload.single('image')
     const imageUrl = `/uploads/${req.file.filename}`;
 
     const productData = {
+      model: {
+        en: modelEn,
+        bg: modelBg
+      },
       title: {
         en: titleEn,
         bg: titleBg
@@ -61,6 +69,24 @@ productsRouter.post('/', authMiddleware, adminMiddleware, upload.single('image')
       description: {
         en: descriptionEn,
         bg: descriptionBg
+      },
+      material: {
+        en: materialEn,
+        bg: materialBg
+      },
+      color: {
+        en: colorEn,
+        bg: colorBg
+      },
+      dimensions: dimensions,
+      weight: weight,
+      mounting: {
+        en: mountingEn,
+        bg: mountingBg
+      },
+      manufacture: {
+        en: 'hand-made',
+        bg: 'ръчен труд'
       },
       tag: tag || '',
       category,
@@ -82,9 +108,17 @@ productsRouter.post('/', authMiddleware, adminMiddleware, upload.single('image')
 productsRouter.put('/:id', authMiddleware, adminMiddleware, upload.single('image'), async (req: AuthRequest, res, next) => {
   try {
     const { id } = req.params;
-    const { titleEn, titleBg, descriptionEn, descriptionBg, tag, category, priceEur, priceBgn } = req.body;
+    const { 
+      modelEn, modelBg, titleEn, titleBg, descriptionEn, descriptionBg,
+      materialEn, materialBg, colorEn, colorBg, dimensions, weight,
+      mountingEn, mountingBg, tag, category, priceEur, priceBgn 
+    } = req.body;
     
     let updateData: any = {
+      model: {
+        en: modelEn,
+        bg: modelBg
+      },
       title: {
         en: titleEn,
         bg: titleBg
@@ -92,6 +126,24 @@ productsRouter.put('/:id', authMiddleware, adminMiddleware, upload.single('image
       description: {
         en: descriptionEn,
         bg: descriptionBg
+      },
+      material: {
+        en: materialEn,
+        bg: materialBg
+      },
+      color: {
+        en: colorEn,
+        bg: colorBg
+      },
+      dimensions: dimensions,
+      weight: weight,
+      mounting: {
+        en: mountingEn,
+        bg: mountingBg
+      },
+      manufacture: {
+        en: 'hand-made',
+        bg: 'ръчен труд'
       },
       tag: tag || '',
       category,

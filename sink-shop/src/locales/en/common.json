@@ -24,7 +24,14 @@
     "salesCount": "sold",
     "category": "Category",
     "dateAdded": "Date Added",
-    "productId": "Product ID"
+    "productId": "Product ID",
+    "model": "Model",
+    "material": "Material",
+    "color": "Color",
+    "dimensions": "Dimensions",
+    "weight": "Weight",
+    "mounting": "Mounting Type",
+    "manufacture": "Manufacture"
   },
   "toast": {
     "addedToCart": "Added to Cart!",
@@ -68,11 +75,15 @@
   },
   "categories": {
     "fossil": "Fossil",
-    "riverStone": "River Stone"
+    "riverStone": "River Stone",
+    "marble": "Marble",
+    "onyx": "Onyx"
   },
   "categoryDescriptions": {
     "fossil": "Browse our collection of fossil sinks",
-    "riverStone": "Browse our collection of river stone sinks"
+    "riverStone": "Browse our collection of river stone sinks",
+    "marble": "Browse our collection of marble sinks",
+    "onyx": "Browse our collection of onyx sinks"
   },
   "banner": {
     "text": "Quality Sinks"
@@ -84,6 +95,17 @@
     "for": "for",
     "noResults": "No results found for",
     "clearSearch": "Clear Search"
+  },
+  "mounting": {
+    "topMount": "Top mount",
+    "floorMount": "Floor mount",
+    "flushMount": "Flush mount"
+  },
+  "materials": {
+    "riverStone": "River Stone",
+    "marble": "Marble",
+    "onyx": "Onyx",
+    "fossil": "Fossil"
   },
   "sinks": {
           "sink1": {

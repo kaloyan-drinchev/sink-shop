@@ -44,7 +44,9 @@ function Home() {
   // Map route categories to data categories
   const categoryMap: Record<string, string> = {
     'fossil': 'fossil',
-    'river-stone': 'riverStone'
+    'river-stone': 'riverStone',
+    'marble': 'marble',
+    'onyx': 'onyx'
   }
   
   const currentCategory = routeCategory ? categoryMap[routeCategory] : null
@@ -61,6 +63,10 @@ function Home() {
         return "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Fossil sink collection
       case 'riverStone':
         return "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // River stone bathroom
+      case 'marble':
+        return "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Marble bathroom
+      case 'onyx':
+        return "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Onyx stone texture
       default:
         return "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
     }

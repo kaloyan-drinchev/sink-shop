@@ -159,9 +159,33 @@ function SingleSinkView() {
               {t('product.specifications')}
             </h3>
             <div className="space-y-2">
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-gray-600">{t('product.model')}</span>
+                <span className="font-medium">{localizedProduct.model}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-gray-600">{t('product.material')}</span>
+                <span className="font-medium">{localizedProduct.material}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-gray-600">{t('product.color')}</span>
+                <span className="font-medium">{localizedProduct.color}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-gray-600">{t('product.dimensions')}</span>
+                <span className="font-medium">{product.dimensions}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-gray-600">{t('product.weight')}</span>
+                <span className="font-medium">{product.weight}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-gray-600">{t('product.mounting')}</span>
+                <span className="font-medium">{localizedProduct.mounting}</span>
+              </div>
               <div className="flex justify-between py-2">
-                <span className="text-gray-600">{t('product.category')}</span>
-                <span className="font-medium">{t(`categories.${product.category}`)}</span>
+                <span className="text-gray-600">{t('product.manufacture')}</span>
+                <span className="font-medium">{localizedProduct.manufacture}</span>
               </div>
             </div>
           </div>
