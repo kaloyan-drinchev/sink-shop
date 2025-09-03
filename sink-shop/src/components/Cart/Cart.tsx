@@ -87,7 +87,14 @@ const Cart: React.FC = () => {
             
             return (
               <div key={item.id} className="cart-item">
-                <img src={item.image} alt={currentTitle} className="cart-item-image" />
+                <img 
+                  src={item.image.startsWith('/assets/') ? item.image : `http://localhost:3001${item.image}`} 
+                  alt={currentTitle} 
+                  className="cart-item-image"
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/placeholder-sink.jpg';
+                  }}
+                />
                 
                 <div className="cart-item-details">
                   <h3>{currentTitle}</h3>

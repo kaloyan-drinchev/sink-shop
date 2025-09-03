@@ -107,6 +107,19 @@
     "onyx": "Onyx",
     "fossil": "Fossil"
   },
+  "tags": {
+    "Natural": "Natural",
+    "Polished": "Polished",
+    "Rough": "Rough",
+    "Square": "Square",
+    "Rectangular": "Rectangular",
+    "Oval": "Oval",
+    "Tower": "Tower",
+    "Bowl": "Bowl",
+    "Fossil": "Fossil",
+    "Flush": "Flush",
+    "Donut": "Donut"
+  },
   "sinks": {
           "sink1": {
         "id": "1",

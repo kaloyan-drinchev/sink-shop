@@ -102,7 +102,7 @@ function SingleSinkView() {
           onClick={() => navigate('/')}
           className="text-blue-500 hover:text-blue-700 font-medium flex items-center gap-2"
         >
-          ← Back to Products
+          ← {t('navigation.allProducts')}
         </button>
       </nav>
 
@@ -126,7 +126,7 @@ function SingleSinkView() {
           {/* Tags and Category */}
           <div className="flex gap-3 mb-4">
             <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded">
-              {product.tag}
+              {product.tag && t(`tags.${product.tag}`, product.tag)}
             </span>
             <span className="bg-gray-100 text-gray-700 text-sm font-medium px-3 py-1 rounded">
               {t(`categories.${product.category}`)}

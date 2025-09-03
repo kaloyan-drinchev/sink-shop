@@ -60,7 +60,7 @@ function SinkCard({ product, onClick }: SinkCardProps) {
         {/* Tag and Category */}
         <div className="flex justify-between items-center mb-2">
           <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-            {product.tag}
+            {product.tag && t(`tags.${product.tag}`, product.tag)}
           </span>
           <span className="text-gray-500 text-xs">
             {t(`categories.${product.category}`)}
