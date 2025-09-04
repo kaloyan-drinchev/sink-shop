@@ -14,6 +14,10 @@ export const config = {
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || '',
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || '',
   
+  // Email configuration
+  EMAIL_USER: process.env.EMAIL_USER || '',
+  EMAIL_PASS: process.env.EMAIL_PASS || '',
+  
   // Mock data mode (switch to false when PostgreSQL is ready)
   USE_MOCK_DATA: process.env.USE_MOCK_DATA === 'false' ? false : true,
 };

@@ -847,4 +847,35 @@ export class MockDataService {
     mockOrders.push(newOrder);
     return newOrder;
   }
+
+  // Update product stock/sales count
+  static async updateProductStock(productId: string, quantityChange: number): Promise<boolean> {
+    const product = mockProducts.find(p => p.id === productId);
+    if (!product) return false;
+
+    // For mock data, we'll update the sales count
+    // In a real database, you'd have separate stock and sales fields
+    if (quantityChange < 0) {
+      // Negative quantity means items were sold, increase sales count
+      product.salesCount += Math.abs(quantityChange);
+      product.updatedAt = new Date();
+    }
+
+    return true;
+  }
+
+  // Get all orders (for admin)
+  static async getAllOrders(): Promise<Order[]> {
+    return [...mockOrders];
+  }
+
+  // Update order status
+  static async updateOrderStatus(orderId: string, status: Order['status']): Promise<Order | null> {
+    const order = mockOrders.find(o => o.id === orderId);
+    if (!order) return null;
+
+    order.status = status;
+    order.updatedAt = new Date();
+    return order;
+  }
 }

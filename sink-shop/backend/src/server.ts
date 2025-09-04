@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -13,6 +14,7 @@ import { cartRouter } from './routes/cart.js';
 import { ordersRouter } from './routes/orders.js';
 import { authRouter } from './routes/auth.js';
 import { adminRouter } from './routes/admin.js';
+import { paymentRouter } from './routes/payment.js';
 
 const app = express();
 
@@ -34,11 +36,14 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Email functionality removed - orders will be tracked in admin panel only
+
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/cart', authMiddleware, cartRouter);
 app.use('/api/orders', authMiddleware, ordersRouter);
+app.use('/api/payment', paymentRouter); // No auth required for guest checkout
 app.use('/api/admin', authMiddleware, adminRouter);
 
 // Error handling

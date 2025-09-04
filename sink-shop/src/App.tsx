@@ -3,6 +3,7 @@ import { Home, NavBar, SingleSinkView, SideNavBar, TopBar, Cart } from './compon
 import { CartProvider } from './contexts/CartContext'
 import { FilterProvider } from './components/NavBar/NavBar'
 import { SearchProvider } from './contexts/SearchContext'
+import Checkout from './components/Checkout/Checkout'
 import AdminLogin from './components/Admin/AdminLogin/AdminLogin'
 import AdminDashboard from './components/Admin/AdminDashboard/AdminDashboard'
 import AddProduct from './components/Admin/AddProduct/AddProduct'
@@ -12,8 +13,9 @@ function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const isHomePage = location.pathname === '/'
   const isCartPage = location.pathname === '/cart'
+  const isCheckoutPage = location.pathname === '/checkout'
   const isAdminRoute = location.pathname.startsWith('/admin-portal')
-  const shouldHideSideBar = isHomePage || isCartPage || isAdminRoute
+  const shouldHideSideBar = isHomePage || isCartPage || isCheckoutPage || isAdminRoute
 
   return (
     <div className="min-h-screen">
@@ -50,7 +52,7 @@ function AppContent() {
         <Route path="/category/marble" element={<Home />} />
         <Route path="/category/onyx" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<div className="p-6 text-center"><h2 className="text-2xl font-bold">Checkout - Coming Soon!</h2></div>} />
+        <Route path="/checkout" element={<Checkout />} />
         
         {/* Hidden Admin Routes */}
         <Route path="/admin-portal" element={<AdminLogin />} />

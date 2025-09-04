@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { apiService, type ApiProduct } from '../../../services/apiService';
+import OrdersView from '../OrdersView/OrdersView';
 import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 
 function AdminDashboard() {
@@ -10,6 +11,7 @@ function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'products' | 'orders'>('products');
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
@@ -163,17 +165,45 @@ function AdminDashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          {error ? (
-            <div className="text-red-600 text-center bg-red-50 p-4 rounded">
-              {error}
-            </div>
-          ) : (
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <div className="px-4 py-5 sm:p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    {t('admin.products')} ({filteredProducts.length}/{products.length})
-                  </h3>
+          {/* Tab Navigation */}
+          <div className="mb-6">
+            <nav className="flex space-x-8 border-b border-gray-200">
+              <button
+                onClick={() => setActiveTab('products')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                  activeTab === 'products'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                {t('admin.products')} ({products.length})
+              </button>
+              <button
+                onClick={() => setActiveTab('orders')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                  activeTab === 'orders'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                {t('admin.ordersSales')}
+              </button>
+            </nav>
+          </div>
+
+          {activeTab === 'products' ? (
+            /* Products Section */
+            error ? (
+              <div className="text-red-600 text-center bg-red-50 p-4 rounded">
+                {error}
+              </div>
+            ) : (
+              <div className="bg-white shadow overflow-hidden sm:rounded-md">
+                <div className="px-4 py-5 sm:p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                      {t('admin.products')} ({filteredProducts.length}/{products.length})
+                    </h3>
                   <div className="relative">
                     <input
                       type="text"
@@ -309,6 +339,10 @@ function AdminDashboard() {
                 )}
               </div>
             </div>
+            )
+          ) : (
+            /* Orders Section */
+            <OrdersView />
           )}
         </div>
       </main>

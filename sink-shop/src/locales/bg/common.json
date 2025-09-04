@@ -62,6 +62,38 @@
     "confirmRemoveButton": "Да, Премахни",
     "keepItem": "Запази Артикула"
   },
+  "checkout": {
+    "title": "Плащане",
+    "orderSummary": "Обобщение на Поръчката",
+    "shippingInfo": "Информация за Доставка",
+    "paymentInfo": "Информация за Плащане",
+    "firstName": "Име",
+    "lastName": "Фамилия",
+    "email": "Имейл Адрес",
+    "phone": "Телефонен Номер",
+    "address": "Адрес",
+    "city": "Град",
+    "postalCode": "Пощенски Код",
+    "country": "Държава",
+    "cardNumber": "Номер на Картата",
+    "expiryDate": "ММ/ГГ",
+    "cvv": "CVV",
+    "cardholderName": "Име на Картодържателя",
+    "placeOrder": "Направи Поръчка",
+    "processing": "Обработва...",
+    "backToCart": "Обратно към Количката",
+    "orderTotal": "Общо за Поръчката",
+    "subtotal": "Междинна Сума",
+    "shipping": "Доставка",
+    "free": "Безплатно",
+    "requiredField": "Това поле е задължително",
+    "invalidEmail": "Моля въведете валиден имейл адрес",
+    "invalidCard": "Моля въведете валиден номер на карта",
+    "orderSuccess": "Поръчката е Направена Успешно!",
+    "orderSuccessMessage": "Благодарим за поръчката. Вашата поръчка е получена и ще бъде обработена скоро.",
+    "orderNumber": "Номер на Поръчката",
+    "mockPaymentNotice": "Това е тестово плащане. Няма да се извършват реални начисления."
+  },
   "filters": {
     "category": "Категория",
     "priceRange": "Ценови Диапазон",
@@ -146,7 +178,28 @@
     "edit": "Редактирай",
     "delete": "Изтрий",
     "confirmDelete": "Сигурни ли сте, че искате да изтриете този продукт?",
-    "deleteError": "Неуспешно изтриване на продукта"
+    "deleteError": "Неуспешно изтриване на продукта",
+    "orders": "Поръчки",
+    "totalOrders": "Общо Поръчки",
+    "order": "Поръчка",
+    "customerInfo": "Информация за Клиента",
+    "items": "Артикули",
+    "noOrders": "Няма намерени поръчки",
+    "quantity": "Кол-во",
+    "ordersSales": "Поръчки и Продажби",
+    "orderStatuses": {
+      "pending": "Очакваща",
+      "processing": "Обработва се", 
+      "shipped": "Изпратена",
+      "delivered": "Доставена",
+      "cancelled": "Отказана"
+    },
+    "paymentStatuses": {
+      "pending": "Очаква плащане",
+      "paid": "Платено",
+      "failed": "Неуспешно",
+      "refunded": "Възстановено"
+    }
   },
   "sinks": {
     "sink1": {

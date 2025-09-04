@@ -62,6 +62,38 @@
     "confirmRemoveButton": "Yes, Remove",
     "keepItem": "Keep Item"
   },
+  "checkout": {
+    "title": "Checkout",
+    "orderSummary": "Order Summary",
+    "shippingInfo": "Shipping Information",
+    "paymentInfo": "Payment Information", 
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "address": "Street Address",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "country": "Country",
+    "cardNumber": "Card Number",
+    "expiryDate": "MM/YY",
+    "cvv": "CVV",
+    "cardholderName": "Cardholder Name",
+    "placeOrder": "Place Order",
+    "processing": "Processing...",
+    "backToCart": "Back to Cart",
+    "orderTotal": "Order Total",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "requiredField": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidCard": "Please enter a valid card number",
+    "orderSuccess": "Order Placed Successfully!",
+    "orderSuccessMessage": "Thank you for your order. Your order has been received and will be processed soon.",
+    "orderNumber": "Order Number",
+    "mockPaymentNotice": "This is a test payment. No real charges will be made."
+  },
   "filters": {
     "category": "Category",
     "priceRange": "Price Range",
@@ -146,7 +178,28 @@
     "edit": "Edit",
     "delete": "Delete",
     "confirmDelete": "Are you sure you want to delete this product?",
-    "deleteError": "Failed to delete product"
+    "deleteError": "Failed to delete product",
+    "orders": "Orders",
+    "totalOrders": "Total Orders",
+    "order": "Order",
+    "customerInfo": "Customer Info",
+    "items": "Items",
+    "noOrders": "No orders found",
+    "quantity": "Qty",
+    "ordersSales": "Orders & Sales",
+    "orderStatuses": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped", 
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "paymentStatuses": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "failed": "Failed",
+      "refunded": "Refunded"
+    }
   },
   "sinks": {
           "sink1": {
