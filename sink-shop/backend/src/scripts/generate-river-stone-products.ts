@@ -86,12 +86,12 @@ const generateRiverStoneProducts = async () => {
             bg: `Вид R${imageNumber}`,
           }),
           JSON.stringify({
-            en: `River Stone Sink ${serialNumber}`,
-            bg: `Речна каменна мивка ${serialNumber}`,
+            en: "River Stone Sink",
+            bg: "Речна каменна мивка",
           }),
           JSON.stringify({
-            en: "Natural irregular shape",
-            bg: "Естествена неправилна форма",
+            en: "Natural stone sink with unique patterns",
+            bg: "Естествена каменна мивка с уникални шарки",
           }),
           JSON.stringify({
             en: "River Stone",
@@ -106,17 +106,20 @@ const generateRiverStoneProducts = async () => {
             bg: "Горен монтаж",
           }),
           JSON.stringify({
-            en: "hand-made",
-            bg: "ръчен труд",
+            en: "Hand-made",
+            bg: "Ръчен труд",
           }),
           "50 x 30 cm", // Standard dimensions as requested
           "18-30 kg", // Standard weight range
-          "Natural", // Tag
+          JSON.stringify({
+            en: "Natural",
+            bg: "Естествен",
+          }), // Tag
           "riverStone", // Category
           salesCount, // Random sales count
           imagePath, // Image path
-          750.0, // Price EUR
-          1465.0, // Price BGN
+          300.0, // Price EUR
+          585.0, // Price BGN (300 EUR * 1.95 exchange rate)
           slug, // Unique slug
           true, // is_active
           false, // is_featured (can be updated later)

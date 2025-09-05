@@ -8,7 +8,7 @@
     "menu": "Меню"
   },
   "contact": {
-    "email": "contact@sinkshop.com",
+    "email": "contact@artindohome.com",
     "phone": "+359 111 222 333"
   },
   "home": {
@@ -28,7 +28,7 @@
     "model": "Модел",
     "material": "Материал",
     "color": "Цвят",
-    "dimensions": "Размери",
+    "dimensions": "Размери (приблизително)",
     "length": "Дължина",
     "width": "Широчина",
     "height": "Височина",
@@ -138,7 +138,7 @@
   },
   "materials": {
     "riverStone": "Речен камък",
-    "marble": "Мрамор", 
+    "marble": "Мрамор",
     "onyx": "Оникс",
     "fossil": "Фосил"
   },
@@ -189,7 +189,7 @@
     "ordersSales": "Поръчки и Продажби",
     "orderStatuses": {
       "pending": "Очакваща",
-      "processing": "Обработва се", 
+      "processing": "Обработва се",
       "shipped": "Изпратена",
       "delivered": "Доставена",
       "cancelled": "Отказана"
@@ -209,7 +209,7 @@
       "tag": "Премиум",
       "category": "wooden",
       "salesCount": 127,
-              "image": "https://images.unsplash.com/photo-1560448075-bb485b067938?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1560448075-bb485b067938?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2024-01-15",
       "priceEur": 849,
       "priceBgn": 1656
@@ -221,7 +221,7 @@
       "tag": "Луксозна",
       "category": "naturalStone",
       "salesCount": 89,
-              "image": "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2024-02-03",
       "priceEur": 1249,
       "priceBgn": 2436
@@ -233,7 +233,7 @@
       "tag": "Класически",
       "category": "mramor",
       "salesCount": 203,
-              "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2023-12-20",
       "priceEur": 349,
       "priceBgn": 681
@@ -245,7 +245,7 @@
       "tag": "Еко-Дружествена",
       "category": "wooden",
       "salesCount": 156,
-              "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2024-01-28",
       "priceEur": 649,
       "priceBgn": 1266
@@ -257,7 +257,7 @@
       "tag": "Издръжлива",
       "category": "naturalStone",
       "salesCount": 234,
-              "image": "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2024-02-12",
       "priceEur": 549,
       "priceBgn": 1071
@@ -269,7 +269,7 @@
       "tag": "Модерна",
       "category": "mramor",
       "salesCount": 178,
-              "image": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "image": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "date": "2024-01-10",
       "priceEur": 429,
       "priceBgn": 837

@@ -93,12 +93,12 @@ const generateFossilProducts = async () => {
             bg: `Вид F${imageName.replace("d", "")}`,
           }),
           JSON.stringify({
-            en: `Fossil Petrified Wood Sink ${serialNumber}`,
-            bg: `Фосилна вкаменена дърва мивка ${serialNumber}`,
+            en: "Fossil Petrified Wood Sink",
+            bg: "Фосилна вкаменена дървена мивка",
           }),
           JSON.stringify({
-            en: "Petrified wood with natural patterns",
-            bg: "Вкаменено дърво с естествени шарки",
+            en: "Natural stone sink with unique patterns",
+            bg: "Естествена каменна мивка с уникални шарки",
           }),
           JSON.stringify({
             en: "Fossil",
@@ -113,17 +113,20 @@ const generateFossilProducts = async () => {
             bg: "Горен монтаж",
           }),
           JSON.stringify({
-            en: "hand-made",
-            bg: "ръчен труд",
+            en: "Hand-made",
+            bg: "Ръчен труд",
           }),
           "50 x 30 cm", // Standard dimensions like river stone
           "20-25 kg", // Slightly lighter than river stone
-          "Fossil", // Tag
+          JSON.stringify({
+            en: "Fossil",
+            bg: "Фосил",
+          }), // Tag
           "fossil", // Category
           salesCount, // Random sales count
           imagePath, // Image path
-          850.0, // Price EUR (higher than river stone - fossils are premium)
-          1665.0, // Price BGN
+          300.0, // Price EUR
+          585.0, // Price BGN (300 EUR * 1.95 exchange rate)
           slug, // Unique slug
           true, // is_active
           false, // is_featured (can be updated later)

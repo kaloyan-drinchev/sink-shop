@@ -71,7 +71,7 @@ Order Date: ${data.orderDate.toLocaleString()}
 Order Number: ${data.orderNumber}
 
 ---
-Sink Shop Order System
+Artindo Home Order System
     `;
   }
 
@@ -126,10 +126,10 @@ ${orderData.shippingAddress.country}
 
 We will process your order and contact you with shipping details soon.
 
-Thank you for choosing Sink Shop!
+Thank you for choosing Artindo Home!
 
 Best regards,
-Sink Shop Team
+Artindo Home Team
         `,
       };
 

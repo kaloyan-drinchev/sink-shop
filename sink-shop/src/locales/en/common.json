@@ -8,7 +8,7 @@
     "menu": "Menu"
   },
   "contact": {
-    "email": "contact@sinkshop.com",
+    "email": "contact@artindohome.com",
     "phone": "+359 111 222 333"
   },
   "home": {
@@ -28,9 +28,9 @@
     "model": "Model",
     "material": "Material",
     "color": "Color",
-    "dimensions": "Dimensions",
+    "dimensions": "Dimensions (approximately)",
     "length": "Length",
-    "width": "Width", 
+    "width": "Width",
     "height": "Height",
     "weight": "Weight",
     "mounting": "Mounting Type",
@@ -66,7 +66,7 @@
     "title": "Checkout",
     "orderSummary": "Order Summary",
     "shippingInfo": "Shipping Information",
-    "paymentInfo": "Payment Information", 
+    "paymentInfo": "Payment Information",
     "firstName": "First Name",
     "lastName": "Last Name",
     "email": "Email Address",
@@ -190,7 +190,7 @@
     "orderStatuses": {
       "pending": "Pending",
       "processing": "Processing",
-      "shipped": "Shipped", 
+      "shipped": "Shipped",
       "delivered": "Delivered",
       "cancelled": "Cancelled"
     },
@@ -202,77 +202,77 @@
     }
   },
   "sinks": {
-          "sink1": {
-        "id": "1",
-        "title": "Premium Oak Kitchen Sink",
-        "description": "Handcrafted solid oak kitchen sink with natural water-resistant finish. Perfect for rustic and modern kitchens alike.",
-        "tag": "Premium",
-        "category": "wooden",
-        "salesCount": 127,
-        "image": "https://images.unsplash.com/photo-1560448075-bb485b067938?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "date": "2024-01-15",
-        "priceEur": 849,
-        "priceBgn": 1656
-      },
-      "sink2": {
-        "id": "2",
-        "title": "Marble Luxury Bathroom Sink",
-        "description": "Elegant Carrara marble bathroom sink with polished finish. Adds sophistication to any luxury bathroom design.",
-        "tag": "Luxury",
-        "category": "naturalStone",
-        "salesCount": 89,
-        "image": "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "date": "2024-02-03",
-        "priceEur": 1249,
-        "priceBgn": 2436
-      },
-      "sink3": {
-        "id": "3",
-        "title": "Classic Mramor Basin",
-        "description": "Traditional white ceramic mramor basin with vintage styling. Ideal for classic and transitional bathroom designs.",
-        "tag": "Classic",
-        "category": "mramor",
-        "salesCount": 203,
-        "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "date": "2023-12-20",
-        "priceEur": 349,
-        "priceBgn": 681
-      },
-      "sink4": {
-        "id": "4",
-        "title": "Teak Wood Vessel Sink",
-        "description": "Sustainable teak wood vessel sink with natural grain patterns. Eco-friendly choice for contemporary bathrooms.",
-        "tag": "Eco-Friendly",
-        "category": "wooden",
-        "salesCount": 156,
-        "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "date": "2024-01-28",
-        "priceEur": 649,
-        "priceBgn": 1266
-      },
-      "sink5": {
-        "id": "5",
-        "title": "Granite Undermount Sink",
-        "description": "Durable black granite undermount sink with smooth finish. Resistant to stains and scratches for long-lasting beauty.",
-        "tag": "Durable",
-        "category": "naturalStone",
-        "salesCount": 234,
-        "image": "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "date": "2024-02-12",
-        "priceEur": 549,
-        "priceBgn": 1071
-      },
-      "sink6": {
-        "id": "6",
-        "title": "Modern Mramor Column Sink",
-        "description": "Contemporary square mramor sink with clean lines. Perfect for modern minimalist bathroom designs with space efficiency.",
-        "tag": "Modern",
-        "category": "mramor",
-        "salesCount": 178,
-        "image": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        "date": "2024-01-10",
-        "priceEur": 429,
-        "priceBgn": 837
-      }
+    "sink1": {
+      "id": "1",
+      "title": "Premium Oak Kitchen Sink",
+      "description": "Handcrafted solid oak kitchen sink with natural water-resistant finish. Perfect for rustic and modern kitchens alike.",
+      "tag": "Premium",
+      "category": "wooden",
+      "salesCount": 127,
+      "image": "https://images.unsplash.com/photo-1560448075-bb485b067938?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "date": "2024-01-15",
+      "priceEur": 849,
+      "priceBgn": 1656
+    },
+    "sink2": {
+      "id": "2",
+      "title": "Marble Luxury Bathroom Sink",
+      "description": "Elegant Carrara marble bathroom sink with polished finish. Adds sophistication to any luxury bathroom design.",
+      "tag": "Luxury",
+      "category": "naturalStone",
+      "salesCount": 89,
+      "image": "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "date": "2024-02-03",
+      "priceEur": 1249,
+      "priceBgn": 2436
+    },
+    "sink3": {
+      "id": "3",
+      "title": "Classic Mramor Basin",
+      "description": "Traditional white ceramic mramor basin with vintage styling. Ideal for classic and transitional bathroom designs.",
+      "tag": "Classic",
+      "category": "mramor",
+      "salesCount": 203,
+      "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "date": "2023-12-20",
+      "priceEur": 349,
+      "priceBgn": 681
+    },
+    "sink4": {
+      "id": "4",
+      "title": "Teak Wood Vessel Sink",
+      "description": "Sustainable teak wood vessel sink with natural grain patterns. Eco-friendly choice for contemporary bathrooms.",
+      "tag": "Eco-Friendly",
+      "category": "wooden",
+      "salesCount": 156,
+      "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "date": "2024-01-28",
+      "priceEur": 649,
+      "priceBgn": 1266
+    },
+    "sink5": {
+      "id": "5",
+      "title": "Granite Undermount Sink",
+      "description": "Durable black granite undermount sink with smooth finish. Resistant to stains and scratches for long-lasting beauty.",
+      "tag": "Durable",
+      "category": "naturalStone",
+      "salesCount": 234,
+      "image": "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "date": "2024-02-12",
+      "priceEur": 549,
+      "priceBgn": 1071
+    },
+    "sink6": {
+      "id": "6",
+      "title": "Modern Mramor Column Sink",
+      "description": "Contemporary square mramor sink with clean lines. Perfect for modern minimalist bathroom designs with space efficiency.",
+      "tag": "Modern",
+      "category": "mramor",
+      "salesCount": 178,
+      "image": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "date": "2024-01-10",
+      "priceEur": 429,
+      "priceBgn": 837
+    }
   }
 }

@@ -17,7 +17,7 @@ export interface ApiProduct {
   weight: string; // 18-30 kg or 25 kg
   mounting: ProductTranslation; // Top mount, Floor mount, Flush mount
   manufacture: ProductTranslation; // hand-made / ръчен труд
-  tag: string;
+  tag: ProductTranslation;
   category: string; // riverStone, marble, onyx, fossil
   salesCount: number;
   image: string;

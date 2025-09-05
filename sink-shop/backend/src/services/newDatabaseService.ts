@@ -19,7 +19,7 @@ export interface Product {
   manufacture: ProductTranslation;
   dimensions: string;
   weight: string;
-  tag: string;
+  tag: ProductTranslation;
   category: string;
   salesCount: number;
   image: string;
@@ -96,7 +96,7 @@ export class NewDatabaseService {
       manufacture: row.manufacture,
       dimensions: row.dimensions,
       weight: row.weight,
-      tag: row.tag,
+      tag: row.tag, // JSONB already parsed by pg
       category: row.category,
       salesCount: row.sales_count,
       image: row.image,

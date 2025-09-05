@@ -1,22 +1,21 @@
 {
   "name": "sink-shop-backend",
   "version": "1.0.0",
-  "description": "Backend API for Sink Shop",
+  "description": "Backend API for Artindo Home",
   "main": "dist/server.js",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "db:migrate": "tsx src/scripts/migrate.ts",
-    "db:seed": "tsx src/scripts/seed.ts",
-    "db:setup": "npm run db:migrate && npm run db:seed",
-    "db:migrate-new": "tsx src/scripts/migrate-new-products.ts",
+    "db:migrate": "tsx src/scripts/migrate-new-products.ts",
     "db:create-admin": "tsx src/scripts/create-admin-user.ts",
     "db:generate-river-stones": "tsx src/scripts/generate-river-stone-products.ts",
     "db:generate-fossils": "tsx src/scripts/generate-fossil-products.ts",
     "db:generate-all-products": "npm run db:generate-river-stones && npm run db:generate-fossils",
-    "db:setup-new": "npm run db:migrate-new && npm run db:create-admin && npm run db:generate-all-products"
+    "db:setup": "npm run db:migrate && npm run db:create-admin && npm run db:generate-all-products",
+    "db:update-prices": "tsx src/scripts/update-prices-to-300.ts",
+    "db:fix-capitalization": "tsx src/scripts/fix-manufacture-capitalization.ts"
   },
   "dependencies": {
     "@types/nodemailer": "^7.0.1",
