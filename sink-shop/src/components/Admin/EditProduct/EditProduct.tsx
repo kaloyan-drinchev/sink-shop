@@ -1,9 +1,11 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { apiService, type ApiProduct } from '../../../services/apiService';
-import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { apiService, type ApiProduct } from "../../../services/apiService";
+import LanguageSwitcher from "../../LanguageSwitcher/LanguageSwitcher";
 
 interface ProductForm {
+  serialNumber: string;
   modelEn: string;
   modelBg: string;
   titleEn: string;
@@ -19,43 +21,45 @@ interface ProductForm {
   mountingEn: string;
   mountingBg: string;
   tag: string;
-  category: 'fossil' | 'riverStone' | 'marble' | 'onyx';
+  category: "fossil" | "riverStone" | "marble" | "onyx";
   priceEur: number;
   priceBgn: number;
   image: File | null;
 }
 
 function EditProduct() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [form, setForm] = useState<ProductForm>({
-    modelEn: '',
-    modelBg: '',
-    titleEn: '',
-    titleBg: '',
-    descriptionEn: '',
-    descriptionBg: '',
-    materialEn: '',
-    materialBg: '',
-    colorEn: '',
-    colorBg: '',
-    dimensions: '',
-    weight: '',
-    mountingEn: '',
-    mountingBg: '',
-    tag: '',
-    category: 'fossil',
+    serialNumber: "",
+    modelEn: "",
+    modelBg: "",
+    titleEn: "",
+    titleBg: "",
+    descriptionEn: "",
+    descriptionBg: "",
+    materialEn: "",
+    materialBg: "",
+    colorEn: "",
+    colorBg: "",
+    dimensions: "",
+    weight: "",
+    mountingEn: "",
+    mountingBg: "",
+    tag: "",
+    category: "fossil",
     priceEur: 750,
     priceBgn: 1465,
-    image: null
+    image: null,
   });
 
-  const [currentImageUrl, setCurrentImageUrl] = useState<string>('');
+  const [currentImageUrl, setCurrentImageUrl] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -63,14 +67,15 @@ function EditProduct() {
   useEffect(() => {
     const loadProduct = async () => {
       if (!id) {
-        navigate('/admin-portal/dashboard');
+        navigate("/admin-portal/dashboard");
         return;
       }
 
       try {
         const product = await apiService.getProduct(id);
-        
+
         setForm({
+          serialNumber: product.serialNumber || "",
           modelEn: product.model.en,
           modelBg: product.model.bg,
           titleEn: product.title.en,
@@ -86,16 +91,16 @@ function EditProduct() {
           mountingEn: product.mounting.en,
           mountingBg: product.mounting.bg,
           tag: product.tag,
-          category: product.category as 'fossil' | 'riverStone' | 'marble' | 'onyx',
+          category: product.category as "fossil" | "riverStone" | "marble" | "onyx",
           priceEur: product.priceEur,
           priceBgn: product.priceBgn,
-          image: null
+          image: null,
         });
 
         setCurrentImageUrl(product.image);
       } catch (error) {
-        setError('Failed to load product');
-        console.error('Error loading product:', error);
+        setError("Failed to load product");
+        console.error("Error loading product:", error);
       } finally {
         setInitialLoading(false);
       }
@@ -108,9 +113,9 @@ function EditProduct() {
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
+    if (e.type === "dragenter" || e.type === "dragover") {
       setDragActive(true);
-    } else if (e.type === 'dragleave') {
+    } else if (e.type === "dragleave") {
       setDragActive(false);
     }
   }, []);
@@ -128,13 +133,14 @@ function EditProduct() {
 
   // Handle file selection
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setError('File size must be less than 5MB');
+    if (file.size > 5 * 1024 * 1024) {
+      // 5MB limit
+      setError("File size must be less than 5MB");
       return;
     }
 
@@ -157,11 +163,13 @@ function EditProduct() {
   };
 
   // Handle form input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setForm({ 
-      ...form, 
-      [name]: name.includes('price') ? parseFloat(value) || 0 : value 
+    setForm({
+      ...form,
+      [name]: name.includes("price") ? parseFloat(value) || 0 : value,
     });
   };
 
@@ -173,79 +181,84 @@ function EditProduct() {
 
     try {
       // Validation
+      if (!form.serialNumber) {
+        throw new Error("Serial number is required");
+      }
+
       if (!form.modelEn || !form.modelBg) {
-        throw new Error('Model fields are required');
+        throw new Error("Model fields are required");
       }
 
       if (!form.titleEn || !form.titleBg || !form.descriptionEn || !form.descriptionBg) {
-        throw new Error('All title and description fields are required');
+        throw new Error("All title and description fields are required");
       }
 
       if (!form.materialEn || !form.materialBg) {
-        throw new Error('Material fields are required');
+        throw new Error("Material fields are required");
       }
 
       if (!form.colorEn || !form.colorBg) {
-        throw new Error('Color fields are required');
+        throw new Error("Color fields are required");
       }
 
       if (!form.dimensions || !form.weight) {
-        throw new Error('Dimensions and weight are required');
+        throw new Error("Dimensions and weight are required");
       }
 
       if (!form.mountingEn || !form.mountingBg) {
-        throw new Error('Mounting fields are required');
+        throw new Error("Mounting fields are required");
       }
 
       if (form.priceEur <= 0 || form.priceBgn <= 0) {
-        throw new Error('Prices must be greater than 0');
+        throw new Error("Prices must be greater than 0");
       }
 
       // Create FormData for file upload
       const formData = new FormData();
       if (form.image) {
-        formData.append('image', form.image);
+        formData.append("image", form.image);
       }
-      formData.append('modelEn', form.modelEn);
-      formData.append('modelBg', form.modelBg);
-      formData.append('titleEn', form.titleEn);
-      formData.append('titleBg', form.titleBg);
-      formData.append('descriptionEn', form.descriptionEn);
-      formData.append('descriptionBg', form.descriptionBg);
-      formData.append('materialEn', form.materialEn);
-      formData.append('materialBg', form.materialBg);
-      formData.append('colorEn', form.colorEn);
-      formData.append('colorBg', form.colorBg);
-      formData.append('dimensions', form.dimensions);
-      formData.append('weight', form.weight);
-      formData.append('mountingEn', form.mountingEn);
-      formData.append('mountingBg', form.mountingBg);
-      formData.append('tag', form.tag);
-      formData.append('category', form.category);
-      formData.append('priceEur', form.priceEur.toString());
-      formData.append('priceBgn', form.priceBgn.toString());
+      formData.append("serialNumber", form.serialNumber);
+      formData.append("modelEn", form.modelEn);
+      formData.append("modelBg", form.modelBg);
+      formData.append("titleEn", form.titleEn);
+      formData.append("titleBg", form.titleBg);
+      formData.append("descriptionEn", form.descriptionEn);
+      formData.append("descriptionBg", form.descriptionBg);
+      formData.append("materialEn", form.materialEn);
+      formData.append("materialBg", form.materialBg);
+      formData.append("colorEn", form.colorEn);
+      formData.append("colorBg", form.colorBg);
+      formData.append("dimensions", form.dimensions);
+      formData.append("weight", form.weight);
+      formData.append("mountingEn", form.mountingEn);
+      formData.append("mountingBg", form.mountingBg);
+      formData.append("tag", form.tag);
+      formData.append("category", form.category);
+      formData.append("priceEur", form.priceEur.toString());
+      formData.append("priceBgn", form.priceBgn.toString());
 
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       if (!token) {
-        throw new Error('Admin token not found');
+        throw new Error("Admin token not found");
       }
 
       const response = await fetch(`http://localhost:3001/api/products/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update product');
+        throw new Error("Failed to update product");
       }
 
       // Redirect to dashboard
-      navigate('/admin-portal/dashboard');
+      navigate("/admin-portal/dashboard");
     } catch (err: any) {
-      setError(err.message || 'Failed to update product');
+      setError(err.message || "Failed to update product");
     } finally {
       setLoading(false);
     }
@@ -272,13 +285,13 @@ function EditProduct() {
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
-                {t('admin.viewWebsite')}
+                {t("admin.viewWebsite")}
               </button>
               <button
-                onClick={() => navigate('/admin-portal/dashboard')}
+                onClick={() => navigate("/admin-portal/dashboard")}
                 className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
                 Back to Dashboard
@@ -293,23 +306,26 @@ function EditProduct() {
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white shadow sm:rounded-lg">
             <form onSubmit={handleSubmit} className="space-y-6 p-6">
-              
               {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Product Image
                 </label>
-                
+
                 {/* Current Image Display */}
-                {!imagePreview && currentImageUrl && currentImageUrl.trim() !== '' && (
+                {!imagePreview && currentImageUrl && currentImageUrl.trim() !== "" && (
                   <div className="mb-4">
                     <p className="text-sm text-gray-500 mb-2">Current image:</p>
                     <img
-                      src={currentImageUrl.startsWith('/assets/') ? currentImageUrl : `http://localhost:3001${currentImageUrl}`}
+                      src={
+                        currentImageUrl.startsWith("/assets/")
+                          ? currentImageUrl
+                          : `http://localhost:3001${currentImageUrl}`
+                      }
                       alt="Current product"
                       className="h-32 w-32 object-cover rounded-lg"
                       onError={(e) => {
-                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.style.display = "none";
                       }}
                     />
                   </div>
@@ -318,9 +334,9 @@ function EditProduct() {
                 {/* Upload Area */}
                 <div
                   className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md transition-colors ${
-                    dragActive 
-                      ? 'border-blue-400 bg-blue-50' 
-                      : 'border-gray-300 hover:border-gray-400'
+                    dragActive
+                      ? "border-blue-400 bg-blue-50"
+                      : "border-gray-300 hover:border-gray-400"
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -340,7 +356,7 @@ function EditProduct() {
                           onClick={() => {
                             setImagePreview(null);
                             setForm({ ...form, image: null });
-                            if (fileInputRef.current) fileInputRef.current.value = '';
+                            if (fileInputRef.current) fileInputRef.current.value = "";
                           }}
                           className="text-sm text-red-600 hover:text-red-500"
                         >
@@ -385,6 +401,32 @@ function EditProduct() {
                     )}
                   </div>
                 </div>
+              </div>
+
+              {/* Serial Number Field */}
+              <div className="mx-2">
+                <label htmlFor="serialNumber" className="block text-sm font-medium text-gray-700">
+                  Serial Number *{" "}
+                  <span className="text-xs text-gray-500">(e.g., b72, d1, m15)</span>
+                </label>
+                <input
+                  type="text"
+                  name="serialNumber"
+                  id="serialNumber"
+                  required
+                  minLength={2}
+                  maxLength={10}
+                  pattern="^[a-zA-Z]\d+$"
+                  value={form.serialNumber}
+                  onChange={handleInputChange}
+                  className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="b72 (for river stone) or d1 (for fossil)"
+                  title="Format: Letter followed by numbers (e.g., b72, d1, m15)"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Use 'b' prefix for river stone (b72, b100), 'd' prefix for fossil (d1, d2), 'm'
+                  prefix for marble, 'o' prefix for onyx
+                </p>
               </div>
 
               {/* Model Fields */}
@@ -470,7 +512,10 @@ function EditProduct() {
               {/* Description Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
                 <div>
-                  <label htmlFor="descriptionEn" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="descriptionEn"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Description (English) *
                   </label>
                   <textarea
@@ -487,7 +532,10 @@ function EditProduct() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="descriptionBg" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="descriptionBg"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Description (Bulgarian) *
                   </label>
                   <textarea
@@ -751,17 +799,13 @@ function EditProduct() {
               </div>
 
               {/* Error Message */}
-              {error && (
-                <div className="text-red-600 text-sm bg-red-50 p-3 rounded">
-                  {error}
-                </div>
-              )}
+              {error && <div className="text-red-600 text-sm bg-red-50 p-3 rounded">{error}</div>}
 
               {/* Submit Button */}
               <div className="flex justify-end space-x-3 pt-6 border-t">
                 <button
                   type="button"
-                  onClick={() => navigate('/admin-portal/dashboard')}
+                  onClick={() => navigate("/admin-portal/dashboard")}
                   className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm font-medium"
                 >
                   Cancel
@@ -771,7 +815,7 @@ function EditProduct() {
                   disabled={loading}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Updating...' : 'Update Product'}
+                  {loading ? "Updating..." : "Update Product"}
                 </button>
               </div>
             </form>

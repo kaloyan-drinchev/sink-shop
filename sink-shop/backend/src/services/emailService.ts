@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
-import { config } from '../config/config.js';
+import nodemailer from "nodemailer";
+import { config } from "../config/config.js";
 
 export interface OrderEmailData {
   orderNumber: string;
@@ -14,6 +14,8 @@ export interface OrderEmailData {
   };
   items: Array<{
     title: string;
+    serialNumber: string;
+    productId: string;
     quantity: number;
     price: number;
     currency: string;
@@ -28,18 +30,23 @@ class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
         user: config.EMAIL_USER,
-        pass: config.EMAIL_PASS
-      }
+        pass: config.EMAIL_PASS,
+      },
     });
   }
 
   private formatOrderEmail(data: OrderEmailData): string {
-    const formattedItems = data.items.map(item => 
-      `• ${item.title} - Quantity: ${item.quantity} - Price: ${item.price.toFixed(2)} ${item.currency}`
-    ).join('\n');
+    const formattedItems = data.items
+      .map(
+        (item) =>
+          `• ${item.title} (Serial: ${item.serialNumber})
+    Link: ${config.FRONTEND_URL}/sink/${item.productId}
+    Quantity: ${item.quantity} - Price: ${item.price.toFixed(2)} ${item.currency}`
+      )
+      .join("\n\n");
 
     return `
 New Order Received - ${data.orderNumber}
@@ -72,16 +79,16 @@ Sink Shop Order System
     try {
       const mailOptions = {
         from: config.EMAIL_USER,
-        to: 'kalloyand@gmail.com',
+        to: "kalloyand@gmail.com",
         subject: `New Order - ${orderData.orderNumber}`,
-        text: this.formatOrderEmail(orderData)
+        text: this.formatOrderEmail(orderData),
       };
 
       const info = await this.transporter.sendMail(mailOptions);
-      console.log('Order notification email sent:', info.messageId);
+      console.log("Order notification email sent:", info.messageId);
       return true;
     } catch (error) {
-      console.error('Failed to send order notification email:', error);
+      console.error("Failed to send order notification email:", error);
       return false;
     }
   }
@@ -101,9 +108,14 @@ Order Number: ${orderData.orderNumber}
 Order Date: ${orderData.orderDate.toLocaleString()}
 
 Items Ordered:
-${orderData.items.map(item => 
-  `• ${item.title} - Quantity: ${item.quantity} - ${item.price.toFixed(2)} ${item.currency}`
-).join('\n')}
+${orderData.items
+  .map(
+    (item) =>
+      `• ${item.title} (Serial: ${item.serialNumber})
+  Link: ${config.FRONTEND_URL}/sink/${item.productId}
+  Quantity: ${item.quantity} - ${item.price.toFixed(2)} ${item.currency}`
+  )
+  .join("\n\n")}
 
 Total: €${orderData.totalEur.toFixed(2)} EUR / ${orderData.totalBgn.toFixed(2)} BGN
 
@@ -118,14 +130,14 @@ Thank you for choosing Sink Shop!
 
 Best regards,
 Sink Shop Team
-        `
+        `,
       };
 
       const info = await this.transporter.sendMail(mailOptions);
-      console.log('Customer confirmation email sent:', info.messageId);
+      console.log("Customer confirmation email sent:", info.messageId);
       return true;
     } catch (error) {
-      console.error('Failed to send customer confirmation email:', error);
+      console.error("Failed to send customer confirmation email:", error);
       return false;
     }
   }
@@ -133,13 +145,14 @@ Sink Shop Team
   async testConnection(): Promise<boolean> {
     try {
       await this.transporter.verify();
-      console.log('Email service is ready');
+      console.log("Email service is ready");
       return true;
     } catch (error) {
-      console.error('Email service connection failed:', error);
+      console.error("Email service connection failed:", error);
       return false;
     }
   }
 }
 
+export { EmailService };
 export const emailService = new EmailService();

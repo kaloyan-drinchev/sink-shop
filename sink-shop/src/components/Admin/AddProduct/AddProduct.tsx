@@ -1,8 +1,10 @@
-import { useState, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
+import { useState, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../../LanguageSwitcher/LanguageSwitcher";
 
 interface ProductForm {
+  serialNumber: string;
   modelEn: string;
   modelBg: string;
   titleEn: string;
@@ -18,40 +20,42 @@ interface ProductForm {
   mountingEn: string;
   mountingBg: string;
   tag: string;
-  category: 'fossil' | 'riverStone' | 'marble' | 'onyx';
+  category: "fossil" | "riverStone" | "marble" | "onyx";
   priceEur: number;
   priceBgn: number;
   image: File | null;
 }
 
 function AddProduct() {
+  const { t } = useTranslation();
   const [form, setForm] = useState<ProductForm>({
-    modelEn: '',
-    modelBg: '',
-    titleEn: '',
-    titleBg: '',
-    descriptionEn: '',
-    descriptionBg: '',
-    materialEn: '',
-    materialBg: '',
-    colorEn: '',
-    colorBg: '',
-    dimensions: '',
-    weight: '',
-    mountingEn: 'Top mount',
-    mountingBg: 'Горен монтаж',
-    tag: '',
-    category: 'fossil',
+    serialNumber: "",
+    modelEn: "",
+    modelBg: "",
+    titleEn: "",
+    titleBg: "",
+    descriptionEn: "",
+    descriptionBg: "",
+    materialEn: "",
+    materialBg: "",
+    colorEn: "",
+    colorBg: "",
+    dimensions: "",
+    weight: "",
+    mountingEn: "Top mount",
+    mountingBg: "Горен монтаж",
+    tag: "",
+    category: "fossil",
     priceEur: 750,
     priceBgn: 1465,
-    image: null
+    image: null,
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -59,9 +63,9 @@ function AddProduct() {
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
+    if (e.type === "dragenter" || e.type === "dragover") {
       setDragActive(true);
-    } else if (e.type === 'dragleave') {
+    } else if (e.type === "dragleave") {
       setDragActive(false);
     }
   }, []);
@@ -79,13 +83,14 @@ function AddProduct() {
 
   // Handle file selection
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setError('File size must be less than 5MB');
+    if (file.size > 5 * 1024 * 1024) {
+      // 5MB limit
+      setError("File size must be less than 5MB");
       return;
     }
 
@@ -108,11 +113,13 @@ function AddProduct() {
   };
 
   // Handle form input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setForm({ 
-      ...form, 
-      [name]: name.includes('price') ? parseFloat(value) || 0 : value 
+    setForm({
+      ...form,
+      [name]: name.includes("price") ? parseFloat(value) || 0 : value,
     });
   };
 
@@ -124,69 +131,81 @@ function AddProduct() {
 
     try {
       // Validation
-      if (!form.modelEn || !form.modelBg || !form.titleEn || !form.titleBg || !form.descriptionEn || !form.descriptionBg) {
-        throw new Error('All model, title and description fields are required');
+      if (!form.serialNumber) {
+        throw new Error("Serial number is required");
+      }
+
+      if (
+        !form.modelEn ||
+        !form.modelBg ||
+        !form.titleEn ||
+        !form.titleBg ||
+        !form.descriptionEn ||
+        !form.descriptionBg
+      ) {
+        throw new Error("All model, title and description fields are required");
       }
 
       if (!form.materialEn || !form.materialBg || !form.colorEn || !form.colorBg) {
-        throw new Error('All material and color fields are required');
+        throw new Error("All material and color fields are required");
       }
 
       if (!form.dimensions || !form.weight) {
-        throw new Error('Dimensions and weight are required');
+        throw new Error("Dimensions and weight are required");
       }
 
       if (!form.image) {
-        throw new Error('Product image is required');
+        throw new Error("Product image is required");
       }
 
       if (form.priceEur <= 0 || form.priceBgn <= 0) {
-        throw new Error('Prices must be greater than 0');
+        throw new Error("Prices must be greater than 0");
       }
 
       // Create FormData for file upload
       const formData = new FormData();
-      formData.append('image', form.image);
-      formData.append('modelEn', form.modelEn);
-      formData.append('modelBg', form.modelBg);
-      formData.append('titleEn', form.titleEn);
-      formData.append('titleBg', form.titleBg);
-      formData.append('descriptionEn', form.descriptionEn);
-      formData.append('descriptionBg', form.descriptionBg);
-      formData.append('materialEn', form.materialEn);
-      formData.append('materialBg', form.materialBg);
-      formData.append('colorEn', form.colorEn);
-      formData.append('colorBg', form.colorBg);
-      formData.append('dimensions', form.dimensions);
-      formData.append('weight', form.weight);
-      formData.append('mountingEn', form.mountingEn);
-      formData.append('mountingBg', form.mountingBg);
-      formData.append('tag', form.tag);
-      formData.append('category', form.category);
-      formData.append('priceEur', form.priceEur.toString());
-      formData.append('priceBgn', form.priceBgn.toString());
+      formData.append("image", form.image);
+      formData.append("serialNumber", form.serialNumber);
+      formData.append("modelEn", form.modelEn);
+      formData.append("modelBg", form.modelBg);
+      formData.append("titleEn", form.titleEn);
+      formData.append("titleBg", form.titleBg);
+      formData.append("descriptionEn", form.descriptionEn);
+      formData.append("descriptionBg", form.descriptionBg);
+      formData.append("materialEn", form.materialEn);
+      formData.append("materialBg", form.materialBg);
+      formData.append("colorEn", form.colorEn);
+      formData.append("colorBg", form.colorBg);
+      formData.append("dimensions", form.dimensions);
+      formData.append("weight", form.weight);
+      formData.append("mountingEn", form.mountingEn);
+      formData.append("mountingBg", form.mountingBg);
+      formData.append("tag", form.tag);
+      formData.append("category", form.category);
+      formData.append("priceEur", form.priceEur.toString());
+      formData.append("priceBgn", form.priceBgn.toString());
 
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       if (!token) {
-        throw new Error('Admin token not found');
+        throw new Error("Admin token not found");
       }
 
-      const response = await fetch('http://localhost:3001/api/products', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/api/products", {
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create product');
+        throw new Error("Failed to create product");
       }
 
       // Redirect to dashboard
-      navigate('/admin-portal/dashboard');
+      navigate("/admin-portal/dashboard");
     } catch (err: any) {
-      setError(err.message || 'Failed to create product');
+      setError(err.message || "Failed to create product");
     } finally {
       setLoading(false);
     }
@@ -205,13 +224,13 @@ function AddProduct() {
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
-                {t('admin.viewWebsite')}
+                {t("admin.viewWebsite")}
               </button>
               <button
-                onClick={() => navigate('/admin-portal/dashboard')}
+                onClick={() => navigate("/admin-portal/dashboard")}
                 className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
                 Back to Dashboard
@@ -226,7 +245,6 @@ function AddProduct() {
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white shadow sm:rounded-lg">
             <form onSubmit={handleSubmit} className="space-y-6 p-6">
-              
               {/* Image Upload */}
               <div className="mx-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -234,9 +252,9 @@ function AddProduct() {
                 </label>
                 <div
                   className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md transition-colors ${
-                    dragActive 
-                      ? 'border-blue-400 bg-blue-50' 
-                      : 'border-gray-300 hover:border-gray-400'
+                    dragActive
+                      ? "border-blue-400 bg-blue-50"
+                      : "border-gray-300 hover:border-gray-400"
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -256,7 +274,7 @@ function AddProduct() {
                           onClick={() => {
                             setImagePreview(null);
                             setForm({ ...form, image: null });
-                            if (fileInputRef.current) fileInputRef.current.value = '';
+                            if (fileInputRef.current) fileInputRef.current.value = "";
                           }}
                           className="text-sm text-red-600 hover:text-red-500"
                         >
@@ -301,6 +319,32 @@ function AddProduct() {
                     )}
                   </div>
                 </div>
+              </div>
+
+              {/* Serial Number Field */}
+              <div className="mx-2">
+                <label htmlFor="serialNumber" className="block text-sm font-medium text-gray-700">
+                  Serial Number *{" "}
+                  <span className="text-xs text-gray-500">(e.g., b72, d1, m15)</span>
+                </label>
+                <input
+                  type="text"
+                  name="serialNumber"
+                  id="serialNumber"
+                  required
+                  minLength={2}
+                  maxLength={10}
+                  pattern="^[a-zA-Z]\d+$"
+                  value={form.serialNumber}
+                  onChange={handleInputChange}
+                  className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="b72 (for river stone) or d1 (for fossil)"
+                  title="Format: Letter followed by numbers (e.g., b72, d1, m15)"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Use 'b' prefix for river stone (b72, b100), 'd' prefix for fossil (d1, d2), 'm'
+                  prefix for marble, 'o' prefix for onyx
+                </p>
               </div>
 
               {/* Model Fields */}
@@ -386,8 +430,12 @@ function AddProduct() {
               {/* Description Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-2">
                 <div>
-                  <label htmlFor="descriptionEn" className="block text-sm font-medium text-gray-700">
-                    Description (English) * <span className="text-xs text-gray-500">(10-500 chars)</span>
+                  <label
+                    htmlFor="descriptionEn"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Description (English) *{" "}
+                    <span className="text-xs text-gray-500">(10-500 chars)</span>
                   </label>
                   <textarea
                     name="descriptionEn"
@@ -403,8 +451,12 @@ function AddProduct() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="descriptionBg" className="block text-sm font-medium text-gray-700">
-                    Description (Bulgarian) * <span className="text-xs text-gray-500">(10-500 chars)</span>
+                  <label
+                    htmlFor="descriptionBg"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Description (Bulgarian) *{" "}
+                    <span className="text-xs text-gray-500">(10-500 chars)</span>
                   </label>
                   <textarea
                     name="descriptionBg"
@@ -442,7 +494,8 @@ function AddProduct() {
                 </div>
                 <div>
                   <label htmlFor="materialBg" className="block text-sm font-medium text-gray-700">
-                    Material (Bulgarian) * <span className="text-xs text-gray-500">(2-50 chars)</span>
+                    Material (Bulgarian) *{" "}
+                    <span className="text-xs text-gray-500">(2-50 chars)</span>
                   </label>
                   <input
                     type="text"
@@ -666,16 +719,14 @@ function AddProduct() {
 
               {/* Error Message */}
               {error && (
-                <div className="text-red-600 text-sm bg-red-50 p-3 rounded mx-2">
-                  {error}
-                </div>
+                <div className="text-red-600 text-sm bg-red-50 p-3 rounded mx-2">{error}</div>
               )}
 
               {/* Submit Button */}
               <div className="flex justify-end space-x-3 pt-6 border-t mx-2">
                 <button
                   type="button"
-                  onClick={() => navigate('/admin-portal/dashboard')}
+                  onClick={() => navigate("/admin-portal/dashboard")}
                   className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm font-medium"
                 >
                   Cancel
@@ -685,7 +736,7 @@ function AddProduct() {
                   disabled={loading}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Creating...' : 'Create Product'}
+                  {loading ? "Creating..." : "Create Product"}
                 </button>
               </div>
             </form>

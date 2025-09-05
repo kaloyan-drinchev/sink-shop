@@ -5,6 +5,7 @@ export interface ProductTranslation {
 
 export interface Product {
   id: string;
+  serialNumber?: string; // Optional for backward compatibility
   model: ProductTranslation; // Type 1.1, Type 2.1, etc.
   title: ProductTranslation;
   description: ProductTranslation;
@@ -13,7 +14,7 @@ export interface Product {
   dimensions: string; // L: 40-60, W: 31-50, H: 15 or Ø: 40, H: 90
   weight: string; // 18-30 kg or 25 kg
   mounting: ProductTranslation; // Top mount, Floor mount, Flush mount
-  manufacture: ProductTranslation; // hand-made / ръчен труд
+  manufacture: ProductTranslation; // hand-made / ръčen труд
   tag: string;
   category: string; // riverStone, marble, onyx, fossil
   salesCount: number;
@@ -31,7 +32,7 @@ export interface User {
   password: string;
   firstName: string;
   lastName: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -51,8 +52,8 @@ export interface Order {
   items: OrderItem[];
   totalEur: number;
   totalBgn: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
+  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  paymentStatus: "pending" | "paid" | "failed" | "refunded";
   shippingAddress: Address;
   billingAddress: Address;
   createdAt: Date;

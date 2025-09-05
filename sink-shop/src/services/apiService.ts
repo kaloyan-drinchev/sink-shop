@@ -7,6 +7,7 @@ export interface ProductTranslation {
 
 export interface ApiProduct {
   id: string;
+  serialNumber?: string; // b72, d1, m15, etc.
   model: ProductTranslation; // Type 1.1, Type 2.1, etc.
   title: ProductTranslation;
   description: ProductTranslation;
@@ -26,7 +27,7 @@ export interface ApiProduct {
 }
 
 class ApiService {
-  private baseUrl = 'http://localhost:3001/api';
+  private baseUrl = "http://localhost:3001/api";
 
   async getProducts(): Promise<ApiProduct[]> {
     try {
@@ -36,7 +37,7 @@ class ApiService {
       }
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch products:', error);
+      console.error("Failed to fetch products:", error);
       throw error;
     }
   }
@@ -65,7 +66,7 @@ class ApiService {
       material: product.material[lang] || product.material.en,
       color: product.color[lang] || product.color.en,
       mounting: product.mounting[lang] || product.mounting.en,
-      manufacture: product.manufacture[lang] || product.manufacture.en
+      manufacture: product.manufacture[lang] || product.manufacture.en,
     };
   }
 
@@ -75,12 +76,12 @@ class ApiService {
 
     // Extract height from different dimension formats
     let heightMatch;
-    
-    if (dimensions.includes('H:')) {
+
+    if (dimensions.includes("H:")) {
       // Match any format that has "H: value"
       heightMatch = dimensions.match(/H:\s*([^,\s]+)/);
       if (heightMatch) {
-        return `${t('product.height')}: ${heightMatch[1].trim()}`;
+        return `${t("product.height")}: ${heightMatch[1].trim()}`;
       }
     }
 
@@ -93,10 +94,10 @@ class ApiService {
     if (!weight) return weight;
 
     // Remove existing "kg" or "кг"
-    const cleanWeight = weight.replace(/\s*(kg|кг)\s*$/i, '').trim();
-    
+    const cleanWeight = weight.replace(/\s*(kg|кг)\s*$/i, "").trim();
+
     // Add appropriate unit based on language
-    const unit = language === 'bg' ? 'кг' : 'kg';
+    const unit = language === "bg" ? "кг" : "kg";
     return `${cleanWeight} ${unit}`;
   }
 }
