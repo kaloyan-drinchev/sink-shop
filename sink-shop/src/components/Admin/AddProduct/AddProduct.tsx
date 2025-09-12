@@ -190,7 +190,7 @@ function AddProduct() {
         throw new Error("Admin token not found");
       }
 
-      const response = await fetch("http://localhost:3001/api/products", {
+      const response = await fetch("https://artindohome.com/api/products", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

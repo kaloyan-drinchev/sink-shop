@@ -243,7 +243,7 @@ function EditProduct() {
         throw new Error("Admin token not found");
       }
 
-      const response = await fetch(`http://localhost:3001/api/products/${id}`, {
+      const response = await fetch(`https://artindohome.com/api/products/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -320,7 +320,7 @@ function EditProduct() {
                       src={
                         currentImageUrl.startsWith("/assets/")
                           ? currentImageUrl
-                          : `http://localhost:3001${currentImageUrl}`
+                          : `https://artindohome.com${currentImageUrl}`
                       }
                       alt="Current product"
                       className="h-32 w-32 object-cover rounded-lg"

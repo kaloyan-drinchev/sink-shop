@@ -90,7 +90,7 @@ function AdminDashboard() {
 
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch(`http://localhost:3001/api/products/${productId}`, {
+      const response = await fetch(`https://artindohome.com/api/products/${productId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -299,7 +299,7 @@ function AdminDashboard() {
                                         src={
                                           product.image.startsWith("/assets/")
                                             ? product.image
-                                            : `http://localhost:3001${product.image}`
+                                            : `https://artindohome.com${product.image}`
                                         }
                                         alt={product.title[lang]}
                                         onError={(e) => {

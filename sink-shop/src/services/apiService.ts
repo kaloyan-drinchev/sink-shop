@@ -27,7 +27,7 @@ export interface ApiProduct {
 }
 
 class ApiService {
-  private baseUrl = "http://localhost:3001/api";
+  private baseUrl = "https://artindohome.com/api";
 
   async getProducts(): Promise<ApiProduct[]> {
     try {
