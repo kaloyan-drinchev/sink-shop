@@ -115,7 +115,7 @@ function SingleSinkView() {
                 src={
                   product.image.startsWith("/assets/")
                     ? product.image
-                    : `https://artindohome.com${product.image}`
+                    : `http://artindohome.com${product.image}`
                 }
                 alt={localizedProduct.title}
                 className="w-full h-[500px] md:h-[600px] lg:h-[730px] object-cover"

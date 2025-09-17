@@ -46,7 +46,11 @@ function SinkCard({ product, onClick }: SinkCardProps) {
       <div className="w-full h-64 bg-gray-200 rounded-t-lg overflow-hidden relative">
         {product.image && (
           <img
-            src={product.image}
+            src={
+              product.image.startsWith("/assets/")
+                ? product.image
+                : `http://artindohome.com${product.image}`
+            }
             alt={localizedProduct.title}
             className="w-full h-full object-cover"
             onError={(e) => {
