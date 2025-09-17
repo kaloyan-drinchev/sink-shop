@@ -55,9 +55,37 @@ function AddProduct() {
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [serialNumberError, setSerialNumberError] = useState<string | null>(null);
+  const [checkingSerial, setCheckingSerial] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  // Check if serial number already exists
+  const checkSerialNumber = async (serialNumber: string) => {
+    if (!serialNumber.trim()) {
+      setSerialNumberError(null);
+      return;
+    }
+
+    setCheckingSerial(true);
+    try {
+      const response = await fetch(
+        `http://artindohome.com/api/products/check-serial/${serialNumber}`
+      );
+      const data = await response.json();
+
+      if (data.exists) {
+        setSerialNumberError(`Serial number "${serialNumber}" already exists`);
+      } else {
+        setSerialNumberError(null);
+      }
+    } catch (error) {
+      console.error("Error checking serial number:", error);
+    } finally {
+      setCheckingSerial(false);
+    }
+  };
 
   // Handle drag events
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -185,12 +213,17 @@ function AddProduct() {
       formData.append("priceEur", form.priceEur.toString());
       formData.append("priceBgn", form.priceBgn.toString());
 
+      // Check for serial number errors before submission
+      if (serialNumberError) {
+        throw new Error(serialNumberError);
+      }
+
       const token = localStorage.getItem("adminToken");
       if (!token) {
         throw new Error("Admin token not found");
       }
 
-      const response = await fetch("https://artindohome.com/api/products", {
+      const response = await fetch("http://artindohome.com/api/products", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -199,7 +232,9 @@ function AddProduct() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create product");
+        const result = await response.json();
+        const errorMessage = result.error || result.message || "Failed to create product";
+        throw new Error(errorMessage);
       }
 
       // Redirect to dashboard
@@ -337,10 +372,19 @@ function AddProduct() {
                   pattern="^[a-zA-Z]\d+$"
                   value={form.serialNumber}
                   onChange={handleInputChange}
-                  className="mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  onBlur={(e) => checkSerialNumber(e.target.value)}
+                  className={`mt-1 mx-1 block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+                    serialNumberError ? "border-red-500 ring-red-500" : ""
+                  }`}
                   placeholder="b72 (for river stone) or d1 (for fossil)"
                   title="Format: Letter followed by numbers (e.g., b72, d1, m15)"
                 />
+                {checkingSerial && (
+                  <p className="mt-1 text-xs text-blue-600">Checking availability...</p>
+                )}
+                {serialNumberError && (
+                  <p className="mt-1 text-xs text-red-600">{serialNumberError}</p>
+                )}
                 <p className="mt-1 text-xs text-gray-500">
                   Use 'b' prefix for river stone (b72, b100), 'd' prefix for fossil (d1, d2), 'm'
                   prefix for marble, 'o' prefix for onyx

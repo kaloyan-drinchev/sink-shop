@@ -199,39 +199,47 @@ export class NewDatabaseService {
   }
 
   static async createProduct(productData: Partial<Product>): Promise<Product> {
-    const result = await pool.query(
-      `
-      INSERT INTO products (
-        serial_number, model, title, description, material, color, mounting, manufacture,
-        dimensions, weight, tag, category, sales_count, image, price_eur, price_bgn,
-        slug, is_active, is_featured, stock_quantity
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
-      RETURNING *
-    `,
-      [
-        productData.serialNumber,
-        JSON.stringify(productData.model),
-        JSON.stringify(productData.title),
-        JSON.stringify(productData.description),
-        JSON.stringify(productData.material),
-        JSON.stringify(productData.color),
-        JSON.stringify(productData.mounting),
-        JSON.stringify(productData.manufacture),
-        productData.dimensions,
-        productData.weight,
-        productData.tag,
-        productData.category,
-        productData.salesCount || 0,
-        productData.image,
-        productData.priceEur,
-        productData.priceBgn,
-        productData.slug,
-        productData.isActive !== false,
-        productData.isFeatured || false,
-        productData.stockQuantity || 1,
-      ]
-    );
-    return this.mapRowToProduct(result.rows[0]);
+    try {
+      const result = await pool.query(
+        `
+        INSERT INTO products (
+          serial_number, model, title, description, material, color, mounting, manufacture,
+          dimensions, weight, tag, category, sales_count, image, price_eur, price_bgn,
+          slug, is_active, is_featured, stock_quantity
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        RETURNING *
+      `,
+        [
+          productData.serialNumber,
+          JSON.stringify(productData.model),
+          JSON.stringify(productData.title),
+          JSON.stringify(productData.description),
+          JSON.stringify(productData.material),
+          JSON.stringify(productData.color),
+          JSON.stringify(productData.mounting),
+          JSON.stringify(productData.manufacture),
+          productData.dimensions,
+          productData.weight,
+          productData.tag,
+          productData.category,
+          productData.salesCount || 0,
+          productData.image,
+          productData.priceEur,
+          productData.priceBgn,
+          productData.slug,
+          productData.isActive !== false,
+          productData.isFeatured || false,
+          productData.stockQuantity || 1,
+        ]
+      );
+      return this.mapRowToProduct(result.rows[0]);
+    } catch (error: any) {
+      // Handle unique constraint violation for serial number
+      if (error.code === "23505" && error.constraint === "unique_serial_number") {
+        throw new Error(`Serial number "${productData.serialNumber}" already exists`);
+      }
+      throw error;
+    }
   }
 
   static async updateProduct(id: string, updateData: Partial<Product>): Promise<Product | null> {
@@ -287,7 +295,7 @@ export class NewDatabaseService {
 
   static async deleteProduct(id: string): Promise<boolean> {
     const result = await pool.query("DELETE FROM products WHERE id = $1", [id]);
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   static async updateProductStock(productId: string, quantityChange: number): Promise<boolean> {
@@ -301,7 +309,7 @@ export class NewDatabaseService {
     `,
       [quantityChange, productId]
     );
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Cart operations
@@ -342,7 +350,7 @@ export class NewDatabaseService {
 
   static async removeFromCart(id: string): Promise<boolean> {
     const result = await pool.query("DELETE FROM cart_items WHERE id = $1", [id]);
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   static async clearCart(userId: string): Promise<void> {

@@ -87,6 +87,14 @@ productsRouter.post(
       // Create image URL (relative to server)
       const imageUrl = `/uploads/${req.file.filename}`;
 
+      // Generate slug from title
+      const slug = titleEn
+        .toLowerCase()
+        .replace(/[^a-z0-9 -]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .trim();
+
       const productData = {
         serialNumber,
         model: {
@@ -124,6 +132,7 @@ productsRouter.post(
         priceEur: parseFloat(priceEur),
         priceBgn: parseFloat(priceBgn),
         image: imageUrl,
+        slug: slug,
         date: new Date().toISOString(),
         salesCount: 0,
       };
@@ -249,3 +258,20 @@ productsRouter.delete(
     }
   }
 );
+
+// Check if serial number exists
+productsRouter.get("/check-serial/:serialNumber", async (req, res, next) => {
+  try {
+    const { serialNumber } = req.params;
+
+    const products = config.USE_MOCK_DATA
+      ? await MockDataService.getAllProducts()
+      : await NewDatabaseService.getAllProducts();
+
+    const exists = products.some((product) => product.serialNumber === serialNumber);
+
+    res.json({ exists, serialNumber });
+  } catch (error) {
+    next(error);
+  }
+});

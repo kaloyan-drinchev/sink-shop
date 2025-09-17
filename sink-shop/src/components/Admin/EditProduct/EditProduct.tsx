@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { apiService, type ApiProduct } from "../../../services/apiService";
+import { apiService } from "../../../services/apiService";
 import LanguageSwitcher from "../../LanguageSwitcher/LanguageSwitcher";
 
 interface ProductForm {
@@ -90,7 +90,7 @@ function EditProduct() {
           weight: product.weight,
           mountingEn: product.mounting.en,
           mountingBg: product.mounting.bg,
-          tag: product.tag,
+          tag: typeof product.tag === "string" ? product.tag : product.tag?.en || "",
           category: product.category as "fossil" | "riverStone" | "marble" | "onyx",
           priceEur: product.priceEur,
           priceBgn: product.priceBgn,
@@ -243,7 +243,7 @@ function EditProduct() {
         throw new Error("Admin token not found");
       }
 
-      const response = await fetch(`https://artindohome.com/api/products/${id}`, {
+      const response = await fetch(`http://artindohome.com/api/products/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -320,7 +320,7 @@ function EditProduct() {
                       src={
                         currentImageUrl.startsWith("/assets/")
                           ? currentImageUrl
-                          : `https://artindohome.com${currentImageUrl}`
+                          : `http://artindohome.com${currentImageUrl}`
                       }
                       alt="Current product"
                       className="h-32 w-32 object-cover rounded-lg"

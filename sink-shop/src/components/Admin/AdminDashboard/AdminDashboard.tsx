@@ -69,7 +69,9 @@ function AdminDashboard() {
           product.material.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.color[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.color.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (typeof product.tag === "string" ? product.tag : product.tag?.en || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
           (product.serialNumber &&
             product.serialNumber.toLowerCase().includes(searchQuery.toLowerCase()))
       );
@@ -90,7 +92,7 @@ function AdminDashboard() {
 
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch(`https://artindohome.com/api/products/${productId}`, {
+      const response = await fetch(`http://artindohome.com/api/products/${productId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -113,7 +115,9 @@ function AdminDashboard() {
               p.material.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
               p.color[lang].toLowerCase().includes(searchQuery.toLowerCase()) ||
               p.color.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              p.tag.toLowerCase().includes(searchQuery.toLowerCase())
+              (typeof p.tag === "string" ? p.tag : p.tag?.en || "")
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
           )
         );
       } else {
@@ -299,7 +303,7 @@ function AdminDashboard() {
                                         src={
                                           product.image.startsWith("/assets/")
                                             ? product.image
-                                            : `https://artindohome.com${product.image}`
+                                            : `http://artindohome.com${product.image}`
                                         }
                                         alt={product.title[lang]}
                                         onError={(e) => {

@@ -95,7 +95,7 @@ function Home() {
         return (
           localizedProduct.title.toLowerCase().includes(searchLower) ||
           localizedProduct.description.toLowerCase().includes(searchLower) ||
-          product.tag.toLowerCase().includes(searchLower) ||
+          (typeof product.tag === 'string' ? product.tag : product.tag?.en || '').toLowerCase().includes(searchLower) ||
           t(`categories.${product.category}`).toLowerCase().includes(searchLower)
         )
       })

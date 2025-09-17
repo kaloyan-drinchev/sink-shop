@@ -23,7 +23,7 @@ function ProductCard({ product, onClick }: ProductCardProps) {
       
       <div className="content">
         {/* UI text from i18n */}
-        <span className="tag">{product.tag}</span>
+        <span className="tag">{typeof product.tag === 'string' ? product.tag : product.tag?.en || ''}</span>
         <span className="category">{t(`categories.${product.category}`)}</span>
         
         {/* Product data from API (localized) */}

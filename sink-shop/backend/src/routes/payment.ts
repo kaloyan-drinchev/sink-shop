@@ -1,5 +1,5 @@
 import express from "express";
-import { AuthRequest, authenticateUser } from "../middleware/auth.js";
+import { AuthRequest, authMiddleware } from "../middleware/auth.js";
 import { MockDataService } from "../services/mockDataService.js";
 import { NewDatabaseService } from "../services/newDatabaseService.js";
 import { emailService } from "../services/emailService.js";
@@ -100,7 +100,7 @@ paymentRouter.post("/process", async (req: AuthRequest, res, next) => {
 
       // Prepare email items with serial numbers and product links
       emailItems.push({
-        title: product.title?.en || product.title || "Product",
+        title: typeof product.title === "string" ? product.title : product.title?.en || "Product",
         serialNumber: product.serialNumber || "N/A",
         productId: product.id,
         quantity: cartItem.quantity,
@@ -136,7 +136,7 @@ paymentRouter.post("/process", async (req: AuthRequest, res, next) => {
           },
         })
       : await NewDatabaseService.createOrder({
-          userId: req.user?.id || null, // Use null instead of "guest" for UUID field
+          userId: req.user?.id, // Optional field
           orderNumber: `ORD-${Date.now()}`,
           totalAmount: totalEur,
           shippingAddress: {
@@ -159,8 +159,11 @@ paymentRouter.post("/process", async (req: AuthRequest, res, next) => {
           paymentMethod: "credit_card",
         });
 
-    // Update order items with order ID
-    order.items = orderItems.map((item) => ({ ...item, orderId: order.id }));
+    // Create order items with order ID
+    const orderItemsWithOrderId = orderItems.map((item) => ({ ...item, orderId: order.id }));
+
+    // Add items to order object for email (type assertion needed due to database service limitations)
+    (order as any).items = orderItemsWithOrderId;
 
     // Send email notification
     try {

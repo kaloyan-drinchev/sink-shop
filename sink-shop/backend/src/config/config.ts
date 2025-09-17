@@ -20,5 +20,5 @@ export const config = {
   EMAIL_PASS: process.env.EMAIL_PASS || "",
 
   // Mock data mode (switch to false when PostgreSQL is ready)
-  USE_MOCK_DATA: process.env.USE_MOCK_DATA === "true" ? true : false,
+  USE_MOCK_DATA: process.env.USE_MOCK_DATA === "false" ? false : true,
 };

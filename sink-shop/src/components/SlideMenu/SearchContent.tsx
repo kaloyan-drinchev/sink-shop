@@ -1,55 +1,55 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo } from "react";
 
 export interface SearchResult {
-  id: string
-  title: string
-  subtitle?: string
-  image?: string
-  price?: string
-  onClick: (result: SearchResult) => void
+  id: string;
+  title: string;
+  subtitle?: string;
+  image?: string;
+  price?: string;
+  onClick: (result: SearchResult) => void;
 }
 
 export interface SearchContentProps {
-  placeholder?: string
-  searchIcon?: string
-  searchFunction: (query: string) => SearchResult[]
-  onResultClick?: (result: SearchResult) => void
-  emptyStateMessage?: string
-  noResultsMessage?: string
-  className?: string
-  inputClassName?: string
-  resultsClassName?: string
-  resultItemClassName?: string
-  debounceMs?: number
+  placeholder?: string;
+  searchIcon?: string;
+  searchFunction: (query: string) => SearchResult[];
+  onResultClick?: (result: SearchResult) => void;
+  emptyStateMessage?: string;
+  noResultsMessage?: string;
+  className?: string;
+  inputClassName?: string;
+  resultsClassName?: string;
+  resultItemClassName?: string;
+  debounceMs?: number;
 }
 
 const SearchContent: React.FC<SearchContentProps> = ({
-  placeholder = 'Search...',
+  placeholder = "Search...",
   searchIcon,
   searchFunction,
   onResultClick,
-  emptyStateMessage = 'Start typing to search',
-  noResultsMessage = 'No results found',
-  className = '',
-  inputClassName = '',
-  resultsClassName = '',
-  resultItemClassName = '',
-  debounceMs = 300
+  emptyStateMessage = "Start typing to search",
+  noResultsMessage = "No results found",
+  className = "",
+  inputClassName = "",
+  resultsClassName = "",
+  resultItemClassName = "",
+  // debounceMs = 300
 }) => {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Debounced search results
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return []
-    return searchFunction(searchQuery.trim())
-  }, [searchQuery, searchFunction])
+    if (!searchQuery.trim()) return [];
+    return searchFunction(searchQuery.trim());
+  }, [searchQuery, searchFunction]);
 
   const handleResultClick = (result: SearchResult) => {
-    result.onClick(result)
+    result.onClick(result);
     if (onResultClick) {
-      onResultClick(result)
+      onResultClick(result);
     }
-  }
+  };
 
   return (
     <div className={`search-content ${className}`}>
@@ -86,20 +86,12 @@ const SearchContent: React.FC<SearchContentProps> = ({
               onClick={() => handleResultClick(result)}
             >
               {result.image && (
-                <img 
-                  src={result.image} 
-                  alt={result.title}
-                  className="search-result-image"
-                />
+                <img src={result.image} alt={result.title} className="search-result-image" />
               )}
               <div className="search-result-content">
                 <h4 className="search-result-title">{result.title}</h4>
-                {result.subtitle && (
-                  <p className="search-result-subtitle">{result.subtitle}</p>
-                )}
-                {result.price && (
-                  <p className="search-result-price">{result.price}</p>
-                )}
+                {result.subtitle && <p className="search-result-subtitle">{result.subtitle}</p>}
+                {result.price && <p className="search-result-price">{result.price}</p>}
               </div>
             </div>
           ))
@@ -110,7 +102,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchContent
+export default SearchContent;

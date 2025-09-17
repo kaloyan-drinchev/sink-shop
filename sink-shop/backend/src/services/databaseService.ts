@@ -243,7 +243,7 @@ export class DatabaseService {
 
   static async deleteProduct(id: string): Promise<boolean> {
     const result = await pool.query("DELETE FROM products WHERE id = $1", [id]);
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   static async updateProductStock(productId: string, quantityChange: number): Promise<boolean> {
@@ -255,7 +255,7 @@ export class DatabaseService {
     `,
       [quantityChange, productId]
     );
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Cart operations
@@ -296,7 +296,7 @@ export class DatabaseService {
 
   static async removeFromCart(id: string): Promise<boolean> {
     const result = await pool.query("DELETE FROM cart_items WHERE id = $1", [id]);
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   static async clearCart(userId: string): Promise<void> {

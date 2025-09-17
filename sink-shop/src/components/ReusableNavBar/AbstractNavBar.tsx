@@ -1,168 +1,169 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { SlideMenu, NavigationContent, SearchContent, FilterContent } from '../SlideMenu'
-import type { NavigationItem, SearchResult, FilterGroup } from '../SlideMenu'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { SlideMenu, NavigationContent, SearchContent, FilterContent } from "../SlideMenu";
+import type { NavigationItem, SearchResult, FilterGroup } from "../SlideMenu";
 
 export interface NavBarButton {
-  id: string
-  icon: string
-  label: string
-  onClick: () => void
-  badge?: string | number
-  className?: string
-  showOnMobile?: boolean
-  showOnDesktop?: boolean
+  id: string;
+  icon: string;
+  label: string;
+  onClick: () => void;
+  badge?: string | number;
+  className?: string;
+  showOnMobile?: boolean;
+  showOnDesktop?: boolean;
 }
 
 export interface NavBarLink {
-  to: string
-  label: string
-  className?: string
-  showOnMobile?: boolean
-  showOnDesktop?: boolean
+  to: string;
+  label: string;
+  className?: string;
+  showOnMobile?: boolean;
+  showOnDesktop?: boolean;
 }
 
 export interface NavBarConfig {
   // Branding
   logo: {
-    text?: string
-    image?: string
-    to: string
-    className?: string
-  }
-  
+    text?: string;
+    image?: string;
+    to: string;
+    className?: string;
+  };
+
   // Navigation links (desktop)
-  links: NavBarLink[]
-  
+  links: NavBarLink[];
+
   // Mobile navigation items
-  mobileNavigation: NavigationItem[]
-  
+  mobileNavigation: NavigationItem[];
+
   // Action buttons (cart, profile, etc.)
-  actionButtons: NavBarButton[]
-  
+  actionButtons: NavBarButton[];
+
   // Search configuration
   search?: {
-    enabled: boolean
-    placeholder: string
-    icon: string
-    searchFunction: (query: string) => SearchResult[]
-    emptyStateMessage?: string
-    noResultsMessage?: string
-  }
-  
+    enabled: boolean;
+    placeholder: string;
+    icon: string;
+    searchFunction: (query: string) => SearchResult[];
+    emptyStateMessage?: string;
+    noResultsMessage?: string;
+  };
+
   // Filter configuration
   filter?: {
-    enabled: boolean
-    icon: string
-    groups: FilterGroup[]
-    selectedFilter: string
-    onFilterSelect: (filterId: string) => void
-    clearFilterLabel?: string
-  }
-  
+    enabled: boolean;
+    icon: string;
+    groups: FilterGroup[];
+    selectedFilter: string;
+    onFilterSelect: (filterId: string) => void;
+    clearFilterLabel?: string;
+  };
+
   // Menu configuration
   menu: {
-    icon: string
-    title: string
-  }
-  
+    icon: string;
+    title: string;
+  };
+
   // Styling
-  className?: string
-  containerClassName?: string
-  logoClassName?: string
-  linksClassName?: string
-  buttonsClassName?: string
-  
+  className?: string;
+  containerClassName?: string;
+  logoClassName?: string;
+  linksClassName?: string;
+  buttonsClassName?: string;
+
   // Responsive
   responsive?: {
-    hideLinksOnMobile?: boolean
-    hideLinksOnTablet?: boolean
-    mobileBreakpoint?: string
-    tabletBreakpoint?: string
-  }
+    hideLinksOnMobile?: boolean;
+    hideLinksOnTablet?: boolean;
+    mobileBreakpoint?: string;
+    tabletBreakpoint?: string;
+  };
 }
 
 export interface AbstractNavBarProps {
-  config: NavBarConfig
-  className?: string
+  config: NavBarConfig;
+  className?: string;
 }
 
-const AbstractNavBar: React.FC<AbstractNavBarProps> = ({ 
-  config, 
-  className = '' 
-}) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false)
-  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false)
-  
+const AbstractNavBar: React.FC<AbstractNavBarProps> = ({ config, className = "" }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false);
+  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+
   const responsive = {
     hideLinksOnMobile: true,
     hideLinksOnTablet: false,
-    mobileBreakpoint: 'sm',
-    tabletBreakpoint: 'lg',
-    ...config.responsive
-  }
-  
+    mobileBreakpoint: "sm",
+    tabletBreakpoint: "lg",
+    ...config.responsive,
+  };
+
   const handleCloseMenu = () => {
-    setIsMobileMenuOpen(false)
-  }
-  
+    setIsMobileMenuOpen(false);
+  };
+
   const handleCloseSearch = () => {
-    setIsSearchMenuOpen(false)
-  }
-  
+    setIsSearchMenuOpen(false);
+  };
+
   const handleCloseFilter = () => {
-    setIsFilterMenuOpen(false)
-  }
-  
+    setIsFilterMenuOpen(false);
+  };
+
   const handleNavigationItemClick = () => {
-    handleCloseMenu()
-  }
-  
+    handleCloseMenu();
+  };
+
   // Get responsive classes for links
   const getLinkVisibilityClass = () => {
     if (responsive.hideLinksOnMobile) {
-      return `hidden md:flex`
+      return `hidden md:flex`;
     }
-    return 'flex'
-  }
-  
+    return "flex";
+  };
+
   // Get mobile button visibility class
   const getMobileButtonClass = (showOnMobile: boolean = true) => {
-    return showOnMobile ? `${responsive.mobileBreakpoint}:hidden` : 'hidden'
-  }
-  
-  // Get desktop button visibility class  
-  const getDesktopButtonClass = (showOnDesktop: boolean = true) => {
-    return showOnDesktop ? `hidden ${responsive.mobileBreakpoint}:flex` : 'hidden'
-  }
+    return showOnMobile ? `${responsive.mobileBreakpoint}:hidden` : "hidden";
+  };
+
+  // Get desktop button visibility class
+  // const getDesktopButtonClass = (showOnDesktop: boolean = true) => {
+  //   return showOnDesktop ? `hidden ${responsive.mobileBreakpoint}:flex` : 'hidden'
+  // }
 
   return (
-    <nav className={`bg-white shadow-lg px-4 sm:px-6 py-4 ${config.className || ''} ${className}`}>
-      <div className={`flex justify-between items-center ${config.containerClassName || ''}`}>
+    <nav className={`bg-white shadow-lg px-4 sm:px-6 py-4 ${config.className || ""} ${className}`}>
+      <div className={`flex justify-between items-center ${config.containerClassName || ""}`}>
         {/* Logo/Brand */}
-        <Link 
-          to={config.logo.to} 
-          className={`text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors ${config.logoClassName || ''}`}
+        <Link
+          to={config.logo.to}
+          className={`text-xl sm:text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors ${
+            config.logoClassName || ""
+          }`}
         >
           {config.logo.image ? (
-            <img 
-              src={config.logo.image} 
-              alt={config.logo.text || 'Logo'} 
-              className="h-8 sm:h-10"
-            />
+            <img src={config.logo.image} alt={config.logo.text || "Logo"} className="h-8 sm:h-10" />
           ) : (
             config.logo.text
           )}
         </Link>
 
         {/* Desktop Navigation Links - Centered */}
-        <div className={`${getLinkVisibilityClass()} items-center gap-6 ${config.linksClassName || ''}`}>
+        <div
+          className={`${getLinkVisibilityClass()} items-center gap-6 ${
+            config.linksClassName || ""
+          }`}
+        >
           {config.links.map((link, index) => (
             <Link
               key={`${link.to}-${index}`}
               to={link.to}
-              className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors ${link.className || ''}`}
+              className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors ${
+                link.className || ""
+              }`}
             >
               {link.label}
             </Link>
@@ -170,20 +171,17 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
         </div>
 
         {/* Action Buttons - Right aligned */}
-        <div className={`flex items-center gap-3 ${config.buttonsClassName || ''}`}>
+        <div className={`flex items-center gap-3 ${config.buttonsClassName || ""}`}>
           {/* Search Button - Show when sidebar is hidden */}
           {config.search?.enabled && (
-            <button 
-              onClick={() => setIsSearchMenuOpen(!isSearchMenuOpen)}
-              className="lg:hidden"
-            >
+            <button onClick={() => setIsSearchMenuOpen(!isSearchMenuOpen)} className="lg:hidden">
               <img src={config.search.icon} alt="Search" className="w-6 h-6" />
             </button>
           )}
-          
+
           {/* Filter Button - Show when sidebar is hidden */}
           {config.filter?.enabled && (
-            <button 
+            <button
               onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
               className="lg:hidden relative"
             >
@@ -195,12 +193,9 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
               )}
             </button>
           )}
-          
+
           {/* Menu Button - Mobile only */}
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden"
-          >
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden">
             <img src={config.menu.icon} alt="Menu" className="w-6 h-6" />
           </button>
 
@@ -212,14 +207,14 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
               className="relative hidden md:flex items-center text-gray-700 hover:text-gray-800 transition-all duration-200 ease-in-out p-2 rounded-md hover:bg-gray-50 hover:scale-105 hover:shadow-sm"
               aria-label={button.label}
             >
-              <img 
-                src={button.icon} 
-                alt={button.label} 
-                className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200" 
+              <img
+                src={button.icon}
+                alt={button.label}
+                className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200"
               />
               {button.badge && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px] px-1 transition-transform duration-200 hover:scale-110">
-                  {typeof button.badge === 'number' && button.badge > 99 ? '99+' : button.badge}
+                  {typeof button.badge === "number" && button.badge > 99 ? "99+" : button.badge}
                 </span>
               )}
             </button>
@@ -275,7 +270,7 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({
         </SlideMenu>
       )}
     </nav>
-  )
-}
+  );
+};
 
-export default AbstractNavBar
+export default AbstractNavBar;

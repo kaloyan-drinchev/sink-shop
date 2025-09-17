@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiService } from "../../../services/apiService";
+// import { apiService } from "../../../services/apiService";
 
 interface LoginForm {
   email: string;
@@ -19,7 +19,7 @@ function AdminLogin() {
     setError(null);
 
     try {
-      const response = await fetch("https://artindohome.com/api/auth/login", {
+      const response = await fetch("http://artindohome.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

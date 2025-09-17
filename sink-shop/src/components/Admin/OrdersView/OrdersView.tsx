@@ -59,7 +59,7 @@ const OrdersView: React.FC = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch("https://artindohome.com/api/admin/orders", {
+      const response = await fetch("http://artindohome.com/api/admin/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,7 +82,7 @@ const OrdersView: React.FC = () => {
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch("https://artindohome.com/api/admin/products", {
+      const response = await fetch("http://artindohome.com/api/admin/products", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -102,7 +102,7 @@ const OrdersView: React.FC = () => {
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch(`https://artindohome.com/api/admin/orders/${orderId}/status`, {
+      const response = await fetch(`http://artindohome.com/api/admin/orders/${orderId}/status`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -261,7 +261,7 @@ const OrdersView: React.FC = () => {
                 <div className="mt-4">
                   <h4 className="text-sm font-medium text-gray-900">{t("admin.items")}:</h4>
                   <div className="mt-1 text-sm text-gray-600 space-y-1">
-                    {order.items.map((item, index) => {
+                    {order.items.map((item) => {
                       const productInfo = getProductInfo(item.productId);
                       return (
                         <div key={item.id} className="flex justify-between items-start">
