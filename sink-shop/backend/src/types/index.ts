@@ -17,6 +17,7 @@ export interface Product {
   manufacture: ProductTranslation; // hand-made / ръčen труд
   tag: ProductTranslation;
   category: string; // riverStone, marble, onyx, fossil
+  subcategory: string; // natural, withTabHole, polished
   salesCount: number;
   image: string;
   date: string;

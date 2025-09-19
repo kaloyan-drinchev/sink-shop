@@ -5,7 +5,8 @@
     "search": "Търсене",
     "filters": "Филтри",
     "allProducts": "Всички Продукти",
-    "menu": "Меню"
+    "menu": "Меню",
+    "showAll": "Покажи Всички"
   },
   "contact": {
     "email": "contact@artindohome.com",
@@ -113,6 +114,11 @@
     "riverStone": "Речен Камък",
     "marble": "Мрамор",
     "onyx": "Оникс"
+  },
+  "subcategories": {
+    "natural": "Натурален",
+    "withTabHole": "С отвор за кран",
+    "polished": "Полиран"
   },
   "categoryDescriptions": {
     "fossil": "Разгледайте нашата колекция от фосилни мивки",

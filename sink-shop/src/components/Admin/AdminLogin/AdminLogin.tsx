@@ -19,7 +19,8 @@ function AdminLogin() {
     setError(null);
 
     try {
-      const response = await fetch("http://artindohome.com/api/auth/login", {
+      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+      const response = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

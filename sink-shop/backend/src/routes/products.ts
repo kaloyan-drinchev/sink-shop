@@ -2,6 +2,7 @@ import { Router } from "express";
 import { MockDataService } from "../services/mockDataService.js";
 import { DatabaseService } from "../services/databaseService.js";
 import { NewDatabaseService } from "../services/newDatabaseService.js";
+import { DynamicProductService } from "../services/dynamicProductService.js";
 import { config } from "../config/config.js";
 import { createError } from "../middleware/errorHandler.js";
 import { upload } from "../middleware/upload.js";
@@ -18,11 +19,11 @@ productsRouter.get("/", async (req, res, next) => {
     let products;
     if (category && typeof category === "string") {
       products = config.USE_MOCK_DATA
-        ? await MockDataService.getProductsByCategory(category)
+        ? await DynamicProductService.getProductsByCategory(category)
         : await NewDatabaseService.getProductsByCategory(category);
     } else {
       products = config.USE_MOCK_DATA
-        ? await MockDataService.getAllProducts()
+        ? await DynamicProductService.getAllProducts()
         : await NewDatabaseService.getAllProducts();
     }
 
@@ -37,7 +38,7 @@ productsRouter.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = config.USE_MOCK_DATA
-      ? await MockDataService.getProductById(id)
+      ? await DynamicProductService.getProductById(id)
       : await NewDatabaseService.getProductById(id);
 
     if (!product) {
@@ -265,7 +266,7 @@ productsRouter.get("/check-serial/:serialNumber", async (req, res, next) => {
     const { serialNumber } = req.params;
 
     const products = config.USE_MOCK_DATA
-      ? await MockDataService.getAllProducts()
+      ? await DynamicProductService.getAllProducts()
       : await NewDatabaseService.getAllProducts();
 
     const exists = products.some((product) => product.serialNumber === serialNumber);

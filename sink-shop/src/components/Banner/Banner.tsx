@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './Banner.css'
 
 interface BannerProps {
@@ -11,14 +12,21 @@ interface BannerProps {
 }
 
 function Banner({ image, text, button, imageAlt = "Banner Image" }: BannerProps) {
+  console.log('🖼️ Banner image URL:', image);
+  
   return (
     <div className="banner-container">
-      <div className="banner-image-wrapper">
-        <img 
-          src={image}
-          alt={imageAlt}
-          className="banner-image"
-        />
+      <div 
+        className="banner-image-wrapper"
+        style={{
+          backgroundImage: `url("${image}")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 48%',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#f0f0f0', // Fallback background
+          minHeight: '200px' // Ensure container has height
+        }}
+      >
         <div className="banner-text-overlay">
           <h2 className="banner-text">
             {text}

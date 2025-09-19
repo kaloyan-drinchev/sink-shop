@@ -118,7 +118,7 @@ function SingleSinkView() {
                     : `http://artindohome.com${product.image}`
                 }
                 alt={localizedProduct.title}
-                className="w-full h-[500px] md:h-[600px] lg:h-[730px] object-cover"
+                    className="w-full h-[520px] md:h-[620px] lg:h-[750px] object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
@@ -157,10 +157,6 @@ function SingleSinkView() {
             </h3>
             <div className="space-y-2">
               <div className="flex justify-between py-2 border-b border-gray-200">
-                <span className="text-gray-600">{t("product.model")}</span>
-                <span className="font-medium">{localizedProduct.model}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="text-gray-600">{t("product.material")}</span>
                 <span className="font-medium">{localizedProduct.material}</span>
               </div>
@@ -197,7 +193,7 @@ function SingleSinkView() {
               onClick={handleAddToCart}
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors duration-200"
             >
-              {t("product.addToCart")} - {price} {currency}
+                  {t("product.addToCart")}
             </button>
           </div>
         </div>

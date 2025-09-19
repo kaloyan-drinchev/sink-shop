@@ -4,6 +4,10 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { config } from "./config/config.js";
 import { testConnection, closePool } from "./config/database.js";
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -20,10 +24,12 @@ import { paymentRouter } from "./routes/payment.js";
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(
   cors({
-    origin: [config.FRONTEND_URL, "http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: [config.FRONTEND_URL, "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5173"],
     credentials: true,
   })
 );
@@ -33,6 +39,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
+// Serve background images with proper CORS headers
+app.use("/images", (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Cross-Origin-Resource-Policy", "cross-origin");
+  next();
+}, express.static(path.join(__dirname, "../../public/images")));
 
 // Health check
 app.get("/api/health", (req, res) => {

@@ -14,12 +14,19 @@ export interface NavBarButton {
   showOnDesktop?: boolean;
 }
 
+export interface NavBarDropdownItem {
+  to: string;
+  label: string;
+  className?: string;
+}
+
 export interface NavBarLink {
   to: string;
   label: string;
   className?: string;
   showOnMobile?: boolean;
   showOnDesktop?: boolean;
+  dropdown?: NavBarDropdownItem[];
 }
 
 export interface NavBarConfig {
@@ -158,15 +165,50 @@ const AbstractNavBar: React.FC<AbstractNavBarProps> = ({ config, className = "" 
           }`}
         >
           {config.links.map((link, index) => (
-            <Link
-              key={`${link.to}-${index}`}
-              to={link.to}
-              className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors ${
-                link.className || ""
-              }`}
-            >
-              {link.label}
-            </Link>
+            link.dropdown ? (
+              // Dropdown menu for categories
+              <div key={`${link.to}-${index}`} className="relative group">
+                <Link
+                  to={link.to}
+                  className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors flex items-center gap-1 ${
+                    link.className || ""
+                  }`}
+                >
+                  {link.label}
+                  <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+                
+                {/* Dropdown Menu */}
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-2">
+                    {link.dropdown.map((dropdownItem, dropdownIndex) => (
+                      <Link
+                        key={`${dropdownItem.to}-${dropdownIndex}`}
+                        to={dropdownItem.to}
+                        className={`block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors ${
+                          dropdownItem.className || ""
+                        }`}
+                      >
+                        {dropdownItem.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // Regular link without dropdown
+              <Link
+                key={`${link.to}-${index}`}
+                to={link.to}
+                className={`text-sm sm:text-base text-gray-700 hover:text-blue-600 font-medium transition-colors ${
+                  link.className || ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
           ))}
         </div>
 

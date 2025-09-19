@@ -5,7 +5,8 @@
     "search": "Search",
     "filters": "Filters",
     "allProducts": "All Products",
-    "menu": "Menu"
+    "menu": "Menu",
+    "showAll": "Show All"
   },
   "contact": {
     "email": "contact@artindohome.com",
@@ -113,6 +114,11 @@
     "riverStone": "River Stone",
     "marble": "Marble",
     "onyx": "Onyx"
+  },
+  "subcategories": {
+    "natural": "Natural",
+    "withTabHole": "With Tab Hole",
+    "polished": "Polished"
   },
   "categoryDescriptions": {
     "fossil": "Browse our collection of fossil sinks",

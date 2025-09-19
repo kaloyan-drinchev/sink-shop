@@ -11,14 +11,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.banner-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.banner-image-wrapper:hover .banner-image {
+.banner-image-wrapper:hover {
   transform: scale(1.02);
 }
 

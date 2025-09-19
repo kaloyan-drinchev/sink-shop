@@ -5,6 +5,23 @@ import SinkCard from '../SinkCard/SinkCard'
 import Banner from '../Banner/Banner'
 import { useFilter } from '../NavBar/NavBar'
 import { useSearch } from '../../contexts/SearchContext'
+
+// Preload category images from backend
+const preloadImages = () => {
+  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  const imagePaths = [
+    `${baseUrl}/images/art-indo-sinks-hero.jpg`,
+    `${baseUrl}/images/fossil-bg-image.jpg`,
+    `${baseUrl}/images/river-stone-bg-image.jpg`,
+    `${baseUrl}/images/marble-bg-image.jpg`,
+    `${baseUrl}/images/onyx-bg-image.jpg`
+  ]
+  
+  imagePaths.forEach(path => {
+    const img = new Image()
+    img.src = path
+  })
+}
 import { apiService, type ApiProduct } from '../../services/apiService'
 
 function Home() {
@@ -18,12 +35,13 @@ function Home() {
   const [products, setProducts] = useState<ApiProduct[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [imageLoaded, setImageLoaded] = useState(false)
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const itemsPerPage = 12
 
-  // Fetch products from API
+  // Fetch products from API and preload images
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -39,6 +57,7 @@ function Home() {
     }
 
     fetchProducts()
+    preloadImages() // Preload all category images
   }, [])
   
   // Extract category from route (e.g., /category/wooden -> wooden)
@@ -56,23 +75,25 @@ function Home() {
   const currentCategory = routeCategory ? categoryMap[routeCategory] : null
   const isHomePage = location.pathname === '/' || location.pathname === '/products'
   
-  // Category-specific images
+  // Category-specific images served from backend
   const getCategoryImage = () => {
+    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+    
     if (!currentCategory) {
-      return "/images/art-indo-sinks-hero.jpg" // Art Indo sinks collage
+      return `${baseUrl}/images/art-indo-sinks-hero.jpg` // Art Indo sinks collage
     }
     
     switch (currentCategory) {
       case 'fossil':
-        return "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Fossil sink collection
+        return `${baseUrl}/images/fossil-bg-image.jpg` // Fossil sink collection
       case 'riverStone':
-        return "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // River stone bathroom
+        return `${baseUrl}/images/river-stone-bg-image.jpg` // River stone bathroom
       case 'marble':
-        return "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Marble bathroom
+        return `${baseUrl}/images/marble-bg-image.jpg` // Marble bathroom
       case 'onyx':
-        return "https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" // Onyx stone texture
+        return `${baseUrl}/images/onyx-bg-image.jpg` // Onyx stone texture
       default:
-        return "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        return `${baseUrl}/images/art-indo-sinks-hero.jpg`
     }
   }
   

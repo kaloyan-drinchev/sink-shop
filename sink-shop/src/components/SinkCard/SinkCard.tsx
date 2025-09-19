@@ -43,7 +43,7 @@ function SinkCard({ product, onClick }: SinkCardProps) {
       onClick={handleClick}
     >
       {/* Image - Made larger */}
-      <div className="w-full h-64 bg-gray-200 rounded-t-lg overflow-hidden relative">
+          <div className="w-full h-[261px] bg-gray-200 rounded-t-lg overflow-hidden relative">
         {product.image && (
           <img
             src={
@@ -61,7 +61,7 @@ function SinkCard({ product, onClick }: SinkCardProps) {
       </div>
 
       {/* Content - Reduced size */}
-      <div className="p-3">
+      <div className="p-4">
         {/* Title - More prominent and larger */}
         <h3 className="text-lg font-semibold text-gray-800 mb-1 line-clamp-2">
           {localizedProduct.title}
@@ -69,7 +69,7 @@ function SinkCard({ product, onClick }: SinkCardProps) {
 
         {/* Tag as subtitle */}
         {product.tag && (
-          <p className="text-sm text-gray-500 mb-2 italic">
+          <p className="text-sm text-gray-500 mb-3 italic">
             {isEnglish ? product.tag.en : product.tag.bg}
           </p>
         )}

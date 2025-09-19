@@ -41,18 +41,94 @@ export const useSinkShopNavBarConfig = (): NavBarConfig => {
       {
         to: "/category/fossil",
         label: t("categories.fossil"),
+        dropdown: [
+          {
+            to: "/category/fossil/natural",
+            label: t("subcategories.natural"),
+          },
+          {
+            to: "/category/fossil/withTabHole",
+            label: t("subcategories.withTabHole"),
+          },
+          {
+            to: "/category/fossil/polished",
+            label: t("subcategories.polished"),
+          },
+          {
+            to: "/category/fossil",
+            label: t("navigation.showAll"),
+            className: "border-t border-gray-200 mt-1 pt-2 font-medium",
+          },
+        ],
       },
       {
         to: "/category/river-stone",
         label: t("categories.riverStone"),
+        dropdown: [
+          {
+            to: "/category/river-stone/natural",
+            label: t("subcategories.natural"),
+          },
+          {
+            to: "/category/river-stone/withTabHole",
+            label: t("subcategories.withTabHole"),
+          },
+          {
+            to: "/category/river-stone/polished",
+            label: t("subcategories.polished"),
+          },
+          {
+            to: "/category/river-stone",
+            label: t("navigation.showAll"),
+            className: "border-t border-gray-200 mt-1 pt-2 font-medium",
+          },
+        ],
       },
       {
         to: "/category/marble",
         label: t("categories.marble"),
+        dropdown: [
+          {
+            to: "/category/marble/natural",
+            label: t("subcategories.natural"),
+          },
+          {
+            to: "/category/marble/withTabHole",
+            label: t("subcategories.withTabHole"),
+          },
+          {
+            to: "/category/marble/polished",
+            label: t("subcategories.polished"),
+          },
+          {
+            to: "/category/marble",
+            label: t("navigation.showAll"),
+            className: "border-t border-gray-200 mt-1 pt-2 font-medium",
+          },
+        ],
       },
       {
         to: "/category/onyx",
         label: t("categories.onyx"),
+        dropdown: [
+          {
+            to: "/category/onyx/natural",
+            label: t("subcategories.natural"),
+          },
+          {
+            to: "/category/onyx/withTabHole",
+            label: t("subcategories.withTabHole"),
+          },
+          {
+            to: "/category/onyx/polished",
+            label: t("subcategories.polished"),
+          },
+          {
+            to: "/category/onyx",
+            label: t("navigation.showAll"),
+            className: "border-t border-gray-200 mt-1 pt-2 font-medium",
+          },
+        ],
       },
     ],
     [t]

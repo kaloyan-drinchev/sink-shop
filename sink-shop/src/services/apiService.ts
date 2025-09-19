@@ -19,6 +19,7 @@ export interface ApiProduct {
   manufacture: ProductTranslation; // hand-made / ръчен труд
   tag: ProductTranslation;
   category: string; // riverStone, marble, onyx, fossil
+  subcategory: string; // natural, withTabHole, polished
   salesCount: number;
   image: string;
   date: string;
@@ -27,7 +28,7 @@ export interface ApiProduct {
 }
 
 class ApiService {
-  private baseUrl = "http://artindohome.com/api";
+  private baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
   async getProducts(): Promise<ApiProduct[]> {
     try {
